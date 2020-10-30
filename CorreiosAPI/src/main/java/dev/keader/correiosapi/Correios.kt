@@ -62,7 +62,12 @@ class Correios {
             val lastTrack = tracks.first()
             val firstTrack = tracks.last()
             val isDelivered = lastTrack.status.contains("Objeto entregue")
-            return CorreiosItem(code, "", tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
+            val typeCode = "${code[0]}${code[1]}"
+            var type = CorreiosUtils.Types[typeCode]?.toUpperCase()
+            if (type == null)
+                type = "Unknown Type"
+
+            return CorreiosItem(code, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }
 
         fun isValidCode(code: String): Boolean {
