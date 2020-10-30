@@ -22,8 +22,6 @@ class Correios {
 
             if (!isValidCode(code)) throw IOException("-1")
 
-            var item = CorreiosItem(code)
-
             val formBody = FormBody.Builder()
                 .add("objetos", code)
                 .build()
@@ -61,13 +59,10 @@ class Correios {
                 tracks.add(track)
             }
 
-            item.tracks = tracks
             val lastTrack = tracks.first()
             val firstTrack = tracks.last()
-            item.isDelivered = lastTrack.status.contains("Objeto entregue")
-            item.postedAt = firstTrack.trackedAt
-            item.updatedAt = lastTrack.trackedAt
-            return item
+            val isDelivered = lastTrack.status.contains("Objeto entregue")
+            return CorreiosItem(code, "", tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }
 
         fun isValidCode(code: String): Boolean {
@@ -75,18 +70,20 @@ class Correios {
         }
     }
 
-    data class CorreiosItem(val code: String) {
-        var type: String = ""
-        var tracks: List<Track>? = null
-        var isDelivered: Boolean = false
-        var postedAt: String = ""
-        var updatedAt: String = ""
-    }
+data class CorreiosItem(
+    val code: String,
+    val type: String,
+    val tracks: List<Correios.Track> = emptyList(),
+    val isDelivered: Boolean,
+    val postedAt: String,
+    val updatedAt: String
+) {}
 
-    data class Track(
-        val locale: String,
-        val status: String,
-        val observation: String,
-        val trackedAt: String
-    ) { }
+data class Track(
+    val locale: String,
+    val status: String,
+    val observation: String,
+    val trackedAt: String
+) {}
+    
 }
