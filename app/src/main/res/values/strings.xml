@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">CorreiosTracker</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btn_add_description">Adiciona um novo item</string>
+    <string name="waiting_delivery">AGUARDANDO A ENTREGA</string>
 </resources>
