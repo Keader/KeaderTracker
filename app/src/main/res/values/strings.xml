@@ -3,4 +3,10 @@
     <string name="btn_add_description">Adiciona um novo item</string>
     <string name="waiting_delivery">AGUARDANDO A ENTREGA</string>
     <string name="box_icon_description">Box Icon</string>
+    <string name="track_your_product">Rastreie seu pedido</string>
+    <string name="track_number">Número de Rastreio</string>
+    <string name="description">Descrição, Ex: Celular novo</string>
+    <string name="pray_for_sedex">Pray for Sedex</string>
+    <string name="cancel">Cancelar</string>
+    <string name="track">Rastrear</string>
 </resources>

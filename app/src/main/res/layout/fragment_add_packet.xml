@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
-                    android:text="Rastreie seu pedido"
+                    android:text="@string/track_your_product"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="25sp"
                     android:textStyle="bold"
@@ -78,7 +78,7 @@
                             android:autofillHints=""
                             android:background="@android:color/transparent"
                             android:ems="10"
-                            android:hint="Número de Rastreio"
+                            android:hint="@string/track_number"
                             android:inputType="textPersonName"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +122,7 @@
                             android:autofillHints=""
                             android:background="@android:color/transparent"
                             android:ems="11"
-                            android:hint="Descrição, Ex: Celular novo"
+                            android:hint="@string/description"
                             android:inputType="textPersonName"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -137,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:alpha="0.4"
-                    android:text="Pray for Sedex"
+                    android:text="@string/pray_for_sedex"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -190,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Cancelar"
+                    android:text="@string/cancel"
                     android:textColor="@color/secondaryColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -219,7 +219,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/myCardView2"
+                    android:id="@+id/roundedcardview2"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
@@ -243,73 +243,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Rastrear"
+                    android:text="@string/track"
                     android:textColor="@color/secondaryColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/myCardView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/roundedcardview2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-
-
-        <!--
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="55dp"
-            android:layout_height="67dp"
-            android:layout_marginEnd="100dp"
-            android:contentDescription="@string/box_icon_description"
-            android:src="@drawable/box_ok"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/purple_card"
-            app:layout_constraintVertical_bias="0.32"
-            tools:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="55dp"
-            android:layout_height="67dp"
-            android:layout_marginStart="100dp"
-            android:contentDescription="@string/box_icon_description"
-            android:src="@drawable/box_cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/purple_card"
-            app:layout_constraintVertical_bias="0.32"
-            tools:visibility="invisible" />
-
-        <Button
-            android:id="@+id/ok_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="83dp"
-            android:text="SALVAR"
-            app:backgroundTint="@color/secondaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/purple_card"
-            app:layout_constraintVertical_bias="0.581" />
-
-        <Button
-            android:id="@+id/ok_button2"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="68dp"
-            android:text="CANCELAR"
-            android:textColor="@color/secondaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/purple_card"
-            app:layout_constraintVertical_bias="0.581" />
-            -->
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
