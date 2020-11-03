@@ -13,4 +13,16 @@
         <item name="cornerSizeBottomRight">30dp</item>
         <item name="cornerSizeBottomLeft">30dp</item>
     </style>
+
+    <style name="ShapeAppearance.Image.PILL" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearance.Image.Top.PILL" parent="">
+        <item name="cornerSizeTopLeft">6dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerSizeTopRight">6dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+    </style>
 </resources>
