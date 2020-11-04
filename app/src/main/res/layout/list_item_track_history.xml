@@ -11,45 +11,34 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="2dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="28dp"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
             android:background="@color/textGreyColor"
             app:layout_constraintBottom_toTopOf="@+id/rounded_cardview"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintStart_toStartOf="@+id/rounded_cardview"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
         <View
             android:id="@+id/view2"
-            android:layout_width="2dp"
-            android:layout_height="15dp"
-            android:layout_marginStart="28dp"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
             android:background="@color/textGreyColor"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintStart_toStartOf="@+id/rounded_cardview"
             app:layout_constraintTop_toBottomOf="@+id/rounded_cardview" />
-
-        <TextView
-            android:id="@+id/status_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="16dp"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Objeto em trânsito - por favor aguarde" />
 
         <TextView
             android:id="@+id/status_label2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Objeto em trânsito - por favor aguarde" />
 
@@ -81,23 +70,23 @@
             android:id="@+id/observation_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textGreyColor"
-            android:textSize="8sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/status_label"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintTop_toBottomOf="@+id/status_label2"
             tools:text="para Salvador - CEASA, SALVADOR/BA" />
 
         <TextView
             android:id="@+id/observation_label2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textGreyColor"
-            android:textSize="8sp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toBottomOf="@+id/observation_label"
             tools:text="Partindo de FEIRA DE SANTANA / BA" />
 

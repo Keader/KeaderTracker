@@ -133,12 +133,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            android:paddingBottom="16dp"
-            android:clipToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/history_label" />
+            app:layout_constraintTop_toBottomOf="@+id/history_label"
+            tools:listitem="@layout/list_item_track_history" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
