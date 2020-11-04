@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
     tools:context=".fragments.HomeFragment">
 
 
@@ -25,7 +24,6 @@
         android:layout_height="11dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:fontFamily="@font/product_sans_regular"
         android:text="@string/waiting_delivery"
         android:textAlignment="textStart"
         android:textColor="@color/cardview_dark_background"
@@ -38,14 +36,14 @@
         android:id="@+id/delivery_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:paddingBottom="16dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/delivery_label"
         tools:itemCount="4"
-        tools:listitem="@layout/list_item_correios" />
+        tools:listitem="@layout/list_item_track" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
