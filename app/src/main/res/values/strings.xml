@@ -9,4 +9,6 @@
     <string name="pray_for_sedex">Pray for Sedex</string>
     <string name="cancel">Cancelar</string>
     <string name="track">Rastrear</string>
+    <string name="track_label">Rastreio</string>
+    <string name="history">Histórico</string>
 </resources>
