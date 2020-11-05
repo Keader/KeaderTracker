@@ -11,4 +11,5 @@
     <string name="track">Rastrear</string>
     <string name="track_label">Rastreio</string>
     <string name="history">Histórico</string>
+    <string name="archived">Arquivados</string>
 </resources>

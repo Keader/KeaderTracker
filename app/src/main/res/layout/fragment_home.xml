@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/waiting_delivery"
         android:textAlignment="textStart"
-        android:textColor="@color/cardview_dark_background"
+        android:textColor="@color/secondaryTextColor"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

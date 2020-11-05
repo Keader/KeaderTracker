@@ -81,7 +81,8 @@ data class CorreiosItem(
     val tracks: List<Correios.Track> = emptyList(),
     val isDelivered: Boolean,
     val postedAt: String,
-    val updatedAt: String
+    val updatedAt: String,
+    var archived: Boolean = false
 ) {}
 
 data class Track(
