@@ -34,7 +34,7 @@ class Correios {
             val response = client.newCall(request).executeSuspend()
             if (!response.isSuccessful) throw IOException("${response.code}")
 
-            val tracks = mutableListOf<Track>()
+            val tracks = mutableListOf<CorreiosTrack>()
             val document = Jsoup.parse(response.body!!.string())
             if (document.html().contains(ERROR_MESSAGE)) throw IOException("404")
 
@@ -55,8 +55,7 @@ class Correios {
                     observation = splittedStatus[1].trim()
                 }
 
-                var track = Track(locale, status, observation, "$date $time")
-                tracks.add(track)
+                tracks.add(CorreiosTrack(locale, status, observation, "$date $time", date, time))
             }
 
             val lastTrack = tracks.first()
@@ -65,7 +64,7 @@ class Correios {
             val typeCode = "${code[0]}${code[1]}"
             var type = CorreiosUtils.Types[typeCode]?.toUpperCase()
             if (type == null)
-                type = "Unknown Type"
+                type = "DESCONHECIDO"
 
             return CorreiosItem(code, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }
@@ -78,18 +77,18 @@ class Correios {
 data class CorreiosItem(
     val code: String,
     val type: String,
-    val tracks: List<Correios.Track> = emptyList(),
+    val tracks: List<Correios.CorreiosTrack>,
     val isDelivered: Boolean,
     val postedAt: String,
     val updatedAt: String,
-    var archived: Boolean = false
-) {}
+)
 
-data class Track(
+data class CorreiosTrack(
     val locale: String,
     val status: String,
     val observation: String,
-    val trackedAt: String
-) {}
-    
+    val trackedAt: String,
+    val date: String,
+    val time: String
+)
 }

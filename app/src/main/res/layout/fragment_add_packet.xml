@@ -208,7 +208,6 @@
             android:layout_width="128dp"
             android:layout_height="136dp"
             android:layout_marginEnd="60dp"
-            android:backgroundT="@color/primaryColor"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
