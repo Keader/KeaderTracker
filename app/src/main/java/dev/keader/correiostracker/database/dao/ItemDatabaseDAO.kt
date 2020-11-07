@@ -28,11 +28,11 @@ interface ItemDatabaseDAO {
 
     @Transaction
     @Query("SELECT * FROM Item WHERE code = :code")
-    suspend fun getTrackingWithTracks(code: String): LiveData<ItemWithTracks>
+    suspend fun getTrackingWithTracks(code: String): ItemWithTracks
 
     @Transaction
     @Query("SELECT * FROM Item")
-    suspend fun getAllItemWithTracks(): LiveData<List<ItemWithTracks>>
+    suspend fun getAllItemWithTracks(): List<ItemWithTracks>
 
     @Query("DELETE FROM Item")
     suspend fun clear()
