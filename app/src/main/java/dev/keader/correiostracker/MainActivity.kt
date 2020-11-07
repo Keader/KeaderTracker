@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import dev.keader.correiostracker.databinding.ActivityMainBinding
-import dev.keader.correiostracker.fragments.ArchivedFragment
-import dev.keader.correiostracker.fragments.HomeFragment
+import dev.keader.correiostracker.archived.ArchivedFragment
+import dev.keader.correiostracker.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
