@@ -16,7 +16,7 @@ interface TrackDatabaseDAO {
     suspend fun get(key: Long): Track?
 
     @Query("SELECT * from Track WHERE itemCode = :code")
-    suspend fun getAllTrackOfItem(code: String): List<Track>
+    fun getAllTrackOfItem(code: String): LiveData<List<Track>>
 
     @Query("DELETE FROM Track")
     suspend fun clear()
