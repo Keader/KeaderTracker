@@ -11,5 +11,27 @@
     <fragment
         android:id="@+id/archivedFragment"
         android:name="dev.keader.correiostracker.archived.ArchivedFragment"
-        android:label="ArchivedFragment" />
+        android:label="ArchivedFragment" >
+        <argument
+            android:name="trackCode"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPacketFragment"
+        android:name="dev.keader.correiostracker.addpacket.AddPacketFragment"
+        android:label="AddPacketFragment" />
+    <fragment
+        android:id="@+id/trackDetailFragment"
+        android:name="dev.keader.correiostracker.trackdetail.TrackDetailFragment"
+        android:label="TrackDetailFragment" >
+        <argument
+            android:name="trackCode"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_addPacketFragment"
+        app:destination="@id/addPacketFragment" />
+    <action
+        android:id="@+id/action_global_trackDetailFragment"
+        app:destination="@id/trackDetailFragment" />
 </navigation>
