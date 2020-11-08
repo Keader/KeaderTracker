@@ -1,37 +1,69 @@
 package dev.keader.correiostracker.view.trackdetail
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
 
-class TrackDetailViewModel : ViewModel() {
+class TrackDetailViewModel(
+    val database: ItemDatabaseDAO,
+    val trackCode: String) : ViewModel() {
 
-    private val _trackTitle = MutableLiveData<String>()
-    val trackTitle: LiveData<String>
-        get() = _trackTitle
+    //TODO: Handle with the list
 
-    private val _trackCode = MutableLiveData<String>()
-    val trackCode: LiveData<String>
-        get() = _trackCode
+    private val _trackItem = database.getTrackingWithTracks(trackCode)
 
-    private val _trackStartLocale = MutableLiveData<String>()
-    val trackStartLocale: LiveData<String>
-        get() = _trackStartLocale
+    val trackTitle = Transformations.map(_trackItem) {
+        it.item.name
+    }
 
-    private val _trackPostedAt = MutableLiveData<String>()
-    val trackPostedAt: LiveData<String>
-        get() = _trackPostedAt
+    val trackCodeString = Transformations.map(_trackItem) {
+        "Código ${it.item.code}"
+    }
 
-    private val _trackLastUpdate = MutableLiveData<String>()
-    val trackLastUpdate: LiveData<String>
-        get() = _trackLastUpdate
+    val trackStartLocale = Transformations.map(_trackItem) {
+        it.tracks.last().locale
+    }
+
+    val trackPostedAt = Transformations.map(_trackItem) {
+        "Postado em ${it.item.postedAt}"
+    }
+
+    val trackLastUpdate = Transformations.map(_trackItem) {
+        "Ultima atualização em ${it.item.updatedAt}"
+    }
+
+    val isArchived = Transformations.map(_trackItem) {
+        it.item.isArchived
+    }
 
     private val _eventFloatButton = MutableLiveData(false)
     val eventFloatButton: LiveData<Boolean>
         get() = _eventFloatButton
 
-    fun onFloatButtonPressed() {
+    fun onFloatButtonPressed(view: View) {
+
+        when(view.getTag(TAG_ARCHIVED)) {
+            TAG_VALUE_UNARCHIVED -> handleArchiveTrack()
+            TAG_VALUE_ARCHIVED -> handleUnArchiveTrack()
+        }
         _eventFloatButton.value = true
+    }
+
+    private fun handleArchiveTrack() {
+        // Action in progress already
+        if (_eventFloatButton.value!!)
+            return
+
+        // TODO: IMPLEMENT ME !
+        onFloatButtonComplete()
+    }
+
+    private fun handleUnArchiveTrack() {
+        // TODO: IMPLEMENT ME !
+        onFloatButtonComplete()
     }
 
     fun onFloatButtonComplete() {

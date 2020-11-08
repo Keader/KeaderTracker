@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="trackDetailViewModel"
+            type="dev.keader.correiostracker.view.trackdetail.TrackDetailViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <TextView
             android:id="@+id/track_label"
@@ -60,6 +66,7 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:text="@{trackDetailViewModel.trackTitle}"
                     tools:text="Cabos Sleeved do PC" />
 
                 <TextView
@@ -71,6 +78,7 @@
                     android:alpha="0.5"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
+                    android:text="@{trackDetailViewModel.trackCodeString}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/track_title_label"
                     tools:text="Código PZ909656782BR" />
@@ -83,6 +91,7 @@
                     android:layout_marginTop="16dp"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp"
+                    android:text="@{trackDetailViewModel.trackStartLocale}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/product_code_label"
                     tools:text="NITEROI, RJ" />
@@ -96,6 +105,7 @@
                     android:alpha="0.5"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
+                    android:text="@{trackDetailViewModel.trackPostedAt}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/start_locate_label"
                     tools:text="Postado em 13/10/20 13:39" />
@@ -110,6 +120,7 @@
                     android:alpha="0.5"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
+                    android:text="@{trackDetailViewModel.trackLastUpdate}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/posted_at_label"
@@ -149,6 +160,7 @@
             android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/history_list"
+            android:onClick="@{(view) -> trackDetailViewModel.onFloatButtonPressed(view)}"
             app:srcCompat="@drawable/ic_archived" />
 
 
