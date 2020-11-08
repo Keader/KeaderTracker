@@ -46,7 +46,7 @@ class Correios {
                 val splitDate = completeDateString.split(" ")
                 var date = splitDate[0]
                 var time = splitDate[1]
-                var locale = localeRegex.find(completeDateString)?.value.toString().trim()
+                var locale = localeRegex.find(completeDateString)?.value.toString().trim().replace(" /", ",")
                 val splittedStatus = completeStatusString.split("<br>")
                 var observation = ""
                 var status =
