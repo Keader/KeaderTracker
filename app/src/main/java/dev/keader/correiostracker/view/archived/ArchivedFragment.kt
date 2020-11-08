@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.archived
+package dev.keader.correiostracker.view.archived
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

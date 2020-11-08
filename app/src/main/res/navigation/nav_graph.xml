@@ -6,11 +6,11 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="dev.keader.correiostracker.home.HomeFragment"
+        android:name="dev.keader.correiostracker.view.home.HomeFragment"
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/archivedFragment"
-        android:name="dev.keader.correiostracker.archived.ArchivedFragment"
+        android:name="dev.keader.correiostracker.view.archived.ArchivedFragment"
         android:label="ArchivedFragment" >
         <argument
             android:name="trackCode"
@@ -18,11 +18,11 @@
     </fragment>
     <fragment
         android:id="@+id/addPacketFragment"
-        android:name="dev.keader.correiostracker.addpacket.AddPacketFragment"
+        android:name="dev.keader.correiostracker.view.addpacket.AddPacketFragment"
         android:label="AddPacketFragment" />
     <fragment
         android:id="@+id/trackDetailFragment"
-        android:name="dev.keader.correiostracker.trackdetail.TrackDetailFragment"
+        android:name="dev.keader.correiostracker.view.trackdetail.TrackDetailFragment"
         android:label="TrackDetailFragment" >
         <argument
             android:name="trackCode"

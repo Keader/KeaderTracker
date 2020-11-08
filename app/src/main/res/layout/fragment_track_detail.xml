@@ -50,7 +50,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/product_title_label"
+                    android:id="@+id/track_title_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -72,7 +72,7 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/product_title_label"
+                    app:layout_constraintTop_toBottomOf="@+id/track_title_label"
                     tools:text="Código PZ909656782BR" />
 
                 <TextView
@@ -123,7 +123,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/product_title_label"
+                    app:layout_constraintStart_toEndOf="@+id/track_title_label"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_location" />
             </androidx.constraintlayout.widget.ConstraintLayout>

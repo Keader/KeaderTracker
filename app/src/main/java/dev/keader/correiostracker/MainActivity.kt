@@ -1,20 +1,24 @@
 package dev.keader.correiostracker
 
 import android.os.Bundle
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.ActivityMainBinding
-import dev.keader.correiostracker.home.HomeFragmentDirections
+import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
+    private val _uiViewModel : UIViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +28,13 @@ class MainActivity : AppCompatActivity() {
         setUpNavigation()
 
         binding.floatingActionButton.setOnClickListener { view ->
-            //binding.bottomNavigation.visibility = View.GONE
             view.findNavController().navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
         }
 
+        _uiViewModel.bottomNavVisibility.observe(this, { visibility ->
+            binding.bottomNavigation.visibility = visibility
+            binding.floatingActionButton.visibility = visibility
+        })
 
         // example of how navigate
         //navController.navigate(HomeFragmentDirections.actionHomeFragmentToTrackDetailFragment("1234"))
