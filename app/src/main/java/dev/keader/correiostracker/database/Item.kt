@@ -6,7 +6,7 @@ import androidx.room.*
 data class Item(
     @PrimaryKey
     val code: String,
-    val name: String,
+    var name: String,
     val type: String,
     val isDelivered: Boolean,
     val postedAt: String,

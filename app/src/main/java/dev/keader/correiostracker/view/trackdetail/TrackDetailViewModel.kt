@@ -1,11 +1,11 @@
 package dev.keader.correiostracker.view.trackdetail
 
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TrackDetailViewModel(
     val database: ItemDatabaseDAO,
@@ -44,26 +44,36 @@ class TrackDetailViewModel(
         get() = _eventFloatButton
 
     fun onFloatButtonPressed(view: View) {
-
         when(view.getTag(TAG_ARCHIVED)) {
             TAG_VALUE_UNARCHIVED -> handleArchiveTrack()
             TAG_VALUE_ARCHIVED -> handleUnArchiveTrack()
         }
-        _eventFloatButton.value = true
     }
 
     private fun handleArchiveTrack() {
-        // Action in progress already
-        if (_eventFloatButton.value!!)
-            return
+        viewModelScope.launch {
+            archiveTrack()
+            _eventFloatButton.value = true
+        }
+    }
 
-        // TODO: IMPLEMENT ME !
-        onFloatButtonComplete()
+    private suspend fun archiveTrack() {
+        return withContext(Dispatchers.IO) {
+            database.archiveTrack(trackCode)
+        }
     }
 
     private fun handleUnArchiveTrack() {
-        // TODO: IMPLEMENT ME !
-        onFloatButtonComplete()
+        viewModelScope.launch {
+            unArchiveTrack()
+            _eventFloatButton.value = true
+        }
+    }
+
+    private suspend fun unArchiveTrack() {
+        return withContext(Dispatchers.IO) {
+            database.unArchiveTrack(trackCode)
+        }
     }
 
     fun onFloatButtonComplete() {
