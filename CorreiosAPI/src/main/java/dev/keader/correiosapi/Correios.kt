@@ -20,7 +20,7 @@ class Correios {
 
         suspend fun getTrack(code: String): CorreiosItem {
 
-            if (!isValidCode(code)) throw IOException("-1")
+            if (!isValidCode(code)) throw IOException("Invalid Code")
 
             val formBody = FormBody.Builder()
                 .add("objetos", code)
@@ -36,7 +36,7 @@ class Correios {
 
             val tracks = mutableListOf<CorreiosTrack>()
             val document = Jsoup.parse(response.body!!.string())
-            if (document.html().contains(ERROR_MESSAGE)) throw IOException("404")
+            if (document.html().contains(ERROR_MESSAGE)) throw IOException("Product not Found")
 
             var lines = document.select(".listEvent").select("tr")
             for (line in lines) {
@@ -70,7 +70,7 @@ class Correios {
         }
 
         fun isValidCode(code: String): Boolean {
-            return codeValidation.matches(code)
+            return codeValidation.matches(code.toUpperCase())
         }
     }
 

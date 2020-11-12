@@ -12,4 +12,7 @@
     <string name="track_label">Rastreio</string>
     <string name="history">Histórico</string>
     <string name="archived">Arquivados</string>
+    <string name="add_code_error_message">Este não é um código de rastreamento válido.</string>
+    <string name="add_description_error_code">É preciso digitar uma descrição para o produto.</string>
+    <string name="add_product_error_message">Por favor preencha todos os campos corretamente e tente novamente.</string>
 </resources>

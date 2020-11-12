@@ -19,15 +19,14 @@ abstract class TrackingDatabase : RoomDatabase() {
         fun getInstance(context: Context): TrackingDatabase {
             synchronized(this) {
                 var instance = INSTANCE
-
                 if (instance == null) {
+
                     instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        TrackingDatabase::class.java,
-                        "correios_tracker_database"
+                            context.applicationContext,
+                            TrackingDatabase::class.java,
+                            "correios_tracker_database"
                     )
-                        .fallbackToDestructiveMigration()
-                        .build()
+                    .build()
                     INSTANCE = instance
                 }
                 return instance

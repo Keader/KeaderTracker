@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
     private val _uiViewModel : UIViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.plant(Timber.DebugTree())

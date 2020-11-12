@@ -10,5 +10,6 @@
   <color name="secondaryTextColor">#0C0C0C</color>
   <color name="backgroundColor">#EDEDED</color>
   <color name="textGreyColor">#989696</color>
-
+  <color name="errorColor">#F80303</color>
+  <color name="sucessColor">#06C32F</color>
 </resources>
