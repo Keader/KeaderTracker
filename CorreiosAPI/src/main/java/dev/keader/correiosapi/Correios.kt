@@ -66,7 +66,7 @@ class Correios {
             if (type == null)
                 type = "DESCONHECIDO"
 
-            return CorreiosItem(code, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
+            return CorreiosItem(code.toUpperCase(), type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }
 
         fun isValidCode(code: String): Boolean {

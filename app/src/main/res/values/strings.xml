@@ -15,4 +15,6 @@
     <string name="add_code_error_message">Este não é um código de rastreamento válido.</string>
     <string name="add_description_error_code">É preciso digitar uma descrição para o produto.</string>
     <string name="add_product_error_message">Por favor preencha todos os campos corretamente e tente novamente.</string>
+    <string name="empty_list_label2">Não existem rastreios para você ver aqui.</string>
+    <string name="empty_list_label1">Oh... não !</string>
 </resources>

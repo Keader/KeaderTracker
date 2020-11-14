@@ -148,7 +148,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/history_label"
-            tools:listitem="@layout/list_item_track_history" />
+            tools:listitem="@layout/list_item_track_history"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
