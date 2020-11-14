@@ -74,7 +74,7 @@ class AddPacketFragment : Fragment() {
                 val observation = binding.descriptionEditText.text
 
                 if (observation.isNotEmpty() &&  Correios.isValidCode(code.toString())) {
-                    addPacketViewModel.handleCheckOK(code.toString(), observation.toString())
+                    addPacketViewModel.handleCheckOK(code.toString().toUpperCase(), observation.toString())
                     binding.progressBar.visibility = View.VISIBLE
                     Snackbar.make(binding.cardViewOk, "Rastreando produto...", Snackbar.LENGTH_SHORT)
                             .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))

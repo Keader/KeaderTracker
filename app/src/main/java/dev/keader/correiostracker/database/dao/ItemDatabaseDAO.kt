@@ -37,8 +37,12 @@ interface ItemDatabaseDAO {
     fun getTrackingWithTracks(code: String): LiveData<ItemWithTracks>
 
     @Transaction
-    @Query("SELECT * FROM Item")
-    fun getAllItemWithTracks(): LiveData<List<ItemWithTracks>>
+    @Query("SELECT * FROM Item WHERE isArchived = 0")
+    fun getAllItemsWithTracks(): LiveData<List<ItemWithTracks>>
+
+    @Transaction
+    @Query("SELECT * FROM Item WHERE isArchived = 1")
+    fun getAllArchivedItemsWithTracks(): LiveData<List<ItemWithTracks>>
 
     @Query("DELETE FROM Item")
     suspend fun clear()

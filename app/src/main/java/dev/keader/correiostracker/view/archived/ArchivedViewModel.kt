@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.view.home
+package dev.keader.correiostracker.view.archived
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
 
-class HomeViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
+class ArchivedViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
 
-    val tracks = database.getAllItemsWithTracks()
+    val tracks = database.getAllArchivedItemsWithTracks()
 
     private val _eventNavigateToTrackDetail = MutableLiveData<ItemWithTracks>()
     val eventNavigateToTrackDetail: LiveData<ItemWithTracks>
