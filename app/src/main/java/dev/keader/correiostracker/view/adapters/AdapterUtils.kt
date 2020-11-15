@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.correiostracker.database.Track
 import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,4 +71,17 @@ fun TextView.setDaysSpend(item: ItemWithTracks) {
         text = "${differenceDates.toString()} dias corridos"
     else
         text = "${differenceDates.toString()} dia corrido"
+}
+
+@BindingAdapter("observation")
+fun TextView.setObservation(track: Track) {
+    if (track.observation.isEmpty())
+        visibility = View.GONE
+    else
+        text = track.observation
+}
+
+@BindingAdapter("locale")
+fun TextView.setLocale(track: Track) {
+    text = "Em ${track.locale.capitalize()}"
 }

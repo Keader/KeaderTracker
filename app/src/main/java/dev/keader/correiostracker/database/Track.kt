@@ -15,3 +15,8 @@ data class Track(
     val date: String,
     val time: String
 )
+
+data class TrackWithStatus(
+        val track: Track,
+        val delivered: Boolean
+)

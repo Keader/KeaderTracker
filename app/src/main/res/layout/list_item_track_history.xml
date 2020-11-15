@@ -4,15 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="track"
+            type="dev.keader.correiostracker.database.Track" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/arrow_up"
             android:layout_width="1dp"
-            android:layout_height="16dp"
+            android:layout_height="0dp"
             android:background="@color/textGreyColor"
             app:layout_constraintBottom_toTopOf="@+id/rounded_cardview"
             app:layout_constraintEnd_toEndOf="@+id/rounded_cardview"
@@ -21,9 +26,9 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <View
-            android:id="@+id/view2"
+            android:id="@+id/arrow_down"
             android:layout_width="1dp"
-            android:layout_height="16dp"
+            android:layout_height="0dp"
             android:background="@color/textGreyColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/rounded_cardview"
@@ -36,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textSize="12sp"
+            android:text="@{track.status}"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,10 +54,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
-            android:textSize="10sp"
             android:textColor="@color/textGreyColor"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{track.date}"
             tools:text="14/10/2020" />
 
         <TextView
@@ -60,10 +67,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="12dp"
-            android:textSize="10sp"
             android:textColor="@color/textGreyColor"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{track.time}"
             tools:text="09:29" />
 
         <TextView
@@ -73,21 +81,25 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textGreyColor"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:maxWidth="275dp"
             app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toBottomOf="@+id/status_label2"
+            app:observation="@{track}"
             tools:text="para Salvador - CEASA, SALVADOR/BA" />
 
         <TextView
-            android:id="@+id/observation_label2"
+            android:id="@+id/locale_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@color/textGreyColor"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:maxWidth="275dp"
             app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toBottomOf="@+id/observation_label"
+            app:locale="@{track}"
             tools:text="Partindo de FEIRA DE SANTANA / BA" />
 
         <com.google.android.material.card.MaterialCardView
@@ -105,11 +117,11 @@
 
 
             <ImageView
-                android:id="@+id/roundedimage2"
+                android:id="@+id/track_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/delivery_done" />
+                android:src="@drawable/delivery_truck" />
 
         </com.google.android.material.card.MaterialCardView>
 

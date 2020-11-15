@@ -95,13 +95,13 @@ class AddPacketFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
 
                 if (success) {
-                    Snackbar.make(binding.cardViewOk, "Rastreamento adicionado com sucesso!", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.cardViewOk, getString(R.string.track_add_success), Snackbar.LENGTH_SHORT)
                             .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
                             .show()
                     findNavController().popBackStack()
                 }
                 else {
-                    Snackbar.make(binding.cardViewOk, "Ocorreu um erro na adicao do seu rastreamento. Verifique se o codigo de rastreamento esta correto", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.cardViewOk, getString(R.string.track_add_fail), Snackbar.LENGTH_SHORT)
                             .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
                             .show()
                 }
@@ -109,8 +109,7 @@ class AddPacketFragment : Fragment() {
 
             }
         })
-
-
+        
         return binding.root
     }
 

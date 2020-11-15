@@ -1,9 +1,11 @@
 package dev.keader.correiostracker.view.trackdetail
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,8 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
+import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
+import dev.keader.correiostracker.view.adapters.ListItemListener
+import dev.keader.correiostracker.view.adapters.TrackAdapter
+import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 
 const val TAG_VALUE_UNARCHIVED = 0
 const val TAG_VALUE_ARCHIVED = 1
@@ -45,14 +51,25 @@ class TrackDetailFragment : Fragment() {
         binding.trackDetailViewModel = trackDetailViewModel
         binding.lifecycleOwner = this
 
+
+        val adapter = TrackHistoryAdapter()
+        binding.historyList.adapter = adapter
+
+        trackDetailViewModel.item.observe(viewLifecycleOwner, { item ->
+            val list = item.tracks.map{ TrackWithStatus(it, item.item.isDelivered) }
+            adapter.submitList(list)
+        })
+
         trackDetailViewModel.isArchived.observe(viewLifecycleOwner, { isArchived ->
             if (isArchived) {
                 binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
                 binding.floatButton.setImageResource(R.drawable.ic_unarchive)
+                binding.floatButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primaryColor))
             }
             else {
                 binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
                 binding.floatButton.setImageResource(R.drawable.ic_archived)
+                binding.floatButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
             }
         })
 

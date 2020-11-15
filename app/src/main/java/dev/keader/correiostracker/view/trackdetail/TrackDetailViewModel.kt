@@ -9,34 +9,36 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TrackDetailViewModel(
-    val database: ItemDatabaseDAO,
+    private val database: ItemDatabaseDAO,
     val trackCode: String) : ViewModel() {
 
-    //TODO: Handle with the list
+    val trackItem = database.getTrackingWithTracks(trackCode)
 
-    private val _trackItem = database.getTrackingWithTracks(trackCode)
+    val item = Transformations.map(trackItem) {
+        it
+    }
 
-    val trackTitle = Transformations.map(_trackItem) {
+    val trackTitle = Transformations.map(trackItem) {
         it.item.name
     }
 
-    val trackCodeString = Transformations.map(_trackItem) {
+    val trackCodeString = Transformations.map(trackItem) {
         "Código ${it.item.code}"
     }
 
-    val trackStartLocale = Transformations.map(_trackItem) {
+    val trackStartLocale = Transformations.map(trackItem) {
         it.tracks.last().locale
     }
 
-    val trackPostedAt = Transformations.map(_trackItem) {
+    val trackPostedAt = Transformations.map(trackItem) {
         "Postado em ${it.item.postedAt}"
     }
 
-    val trackLastUpdate = Transformations.map(_trackItem) {
-        "Ultima atualização em ${it.item.updatedAt}"
+    val trackLastUpdate = Transformations.map(trackItem) {
+        "Última atualização em ${it.item.updatedAt}"
     }
 
-    val isArchived = Transformations.map(_trackItem) {
+    val isArchived = Transformations.map(trackItem) {
         it.item.isArchived
     }
 

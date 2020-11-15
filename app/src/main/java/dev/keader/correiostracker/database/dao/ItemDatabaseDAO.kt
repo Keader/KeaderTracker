@@ -37,6 +37,10 @@ interface ItemDatabaseDAO {
     fun getTrackingWithTracks(code: String): LiveData<ItemWithTracks>
 
     @Transaction
+    @Query("SELECT * FROM Item WHERE code = :code")
+    fun getStaticTrackingWithTracks(code: String): ItemWithTracks
+
+    @Transaction
     @Query("SELECT * FROM Item WHERE isArchived = 0")
     fun getAllItemsWithTracks(): LiveData<List<ItemWithTracks>>
 

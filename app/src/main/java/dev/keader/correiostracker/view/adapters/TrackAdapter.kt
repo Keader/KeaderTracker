@@ -9,7 +9,7 @@ import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
 
 
-class TrackAdapter(val clickListener: TrackItemListener) : ListAdapter<ItemWithTracks, TrackAdapter.ViewHolder>(ItemWitchTracksDiffCallback()) {
+class TrackAdapter(val clickListener: ListItemListener) : ListAdapter<ItemWithTracks, TrackAdapter.ViewHolder>(ItemWitchTracksDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -22,7 +22,7 @@ class TrackAdapter(val clickListener: TrackItemListener) : ListAdapter<ItemWithT
 
     class ViewHolder private constructor(val binding: ListItemTrackBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(clickListener: TrackItemListener, item: ItemWithTracks) {
+        fun bind(clickListener: ListItemListener, item: ItemWithTracks) {
             binding.trackItem = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -49,6 +49,6 @@ class ItemWitchTracksDiffCallback : DiffUtil.ItemCallback<ItemWithTracks>() {
     }
 }
 
-class TrackItemListener(val clickListener: (trackCode: String) -> Unit) {
+class ListItemListener(val clickListener: (trackCode: String) -> Unit) {
     fun onClick(item: ItemWithTracks) = clickListener(item.item.code)
 }

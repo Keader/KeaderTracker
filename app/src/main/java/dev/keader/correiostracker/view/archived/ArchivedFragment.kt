@@ -12,8 +12,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.view.adapters.TrackAdapter
-import dev.keader.correiostracker.view.adapters.TrackItemListener
-import dev.keader.correiostracker.view.home.HomeFragmentDirections
+import dev.keader.correiostracker.view.adapters.ListItemListener
 
 
 class ArchivedFragment : Fragment() {
@@ -31,7 +30,7 @@ class ArchivedFragment : Fragment() {
         val viewModelFactory = ArchivedViewModelFactory(db)
         archivedViewModel = ViewModelProvider(this, viewModelFactory).get(ArchivedViewModel::class.java)
 
-        val adapter = TrackAdapter( TrackItemListener { code ->
+        val adapter = TrackAdapter( ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
         })
         binding.archivedList.adapter = adapter

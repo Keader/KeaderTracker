@@ -10,7 +10,7 @@
 
         <variable
             name="clickListener"
-            type="dev.keader.correiostracker.view.adapters.TrackItemListener" />
+            type="dev.keader.correiostracker.view.adapters.ListItemListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
