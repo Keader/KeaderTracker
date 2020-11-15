@@ -7,6 +7,10 @@
         <variable
             name="trackItem"
             type="dev.keader.correiostracker.database.ItemWithTracks" />
+
+        <variable
+            name="clickListener"
+            type="dev.keader.correiostracker.view.adapters.TrackItemListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -19,7 +23,8 @@
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="@{() -> clickListener.onClick(trackItem)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

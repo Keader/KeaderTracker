@@ -45,5 +45,8 @@ interface ItemDatabaseDAO {
     fun getAllArchivedItemsWithTracks(): LiveData<List<ItemWithTracks>>
 
     @Query("DELETE FROM Item")
-    suspend fun clear()
+    suspend fun clearItem()
+
+    @Query("DELETE FROM Track")
+    suspend fun clearTrack()
 }

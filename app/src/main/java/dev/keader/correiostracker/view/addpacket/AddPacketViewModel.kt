@@ -18,7 +18,7 @@ import timber.log.Timber
 
 class AddPacketViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
 
-    private val _eventCancelButtonNavigation = MutableLiveData(false)
+    private val _eventCancelButtonNavigation = MutableLiveData<Boolean>()
     val eventCancelButtonNavigation: LiveData<Boolean>
         get() = _eventCancelButtonNavigation
 
@@ -26,9 +26,14 @@ class AddPacketViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
     val eventAddTrack: LiveData<Boolean?>
         get() = _eventAddTrack
 
-    private val _eventCheckInputs = MutableLiveData(false)
+    private val _eventCheckInputs = MutableLiveData<Boolean>()
     val eventCheckInputs: LiveData<Boolean>
         get() = _eventCheckInputs
+
+    init {
+        _eventCancelButtonNavigation.value = false
+        _eventCheckInputs.value = false
+    }
 
     fun handleOKButton() {
         _eventCheckInputs.value = true

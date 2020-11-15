@@ -2,6 +2,7 @@ package dev.keader.correiostracker.view.trackdetail
 
 import android.view.View
 import androidx.lifecycle.*
+import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class TrackDetailViewModel(
         get() = _eventFloatButton
 
     fun onFloatButtonPressed(view: View) {
-        when(view.getTag(TAG_ARCHIVED)) {
+        when(view.getTag(R.id.tag_archived)) {
             TAG_VALUE_UNARCHIVED -> handleArchiveTrack()
             TAG_VALUE_ARCHIVED -> handleUnArchiveTrack()
         }

@@ -60,7 +60,7 @@ class AddPacketFragment : Fragment() {
         // Keyboard and Focus
         lifecycle.addObserver(EditTextKeyboardLifecycleObserver(WeakReference(binding.trackEditText)))
 
-        addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, { navigate ->
+        addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 findNavController().popBackStack()
                 addPacketViewModel.handleCancelButtonEventFinish()
@@ -68,7 +68,7 @@ class AddPacketFragment : Fragment() {
         })
 
         // Sanity check, triggered by OK button
-        addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, { checkInputs ->
+        addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, Observer { checkInputs ->
             if (checkInputs) {
                 val code = binding.trackEditText.text
                 val observation = binding.descriptionEditText.text
@@ -90,7 +90,7 @@ class AddPacketFragment : Fragment() {
         })
 
         // Return of API
-        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, { success ->
+        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, Observer { success ->
             if (success != null) {
                 binding.progressBar.visibility = View.GONE
 

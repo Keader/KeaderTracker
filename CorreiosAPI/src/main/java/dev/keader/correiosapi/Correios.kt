@@ -8,7 +8,7 @@ import org.jsoup.Jsoup
 
 const val BASE_URL: String =
     "https://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm"
-const val LOCALE_REGEX: String = "[[A-Z]+\\s*?]*?/\\s*?[A-Z]+"
+const val LOCALE_REGEX: String = "[[A-Z]+\\s*]+/[\\s*[A-Z]+]*"
 const val CODE_VALIDATION_REGEX: String = "^[A-Z]{2}[0-9]{9}[A-Z]{2}"
 const val ERROR_MESSAGE = "Não é possível exibir informações para o código informado."
 
@@ -19,11 +19,12 @@ class Correios {
         private val client = OkHttpClient()
 
         suspend fun getTrack(code: String): CorreiosItem {
+            val productCode = code.toUpperCase()
 
-            if (!isValidCode(code)) throw IOException("Invalid Code")
+            if (!isValidCode(productCode)) throw IOException("Invalid Code")
 
             val formBody = FormBody.Builder()
-                .add("objetos", code)
+                .add("objetos", productCode)
                 .build()
 
             val request = Request.Builder()
@@ -47,6 +48,9 @@ class Correios {
                 var date = splitDate[0]
                 var time = splitDate[1]
                 var locale = localeRegex.find(completeDateString)?.value.toString().trim().replace(" /", ",")
+                var splitedLocale = locale.split(",")
+                if (splitedLocale.size > 1 && splitedLocale[1].isEmpty())
+                    locale = splitedLocale[0]
                 val splittedStatus = completeStatusString.split("<br>")
                 var observation = ""
                 var status =
@@ -61,12 +65,12 @@ class Correios {
             val lastTrack = tracks.first()
             val firstTrack = tracks.last()
             val isDelivered = lastTrack.status.contains("Objeto entregue")
-            val typeCode = "${code[0]}${code[1]}"
+            val typeCode = "${productCode[0]}${productCode[1]}"
             var type = CorreiosUtils.Types[typeCode]?.toUpperCase()
             if (type == null)
                 type = "DESCONHECIDO"
 
-            return CorreiosItem(code, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
+            return CorreiosItem(productCode, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }
 
         fun isValidCode(code: String): Boolean {

@@ -129,11 +129,9 @@
                     android:id="@+id/imageView"
                     android:layout_width="38dp"
                     android:layout_height="42dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/track_title_label"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_location" />
             </androidx.constraintlayout.widget.ConstraintLayout>

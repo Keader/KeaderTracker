@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.view.adapters.TrackAdapter
+import dev.keader.correiostracker.view.adapters.TrackItemListener
+import dev.keader.correiostracker.view.home.HomeFragmentDirections
 
 
 class ArchivedFragment : Fragment() {
@@ -28,7 +31,9 @@ class ArchivedFragment : Fragment() {
         val viewModelFactory = ArchivedViewModelFactory(db)
         archivedViewModel = ViewModelProvider(this, viewModelFactory).get(ArchivedViewModel::class.java)
 
-        val adapter = TrackAdapter()
+        val adapter = TrackAdapter( TrackItemListener { code ->
+            archivedViewModel.onItemTrackClicked(code)
+        })
         binding.archivedList.adapter = adapter
         archivedViewModel.tracks.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
@@ -36,6 +41,13 @@ class ArchivedFragment : Fragment() {
             } else {
                 adapter.submitList(it)
                 showRecyclerView()
+            }
+        })
+
+        archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, { code ->
+            code?.let{
+                findNavController().navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
+                archivedViewModel.handleNavigateToTrackDetailFinish()
             }
         })
 

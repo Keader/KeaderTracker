@@ -10,9 +10,13 @@ class ArchivedViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
 
     val tracks = database.getAllArchivedItemsWithTracks()
 
-    private val _eventNavigateToTrackDetail = MutableLiveData<ItemWithTracks>()
-    val eventNavigateToTrackDetail: LiveData<ItemWithTracks>
+    private val _eventNavigateToTrackDetail = MutableLiveData<String>()
+    val eventNavigateToTrackDetail: LiveData<String>
         get() = _eventNavigateToTrackDetail
+
+    fun onItemTrackClicked(code: String) {
+        _eventNavigateToTrackDetail.value = code
+    }
 
     fun handleNavigateToTrackDetailFinish() {
         _eventNavigateToTrackDetail.value = null

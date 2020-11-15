@@ -16,7 +16,6 @@ import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
 
-const val TAG_ARCHIVED = 1
 const val TAG_VALUE_UNARCHIVED = 0
 const val TAG_VALUE_ARCHIVED = 1
 
@@ -46,13 +45,13 @@ class TrackDetailFragment : Fragment() {
         binding.trackDetailViewModel = trackDetailViewModel
         binding.lifecycleOwner = this
 
-        trackDetailViewModel.isArchived.observe(viewLifecycleOwner, Observer { isArchived ->
+        trackDetailViewModel.isArchived.observe(viewLifecycleOwner, { isArchived ->
             if (isArchived) {
-                binding.floatButton.setTag(TAG_ARCHIVED, TAG_VALUE_ARCHIVED)
+                binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
                 binding.floatButton.setImageResource(R.drawable.ic_unarchive)
             }
             else {
-                binding.floatButton.setTag(TAG_ARCHIVED, TAG_VALUE_UNARCHIVED)
+                binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
                 binding.floatButton.setImageResource(R.drawable.ic_archived)
             }
         })

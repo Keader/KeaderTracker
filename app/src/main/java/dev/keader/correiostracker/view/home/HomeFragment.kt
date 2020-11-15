@@ -5,12 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.view.adapters.TrackAdapter
+import dev.keader.correiostracker.view.adapters.TrackItemListener
 
 
 class HomeFragment : Fragment() {
@@ -28,7 +33,10 @@ class HomeFragment : Fragment() {
         val viewModelFactory = HomeViewModelFactory(db)
         homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        val adapter = TrackAdapter()
+        val adapter = TrackAdapter(TrackItemListener { code ->
+            homeViewModel.onItemTrackClicked(code)
+        })
+
         binding.deliveryList.adapter = adapter
 
         homeViewModel.tracks.observe(viewLifecycleOwner, {
@@ -37,6 +45,13 @@ class HomeFragment : Fragment() {
             } else {
                 adapter.submitList(it)
                 showRecyclerView()
+            }
+        })
+
+        homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, Observer { code ->
+            code?.let{
+                findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
+                homeViewModel.handleNavigateToTrackDetailFinish()
             }
         })
 
