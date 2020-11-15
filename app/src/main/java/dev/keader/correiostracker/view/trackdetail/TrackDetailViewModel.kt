@@ -14,10 +14,6 @@ class TrackDetailViewModel(
 
     val trackItem = database.getTrackingWithTracks(trackCode)
 
-    val item = Transformations.map(trackItem) {
-        it
-    }
-
     val trackTitle = Transformations.map(trackItem) {
         it.item.name
     }

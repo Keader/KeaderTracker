@@ -55,7 +55,7 @@ class TrackDetailFragment : Fragment() {
         val adapter = TrackHistoryAdapter()
         binding.historyList.adapter = adapter
 
-        trackDetailViewModel.item.observe(viewLifecycleOwner, { item ->
+        trackDetailViewModel.trackItem.observe(viewLifecycleOwner, { item ->
             val list = item.tracks.map{ TrackWithStatus(it, item.item.isDelivered) }
             adapter.submitList(list)
         })
