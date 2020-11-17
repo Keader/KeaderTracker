@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.keader.correiosapi.Correios
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
 import dev.keader.correiostracker.database.toItemWithTracks
 import kotlinx.coroutines.Dispatchers

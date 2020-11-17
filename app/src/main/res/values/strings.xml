@@ -19,4 +19,12 @@
     <string name="empty_list_label1">Oh... não !</string>
     <string name="track_add_success">Rastreamento adicionado com sucesso!</string>
     <string name="track_add_fail">Ocorreu um erro na adicao do seu rastreamento. Verifique se o codigo de rastreamento esta correto</string>
+    <string name="code_format">Codigo %1$s</string>
+    <string name="posted_format">Postado em %1$s</string>
+    <string name="last_update_format">Última atualização em %1$s</string>
+    <string name="locale_format">Em %1$s</string>
+    <plurals name="duration_days">
+        <item quantity="one">%1$s dia corrido</item>
+        <item quantity="other">%1$s dias corridos</item>
+    </plurals>
 </resources>

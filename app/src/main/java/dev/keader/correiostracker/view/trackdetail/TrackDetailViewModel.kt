@@ -14,26 +14,6 @@ class TrackDetailViewModel(
 
     val trackItem = database.getTrackingWithTracks(trackCode)
 
-    val trackTitle = Transformations.map(trackItem) {
-        it.item.name
-    }
-
-    val trackCodeString = Transformations.map(trackItem) {
-        "Código ${it.item.code}"
-    }
-
-    val trackStartLocale = Transformations.map(trackItem) {
-        it.tracks.last().locale
-    }
-
-    val trackPostedAt = Transformations.map(trackItem) {
-        "Postado em ${it.item.postedAt}"
-    }
-
-    val trackLastUpdate = Transformations.map(trackItem) {
-        "Última atualização em ${it.item.updatedAt}"
-    }
-
     val isArchived = Transformations.map(trackItem) {
         it.item.isArchived
     }

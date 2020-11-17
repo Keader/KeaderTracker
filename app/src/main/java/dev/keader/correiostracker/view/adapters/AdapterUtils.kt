@@ -7,9 +7,7 @@ import androidx.databinding.BindingAdapter
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.Track
-import java.lang.Math.abs
 import java.text.SimpleDateFormat
-import java.util.*
 
 @BindingAdapter("trackImage")
 fun ImageView.setTrackIcon(item: ItemWithTracks) {
@@ -27,16 +25,6 @@ fun TextView.setDateText(item: ItemWithTracks) {
 @BindingAdapter("trackTimeText")
 fun TextView.setTimeText(item: ItemWithTracks) {
     text = item.tracks.first().time
-}
-
-@BindingAdapter("trackName")
-fun TextView.setTrackName(item: ItemWithTracks) {
-    text = item.item.name
-}
-
-@BindingAdapter("trackCode")
-fun TextView.setTrackCode(item: ItemWithTracks) {
-    text = item.item.code
 }
 
 @BindingAdapter("trackStatus")
@@ -65,12 +53,12 @@ fun TextView.setDaysSpend(item: ItemWithTracks) {
     val dates = SimpleDateFormat("dd/mm/yyyy")
     val date1 = dates.parse(startDate)
     val date2 = dates.parse(lastDate)
+    if (date1 == null || date2 == null)
+        return
+
     val difference: Long = kotlin.math.abs(date1.time - date2.time)
     val differenceDates = difference / (24 * 60 * 60 * 1000)
-    if (differenceDates > 1)
-        text = "${differenceDates.toString()} dias corridos"
-    else
-        text = "${differenceDates.toString()} dia corrido"
+    text = context.resources.getQuantityString(R.plurals.duration_days, differenceDates.toInt(), differenceDates.toString())
 }
 
 @BindingAdapter("observation")
@@ -79,9 +67,4 @@ fun TextView.setObservation(track: Track) {
         visibility = View.GONE
     else
         text = track.observation
-}
-
-@BindingAdapter("locale")
-fun TextView.setLocale(track: Track) {
-    text = "Em ${track.locale.capitalize()}"
 }

@@ -3,7 +3,6 @@ package dev.keader.correiostracker.view.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
 
 class HomeViewModel(private val database: ItemDatabaseDAO) : ViewModel() {

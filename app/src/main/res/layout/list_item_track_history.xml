@@ -99,8 +99,8 @@
             android:maxWidth="275dp"
             app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toBottomOf="@+id/observation_label"
-            app:locale="@{track}"
-            tools:text="Partindo de FEIRA DE SANTANA / BA" />
+            android:text="@{@string/locale_format(track.locale)}"
+            tools:text="Em de FEIRA DE SANTANA / BA" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/rounded_cardview"

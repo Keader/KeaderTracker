@@ -1,6 +1,5 @@
 package dev.keader.correiostracker.view.trackdetail
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO

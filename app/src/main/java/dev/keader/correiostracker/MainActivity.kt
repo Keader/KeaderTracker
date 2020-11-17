@@ -4,12 +4,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import timber.log.Timber

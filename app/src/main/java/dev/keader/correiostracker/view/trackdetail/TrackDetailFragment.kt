@@ -9,17 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
-import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
-import dev.keader.correiostracker.view.adapters.ListItemListener
-import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 
 const val TAG_VALUE_UNARCHIVED = 0
@@ -56,8 +52,7 @@ class TrackDetailFragment : Fragment() {
         binding.historyList.adapter = adapter
 
         trackDetailViewModel.trackItem.observe(viewLifecycleOwner, { item ->
-            val list = item.tracks.map{ TrackWithStatus(it, item.item.isDelivered) }
-            adapter.submitList(list)
+            adapter.addHeaderAndSubmitList(item)
         })
 
         trackDetailViewModel.isArchived.observe(viewLifecycleOwner, { isArchived ->
