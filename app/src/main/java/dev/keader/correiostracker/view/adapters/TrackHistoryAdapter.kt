@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class TrackHistoryAdapter() : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
+class TrackHistoryAdapter(private val clickListener: DeleteItemListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -46,7 +46,7 @@ class TrackHistoryAdapter() : ListAdapter<DataItem, RecyclerView.ViewHolder>(Tra
             }
             is TrackDetailHeaderViewHolder -> {
                 val item = getItem(position) as DataItem.Header
-                holder.bind(item.itemWithTracks)
+                holder.bind(item.itemWithTracks, clickListener)
             }
         }
     }
@@ -66,8 +66,9 @@ class TrackHistoryAdapter() : ListAdapter<DataItem, RecyclerView.ViewHolder>(Tra
 
     class TrackDetailHeaderViewHolder private constructor(val binding: ListItemTrackDetailHeaderBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemWithTracks) {
+        fun bind(item: ItemWithTracks, clickListener: DeleteItemListener) {
             binding.itemWithTracks = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -136,4 +137,8 @@ sealed class DataItem {
     }
 
     abstract val id: Long
+}
+
+class DeleteItemListener(val clickListener: (itemTrack: ItemWithTracks) -> Unit) {
+    fun onClick(item: ItemWithTracks) = clickListener(item)
 }

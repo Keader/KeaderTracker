@@ -4,14 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="itemWithTracks"
             type="dev.keader.correiostracker.database.ItemWithTracks" />
+
+        <variable
+            name="clickListener"
+            type="dev.keader.correiostracker.view.adapters.DeleteItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/delete_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> clickListener.onClick(itemWithTracks)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete" />
 
         <TextView
             android:id="@+id/track_label"
@@ -77,9 +93,9 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:alpha="0.5"
+                    android:text="@{@string/code_format(itemWithTracks.item.code)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    android:text="@{@string/code_format(itemWithTracks.item.code)}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/track_title_label"
                     tools:text="Código PZ909656782BR" />
@@ -92,9 +108,9 @@
                     android:layout_marginTop="16dp"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp"
-                    app:trackLocale="@{itemWithTracks}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/product_code_label"
+                    app:trackLocale="@{itemWithTracks}"
                     tools:text="NITEROI, RJ" />
 
                 <TextView
@@ -104,9 +120,9 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:alpha="0.5"
+                    android:text="@{@string/posted_format(itemWithTracks.item.postedAt)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    android:text="@{@string/posted_format(itemWithTracks.item.postedAt)}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/start_locate_label"
                     tools:text="Postado em 13/10/20 13:39" />
@@ -119,9 +135,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:alpha="0.5"
+                    android:text="@{@string/last_update_format(itemWithTracks.item.updatedAt)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    android:text="@{@string/last_update_format(itemWithTracks.item.updatedAt)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/posted_at_label"

@@ -45,8 +45,22 @@ interface ItemDatabaseDAO {
     fun getAllArchivedItemsWithTracks(): LiveData<List<ItemWithTracks>>
 
     @Query("DELETE FROM Item")
-    suspend fun clearItem()
+    suspend fun clearItems()
+
+    @Query("DELETE FROM Item WHERE code =:code")
+    suspend fun deleteItem(code: String)
+
+    @Query("DELETE FROM Track WHERE itemCode =:itemCode")
+    suspend fun deleteTracks(itemCode: String)
 
     @Query("DELETE FROM Track")
-    suspend fun clearTrack()
+    suspend fun clearTracks()
+
+    @Transaction
+    suspend fun deleteItemWithTracks(item: ItemWithTracks) {
+        val code = item.item.code
+        deleteItem(code)
+        deleteTracks(code)
+    }
+
 }

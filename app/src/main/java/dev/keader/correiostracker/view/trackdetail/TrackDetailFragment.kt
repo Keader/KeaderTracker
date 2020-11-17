@@ -16,6 +16,8 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
+import dev.keader.correiostracker.view.adapters.DeleteItemListener
+import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 
 const val TAG_VALUE_UNARCHIVED = 0
@@ -48,11 +50,15 @@ class TrackDetailFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-        val adapter = TrackHistoryAdapter()
+        val adapter = TrackHistoryAdapter(DeleteItemListener { itemWithTracks ->
+            trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
+        })
         binding.historyList.adapter = adapter
 
         trackDetailViewModel.trackItem.observe(viewLifecycleOwner, { item ->
-            adapter.addHeaderAndSubmitList(item)
+            item?.let{
+                adapter.addHeaderAndSubmitList(it)
+            }
         })
 
         trackDetailViewModel.isArchived.observe(viewLifecycleOwner, { isArchived ->
@@ -68,8 +74,15 @@ class TrackDetailFragment : Fragment() {
             }
         })
 
-        trackDetailViewModel.eventFloatButton.observe(viewLifecycleOwner, { eventTrigger ->
-            if (eventTrigger) {
+        trackDetailViewModel.eventDeleteButton.observe(viewLifecycleOwner, { eventTriggered ->
+            if (eventTriggered) {
+                findNavController().popBackStack()
+                trackDetailViewModel.onDeleteButtonComplete()
+            }
+        })
+
+        trackDetailViewModel.eventFloatButton.observe(viewLifecycleOwner, { eventTriggered ->
+            if (eventTriggered) {
                 findNavController().popBackStack()
                 trackDetailViewModel.onFloatButtonComplete()
             }

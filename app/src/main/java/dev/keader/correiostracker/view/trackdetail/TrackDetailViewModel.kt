@@ -3,6 +3,7 @@ package dev.keader.correiostracker.view.trackdetail
 import android.view.View
 import androidx.lifecycle.*
 import dev.keader.correiostracker.R
+import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +22,27 @@ class TrackDetailViewModel(
     private val _eventFloatButton = MutableLiveData(false)
     val eventFloatButton: LiveData<Boolean>
         get() = _eventFloatButton
+
+    private val _eventDeleteButton = MutableLiveData(false)
+    val eventDeleteButton: LiveData<Boolean>
+        get() = _eventDeleteButton
+
+    fun onDeleteButtonClicked(itemWithTracks: ItemWithTracks) {
+        handleDeleteItem(itemWithTracks)
+    }
+
+    private fun handleDeleteItem(itemWithTracks: ItemWithTracks) {
+        viewModelScope.launch {
+            deleteTrack(itemWithTracks)
+            _eventDeleteButton.value = true
+        }
+    }
+
+    private suspend fun deleteTrack(itemWithTracks: ItemWithTracks) {
+        return withContext(Dispatchers.IO) {
+            database.deleteItemWithTracks(itemWithTracks)
+        }
+    }
 
     fun onFloatButtonPressed(view: View) {
         when(view.getTag(R.id.tag_archived)) {
@@ -57,5 +79,9 @@ class TrackDetailViewModel(
 
     fun onFloatButtonComplete() {
         _eventFloatButton.value = false
+    }
+
+    fun onDeleteButtonComplete() {
+        _eventDeleteButton.value = false
     }
 }
