@@ -86,9 +86,9 @@ class TrackDetailFragment : Fragment() {
             }
         })
 
-        trackDetailViewModel.eventFloatButton.observe(viewLifecycleOwner, { isArchiveButton ->
-            isArchiveButton?.let { response ->
-                if (response) {
+        trackDetailViewModel.eventFloatButton.observe(viewLifecycleOwner, { clickedButton ->
+            clickedButton?.let { isArchived ->
+                if (isArchived) {
                     getSnack(getString(R.string.archived_success))
                             ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                             ?.show()
