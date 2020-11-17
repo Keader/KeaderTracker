@@ -12,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
+import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.TrackingDatabase
@@ -77,18 +79,37 @@ class TrackDetailFragment : Fragment() {
         trackDetailViewModel.eventDeleteButton.observe(viewLifecycleOwner, { eventTriggered ->
             if (eventTriggered) {
                 findNavController().popBackStack()
+                getSnack(getString(R.string.track_deleted))
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                        ?.show()
                 trackDetailViewModel.onDeleteButtonComplete()
             }
         })
 
-        trackDetailViewModel.eventFloatButton.observe(viewLifecycleOwner, { eventTriggered ->
-            if (eventTriggered) {
+        trackDetailViewModel.eventFloatButton.observe(viewLifecycleOwner, { isArchiveButton ->
+            isArchiveButton?.let { response ->
+                if (response) {
+                    getSnack(getString(R.string.archived_success))
+                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                            ?.show()
+                } else {
+                    getSnack(getString(R.string.unarchive_success))
+                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                            ?.show()
+                }
                 findNavController().popBackStack()
                 trackDetailViewModel.onFloatButtonComplete()
             }
         })
 
         return binding.root
+    }
+
+    fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {
+        val activity = activity
+        if (activity is MainActivity)
+            return activity.getSnackInstance(string, duration)
+        return null
     }
 
     override fun onDestroyView() {

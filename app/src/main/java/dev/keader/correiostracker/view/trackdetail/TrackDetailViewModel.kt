@@ -19,8 +19,9 @@ class TrackDetailViewModel(
         it.item.isArchived
     }
 
-    private val _eventFloatButton = MutableLiveData(false)
-    val eventFloatButton: LiveData<Boolean>
+    private val _eventFloatButton = MutableLiveData<Boolean?>()
+    // if true is archive, if false is unArchive
+    val eventFloatButton: LiveData<Boolean?>
         get() = _eventFloatButton
 
     private val _eventDeleteButton = MutableLiveData(false)
@@ -67,7 +68,7 @@ class TrackDetailViewModel(
     private fun handleUnArchiveTrack() {
         viewModelScope.launch {
             unArchiveTrack()
-            _eventFloatButton.value = true
+            _eventFloatButton.value = false
         }
     }
 
@@ -78,7 +79,7 @@ class TrackDetailViewModel(
     }
 
     fun onFloatButtonComplete() {
-        _eventFloatButton.value = false
+        _eventFloatButton.value = null
     }
 
     fun onDeleteButtonComplete() {

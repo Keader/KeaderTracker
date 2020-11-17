@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.snackbar.Snackbar
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import timber.log.Timber
@@ -33,9 +34,14 @@ class MainActivity : AppCompatActivity() {
             binding.floatingActionButton.visibility = visibility
         })
 
-        // example of how navigate
-        //navController.navigate(HomeFragmentDirections.actionHomeFragmentToTrackDetailFragment("1234"))
+    }
 
+    fun showSnack(string: String, duration: Int) {
+        getSnackInstance(string, duration)?.show()
+    }
+
+    fun getSnackInstance(string: String, duration: Int): Snackbar? {
+        return Snackbar.make(binding.root, string, duration)
     }
 
     private fun setUpNavigation() {
