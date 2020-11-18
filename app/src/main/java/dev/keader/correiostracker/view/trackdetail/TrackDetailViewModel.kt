@@ -14,24 +14,22 @@ import kotlinx.coroutines.withContext
 class TrackDetailViewModel @ViewModelInject constructor(
         private val repository: TrackingRepository) : ViewModel() {
 
-    private lateinit var _trackCode: String
-    val trackCode: String
-        get() = _trackCode
-    private lateinit var _trackItem : LiveData<ItemWithTracks>
-    val trackItem: LiveData<ItemWithTracks>
-        get() = _trackItem
-    private lateinit var _isArchived: LiveData<Boolean>
-    val isArchived: LiveData<Boolean>
-        get() = _isArchived
+    val trackCode = MutableLiveData<String>()
+
+    val trackItem = Transformations.switchMap(trackCode) { trackCode ->
+        repository.getItemWithTracks(trackCode)
+    }
+
+    val isArchived = Transformations.map(trackItem) {
+        it.item.isArchived
+    }
 
     fun setTrackCode(code: String) {
-        _trackCode = code
-        _trackItem = repository.getItemWithTracks(_trackCode)
-        _isArchived = Transformations.map(_trackItem) {
-            it?.let {
-                it.item.isArchived
-            }
-        }
+        trackCode.setValueIfNew(code)
+    }
+
+    fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
+        if (this.value != newValue) value = newValue
     }
 
     private val _eventFloatButton = MutableLiveData<Boolean?>()
@@ -63,14 +61,14 @@ class TrackDetailViewModel @ViewModelInject constructor(
 
     private fun handleArchiveTrack() {
         viewModelScope.launch {
-            repository.archiveTrack(trackCode)
+            repository.archiveTrack(trackCode.value!!)
             _eventFloatButton.value = true
         }
     }
 
     private fun handleUnArchiveTrack() {
         viewModelScope.launch {
-            repository.unArchiveTrack(trackCode)
+            repository.unArchiveTrack(trackCode.value!!)
             _eventFloatButton.value = false
         }
     }
