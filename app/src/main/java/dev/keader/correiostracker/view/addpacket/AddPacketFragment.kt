@@ -8,9 +8,11 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
@@ -19,23 +21,18 @@ import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
 import dev.keader.correiostracker.repository.TrackingRepository
 
+@AndroidEntryPoint
 class AddPacketFragment : Fragment() {
 
     private val uiViewModel: UIViewModel by activityViewModels()
     private lateinit var binding: FragmentAddPacketBinding
-    private lateinit var addPacketViewModel: AddPacketViewModel
+    private val addPacketViewModel: AddPacketViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
-
-        val application = requireNotNull(activity).application
-        val db = TrackingDatabase.getInstance(application).itemDatabaseDAO
-        val repository = TrackingRepository(db)
-        val viewModelFactory = AddPacketViewModelFactory(repository)
-        addPacketViewModel = ViewModelProvider(this, viewModelFactory).get(AddPacketViewModel::class.java)
         binding.addPacketViewModel = addPacketViewModel
 
         addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, Observer { navigate ->
@@ -48,11 +45,11 @@ class AddPacketFragment : Fragment() {
         // Triggered by OK button
         addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, Observer { checkInputs ->
             if (checkInputs) {
-                val code = binding.trackEditText.text.toString()
+                val code = binding.trackEditText.text.toString().toUpperCase()
                 val observation = binding.descriptionEditText.text.toString()
 
                 if (validateInputs(code, observation)) {
-                    addPacketViewModel.handleCheckOK(code.toUpperCase(), observation)
+                    addPacketViewModel.handleCheckOK(code, observation)
                     binding.progressBar.visibility = View.VISIBLE
                     getSnack(getString(R.string.tracking_product))
                             ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))

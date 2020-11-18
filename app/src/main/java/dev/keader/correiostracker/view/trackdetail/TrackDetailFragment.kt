@@ -9,10 +9,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
@@ -25,9 +27,10 @@ import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 const val TAG_VALUE_UNARCHIVED = 0
 const val TAG_VALUE_ARCHIVED = 1
 
+@AndroidEntryPoint
 class TrackDetailFragment : Fragment() {
 
-    private lateinit var trackDetailViewModel: TrackDetailViewModel
+    private val trackDetailViewModel: TrackDetailViewModel by viewModels()
     private val uiViewModel: UIViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +40,6 @@ class TrackDetailFragment : Fragment() {
                 R.layout.fragment_track_detail, container, false)
 
         uiViewModel.setBottomNavVisibility(View.GONE)
-
-        val application = requireNotNull(activity).application
-
-        val db = TrackingDatabase.getInstance(application).itemDatabaseDAO
-        val args by navArgs<TrackDetailFragmentArgs>()
-        val repository = TrackingRepository(db)
-
-        val viewModelFactory = TrackDetailViewModelFactory(repository, args.trackCode)
-
-        trackDetailViewModel = ViewModelProvider(this, viewModelFactory).get(TrackDetailViewModel::class.java)
 
         binding.trackDetailViewModel = trackDetailViewModel
         binding.lifecycleOwner = this

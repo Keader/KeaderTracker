@@ -1,6 +1,7 @@
 package dev.keader.correiostracker.view.addpacket
 
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +17,8 @@ import okio.IOException
 import timber.log.Timber
 
 
-class AddPacketViewModel(private val repository: TrackingRepository) : ViewModel() {
+class AddPacketViewModel @ViewModelInject constructor(
+        private val repository: TrackingRepository) : ViewModel() {
 
     private val _eventCancelButtonNavigation = MutableLiveData<Boolean>()
     val eventCancelButtonNavigation: LiveData<Boolean>

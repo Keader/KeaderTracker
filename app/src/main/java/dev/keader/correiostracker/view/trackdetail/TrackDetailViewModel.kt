@@ -1,6 +1,7 @@
 package dev.keader.correiostracker.view.trackdetail
 
 import android.view.View
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TrackDetailViewModel(
+class TrackDetailViewModel @ViewModelInject constructor(
         private val repository: TrackingRepository,
         val trackCode: String) : ViewModel() {
 

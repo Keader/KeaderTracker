@@ -9,8 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException
 import timber.log.Timber
+import javax.inject.Inject
 
-class TrackingRepository(private val database: TrackingDatabaseDAO) {
+class TrackingRepository @Inject constructor(private val database: TrackingDatabaseDAO) {
 
     suspend fun archiveTrack(trackCode: String) {
         withContext(Dispatchers.IO) {

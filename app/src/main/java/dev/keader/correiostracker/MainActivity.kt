@@ -9,10 +9,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
@@ -20,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.plant(Timber.DebugTree())
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setUpNavigation()
@@ -34,10 +35,6 @@ class MainActivity : AppCompatActivity() {
             binding.floatingActionButton.visibility = visibility
         })
 
-    }
-
-    fun showSnack(string: String, duration: Int) {
-        getSnackInstance(string, duration)?.show()
     }
 
     fun getSnackInstance(string: String, duration: Int): Snackbar? {
