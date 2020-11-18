@@ -6,8 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.keader.correiosapi.Correios
-import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
+import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.correiostracker.database.toItemWithTracks
+import dev.keader.correiostracker.repository.TrackingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,7 +16,7 @@ import okio.IOException
 import timber.log.Timber
 
 
-class AddPacketViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
+class AddPacketViewModel(private val repository: TrackingRepository) : ViewModel() {
 
     private val _eventCancelButtonNavigation = MutableLiveData<Boolean>()
     val eventCancelButtonNavigation: LiveData<Boolean>
@@ -45,28 +46,12 @@ class AddPacketViewModel(private val database: ItemDatabaseDAO) : ViewModel() {
 
     private fun getTrackInfo(code: String, observation: String) {
         viewModelScope.launch {
-            _eventAddTrack.value = getTrackInfoFromAPI(code, observation)
-        }
-    }
-
-    private suspend fun getTrackInfoFromAPI(code: String, observation: String): Boolean {
-        return withContext(Dispatchers.IO) {
-            try {
-                var itemWithTracks = Correios.getTrack(code).toItemWithTracks()
-                itemWithTracks.item.name = observation
-                database.insertItemWithTracks(itemWithTracks)
-                Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
-                return@withContext true
-            } catch (e: IOException) {
-                Timber.e(e.message, e.stackTrace)
-                return@withContext false
-            }
+            _eventAddTrack.value = repository.getTrackInfoFromAPI(code, observation)
         }
     }
 
     fun handleCheckFail() {
         _eventCheckInputs.value = false
-
     }
 
     fun handleCancelButton() {

@@ -17,6 +17,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
+import dev.keader.correiostracker.repository.TrackingRepository
 
 class AddPacketFragment : Fragment() {
 
@@ -32,7 +33,8 @@ class AddPacketFragment : Fragment() {
 
         val application = requireNotNull(activity).application
         val db = TrackingDatabase.getInstance(application).itemDatabaseDAO
-        val viewModelFactory = AddPacketViewModelFactory(db)
+        val repository = TrackingRepository(db)
+        val viewModelFactory = AddPacketViewModelFactory(repository)
         addPacketViewModel = ViewModelProvider(this, viewModelFactory).get(AddPacketViewModel::class.java)
         binding.addPacketViewModel = addPacketViewModel
 

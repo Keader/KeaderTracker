@@ -18,13 +18,12 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
+import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.adapters.DeleteItemListener
-import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 
 const val TAG_VALUE_UNARCHIVED = 0
 const val TAG_VALUE_ARCHIVED = 1
-
 
 class TrackDetailFragment : Fragment() {
 
@@ -43,8 +42,9 @@ class TrackDetailFragment : Fragment() {
 
         val db = TrackingDatabase.getInstance(application).itemDatabaseDAO
         val args by navArgs<TrackDetailFragmentArgs>()
+        val repository = TrackingRepository(db)
 
-        val viewModelFactory = TrackDetailViewModelFactory(db, args.trackCode)
+        val viewModelFactory = TrackDetailViewModelFactory(repository, args.trackCode)
 
         trackDetailViewModel = ViewModelProvider(this, viewModelFactory).get(TrackDetailViewModel::class.java)
 

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
+import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
 
@@ -28,7 +29,8 @@ class HomeFragment : Fragment() {
 
         val application = requireNotNull(activity).application
         val db = TrackingDatabase.getInstance(application).itemDatabaseDAO
-        val viewModelFactory = HomeViewModelFactory(db)
+        val repository = TrackingRepository(db)
+        val viewModelFactory = HomeViewModelFactory(repository)
         homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         val adapter = TrackAdapter(ListItemListener { code ->

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
+import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
 
@@ -27,7 +28,8 @@ class ArchivedFragment : Fragment() {
 
         val application = requireNotNull(activity).application
         val db = TrackingDatabase.getInstance(application).itemDatabaseDAO
-        val viewModelFactory = ArchivedViewModelFactory(db)
+        val repository = TrackingRepository(db)
+        val viewModelFactory = ArchivedViewModelFactory(repository)
         archivedViewModel = ViewModelProvider(this, viewModelFactory).get(ArchivedViewModel::class.java)
 
         val adapter = TrackAdapter( ListItemListener { code ->

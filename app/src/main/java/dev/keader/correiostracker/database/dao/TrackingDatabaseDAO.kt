@@ -7,7 +7,7 @@ import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.Track
 
 @Dao
-interface ItemDatabaseDAO {
+interface TrackingDatabaseDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
@@ -34,11 +34,15 @@ interface ItemDatabaseDAO {
 
     @Transaction
     @Query("SELECT * FROM Item WHERE code = :code")
-    fun getTrackingWithTracks(code: String): LiveData<ItemWithTracks>
+    fun getItemWithTracks(code: String): LiveData<ItemWithTracks>
 
     @Transaction
     @Query("SELECT * FROM Item WHERE isArchived = 0")
     fun getAllItemsWithTracks(): LiveData<List<ItemWithTracks>>
+
+    @Transaction
+    @Query("SELECT * FROM Item WHERE isArchived = 0")
+    suspend fun getAllItemsToRefresh(): List<ItemWithTracks>
 
     @Transaction
     @Query("SELECT * FROM Item WHERE isArchived = 1")

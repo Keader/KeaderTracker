@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
+import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 
 @Database(entities = [Item::class, Track::class], version = 1, exportSchema = false)
 abstract class TrackingDatabase : RoomDatabase() {
-    abstract val itemDatabaseDAO: ItemDatabaseDAO
+    abstract val itemDatabaseDAO: TrackingDatabaseDAO
 
     companion object {
         @Volatile

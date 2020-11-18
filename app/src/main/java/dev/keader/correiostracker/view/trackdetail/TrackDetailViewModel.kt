@@ -4,16 +4,17 @@ import android.view.View
 import androidx.lifecycle.*
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.dao.ItemDatabaseDAO
+import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
+import dev.keader.correiostracker.repository.TrackingRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TrackDetailViewModel(
-    private val database: ItemDatabaseDAO,
-    val trackCode: String) : ViewModel() {
+        private val repository: TrackingRepository,
+        val trackCode: String) : ViewModel() {
 
-    val trackItem = database.getTrackingWithTracks(trackCode)
+    val trackItem = repository.getItemWithTracks(trackCode)
 
     val isArchived = Transformations.map(trackItem) {
         it.item.isArchived
@@ -34,14 +35,8 @@ class TrackDetailViewModel(
 
     private fun handleDeleteItem(itemWithTracks: ItemWithTracks) {
         viewModelScope.launch {
-            deleteTrack(itemWithTracks)
+            repository.deleteTrack(itemWithTracks)
             _eventDeleteButton.value = true
-        }
-    }
-
-    private suspend fun deleteTrack(itemWithTracks: ItemWithTracks) {
-        return withContext(Dispatchers.IO) {
-            database.deleteItemWithTracks(itemWithTracks)
         }
     }
 
@@ -54,27 +49,15 @@ class TrackDetailViewModel(
 
     private fun handleArchiveTrack() {
         viewModelScope.launch {
-            archiveTrack()
+            repository.archiveTrack(trackCode)
             _eventFloatButton.value = true
-        }
-    }
-
-    private suspend fun archiveTrack() {
-        return withContext(Dispatchers.IO) {
-            database.archiveTrack(trackCode)
         }
     }
 
     private fun handleUnArchiveTrack() {
         viewModelScope.launch {
-            unArchiveTrack()
+            repository.unArchiveTrack(trackCode)
             _eventFloatButton.value = false
-        }
-    }
-
-    private suspend fun unArchiveTrack() {
-        return withContext(Dispatchers.IO) {
-            database.unArchiveTrack(trackCode)
         }
     }
 
