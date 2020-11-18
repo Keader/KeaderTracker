@@ -12,13 +12,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class TrackDetailViewModel @ViewModelInject constructor(
-        private val repository: TrackingRepository,
-        val trackCode: String) : ViewModel() {
+        private val repository: TrackingRepository) : ViewModel() {
 
-    val trackItem = repository.getItemWithTracks(trackCode)
+    private lateinit var _trackCode: String
+    val trackCode: String
+        get() = _trackCode
+    private lateinit var _trackItem : LiveData<ItemWithTracks>
+    val trackItem: LiveData<ItemWithTracks>
+        get() = _trackItem
+    private lateinit var _isArchived: LiveData<Boolean>
+    val isArchived: LiveData<Boolean>
+        get() = _isArchived
 
-    val isArchived = Transformations.map(trackItem) {
-        it.item.isArchived
+    fun setTrackCode(code: String) {
+        _trackCode = code
+        _trackItem = repository.getItemWithTracks(_trackCode)
+        _isArchived = Transformations.map(_trackItem) {
+            it?.let {
+                it.item.isArchived
+            }
+        }
     }
 
     private val _eventFloatButton = MutableLiveData<Boolean?>()

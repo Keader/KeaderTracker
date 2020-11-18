@@ -23,6 +23,7 @@ interface TrackingDatabaseDAO {
     @Transaction
     suspend fun insertItemWithTracks(item: ItemWithTracks) {
         insert(item.item)
+        deleteTracks(item.item.code)
         item.tracks.forEach {
             insertTracks(it)
         }

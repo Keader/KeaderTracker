@@ -41,6 +41,9 @@ class TrackDetailFragment : Fragment() {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
 
+        val args by navArgs<TrackDetailFragmentArgs>()
+        trackDetailViewModel.setTrackCode(args.trackCode)
+
         binding.trackDetailViewModel = trackDetailViewModel
         binding.lifecycleOwner = this
 
