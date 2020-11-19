@@ -14,10 +14,6 @@
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.CorreiosTracker">
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            tools:node="remove" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

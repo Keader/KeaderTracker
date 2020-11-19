@@ -6,6 +6,7 @@ import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dev.keader.correiostracker.repository.TrackingRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 class RefreshTracksWorker @WorkerInject constructor(
@@ -19,6 +20,7 @@ class RefreshTracksWorker @WorkerInject constructor(
     }
 
     override suspend fun doWork(): Result {
+        Timber.e("Worker chamado com sucesso")
         repository.refreshTracks()
         return Result.success()
     }

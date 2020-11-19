@@ -14,25 +14,20 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
-class CorreiosTracker : Application(), Configuration.Provider {
+class CorreiosTracker : Application() {
 
-    @Inject lateinit var workerFactory: HiltWorkerFactory
     private val applicationScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate() {
         super.onCreate()
-        //if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        //}
+        }
         delayedInit()
     }
 
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
-
     private fun delayedInit() {
+        setupRecurringWork()
         applicationScope.launch {
             setupRecurringWork()
         }
@@ -53,6 +48,8 @@ class CorreiosTracker : Application(), Configuration.Provider {
         val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(16, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
+
+        Timber.e("Worker iniciado com sucesso")
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             RefreshTracksWorker.WORK_NAME,
