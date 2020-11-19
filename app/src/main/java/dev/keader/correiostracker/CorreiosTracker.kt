@@ -2,6 +2,7 @@ package dev.keader.correiostracker
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import dagger.hilt.android.HiltAndroidApp
@@ -36,29 +37,7 @@ class CorreiosTracker : Application(),  Configuration.Provider {
 
     private fun delayedInit() {
         applicationScope.launch {
-            setupRecurringWork()
+            RefreshTracksWorker.startWorker(applicationContext)
         }
-    }
-
-    private fun setupRecurringWork() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
-            .apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    setRequiresDeviceIdle(true)
-                }
-            }
-            .build()
-
-        val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(2, TimeUnit.HOURS)
-            .setConstraints(constraints)
-            .build()
-
-        Timber.i("Worker starting service.")
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            RefreshTracksWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP,
-            repeating)
     }
 }

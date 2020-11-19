@@ -17,9 +17,8 @@ import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
-import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
-import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.correiostracker.work.RefreshTracksWorker
 
 @AndroidEntryPoint
 class AddPacketFragment : Fragment() {
@@ -73,6 +72,8 @@ class AddPacketFragment : Fragment() {
                     getSnack(getString(R.string.track_add_success))
                             ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
                             ?.show()
+
+                    RefreshTracksWorker.startWorker(requireContext())
                     findNavController().popBackStack()
                 }
                 else {
