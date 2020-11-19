@@ -59,9 +59,11 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         return database.getItemWithTracks(itemCode)
     }
 
-    suspend fun refreshTracks() {
-        withContext(Dispatchers.IO) {
+    suspend fun refreshTracks(): Boolean {
+        return withContext(Dispatchers.IO) {
             val items = database.getAllItemsToRefresh()
+            if (items.isEmpty())
+                return@withContext false
             for (item in items) {
                 try {
                     val updatedItem = Correios.getTrack(item.item.code).toItemWithTracks()
@@ -71,6 +73,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                     Timber.e(e.message, e.stackTrace)
                 }
             }
+            return@withContext true
         }
     }
 }

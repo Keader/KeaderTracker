@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import dagger.hilt.android.HiltAndroidApp
+import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,9 +15,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
-class CorreiosTracker : Application() {
+class CorreiosTracker : Application(),  Configuration.Provider {
 
     private val applicationScope = CoroutineScope(Dispatchers.Default)
+    @Inject lateinit var workerFactory: HiltWorkerFactory
+    @Inject lateinit var repository: TrackingRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -26,8 +29,12 @@ class CorreiosTracker : Application() {
         delayedInit()
     }
 
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
     private fun delayedInit() {
-        setupRecurringWork()
         applicationScope.launch {
             setupRecurringWork()
         }
@@ -37,23 +44,21 @@ class CorreiosTracker : Application() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(true)
-                /*
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setRequiresDeviceIdle(true)
                 }
-            }*/
+            }
             .build()
 
-        val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(16, TimeUnit.MINUTES)
+        val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(2, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
 
-        Timber.e("Worker iniciado com sucesso")
-
+        Timber.i("Worker starting service.")
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             RefreshTracksWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.KEEP,
             repeating)
     }
 }
