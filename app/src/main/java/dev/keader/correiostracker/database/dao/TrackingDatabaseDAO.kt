@@ -44,7 +44,7 @@ interface TrackingDatabaseDAO {
     fun getAllItemsWithTracks(): LiveData<List<ItemWithTracks>>
 
     @Transaction
-    @Query("SELECT * FROM Item WHERE isArchived = 0")
+    @Query("SELECT * FROM Item WHERE isArchived = 0 AND isDelivered = 0")
     suspend fun getAllItemsToRefresh(): List<ItemWithTracks>
 
     @Transaction
