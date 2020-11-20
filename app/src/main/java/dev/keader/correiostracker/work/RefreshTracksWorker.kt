@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.*
+import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.correiostracker.database.TrackWithStatus
+import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -34,17 +37,26 @@ class RefreshTracksWorker @WorkerInject constructor(
         }
 
         fun stopWorker(ctx: Context) {
-            Timber.i("Stopping worker, has no tracks do watch")
+            Timber.i("Stopping worker, has no tracks do watch.")
             WorkManager.getInstance(ctx).cancelUniqueWork(WORK_NAME)
+        }
+
+        fun sendNotifications(updateList: List<ItemWithTracks>, context: Context) {
+            Timber.i("Sending notifications...")
+            for (item in updateList) {
+                LocalNotification.sendNotification(context, item)
+            }
         }
     }
 
     override suspend fun doWork(): Result {
-        Timber.i("Worker updating tracks")
+        Timber.i("Worker updating tracks.")
+        val updateList = repository.refreshTracks()
         // If has no tracks, cancel worker
-        if (!repository.refreshTracks())
+        if (updateList.isEmpty())
             stopWorker(applicationContext)
-
+        else
+            sendNotifications(updateList, applicationContext)
         return Result.success()
     }
 }

@@ -59,21 +59,26 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         return database.getItemWithTracks(itemCode)
     }
 
-    suspend fun refreshTracks(): Boolean {
+    suspend fun refreshTracks(): List<ItemWithTracks> {
         return withContext(Dispatchers.IO) {
+            val notificationList = mutableListOf<ItemWithTracks>()
             val items = database.getAllItemsToRefresh()
+
             if (items.isEmpty())
-                return@withContext false
+                return@withContext notificationList
+
             for (item in items) {
                 try {
                     val updatedItem = Correios.getTrack(item.item.code).toItemWithTracks()
                     updatedItem.item.name = item.item.name
+                    if (updatedItem.tracks.size != item.tracks.size)
+                        notificationList.add(updatedItem)
                     database.insertItemWithTracks(updatedItem)
                 } catch (e: IOException) {
                     Timber.e(e.message, e.stackTrace)
                 }
             }
-            return@withContext true
+            return@withContext notificationList
         }
     }
 }
