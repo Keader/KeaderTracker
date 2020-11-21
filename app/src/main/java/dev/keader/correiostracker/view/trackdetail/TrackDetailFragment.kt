@@ -24,6 +24,7 @@ import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.adapters.BackButtonListener
 import dev.keader.correiostracker.view.adapters.DeleteItemListener
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
+import dev.keader.correiostracker.work.RefreshTracksWorker
 
 const val TAG_VALUE_UNARCHIVED = 0
 const val TAG_VALUE_ARCHIVED = 1
@@ -95,6 +96,7 @@ class TrackDetailFragment : Fragment() {
                     getSnack(getString(R.string.unarchive_success))
                             ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                             ?.show()
+                    RefreshTracksWorker.startWorker(requireNotNull(activity).application)
                 }
                 findNavController().popBackStack()
                 trackDetailViewModel.onFloatButtonComplete()

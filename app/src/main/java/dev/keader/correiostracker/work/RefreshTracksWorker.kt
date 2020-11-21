@@ -22,7 +22,6 @@ class RefreshTracksWorker @WorkerInject constructor(
         fun startWorker(ctx: Context) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresBatteryNotLow(true)
                 .build()
 
             val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(2, TimeUnit.HOURS)
@@ -32,7 +31,7 @@ class RefreshTracksWorker @WorkerInject constructor(
             Timber.i("Worker starting service.")
             WorkManager.getInstance(ctx).enqueueUniquePeriodicWork(
                 WORK_NAME,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.REPLACE,
                 repeating)
         }
 

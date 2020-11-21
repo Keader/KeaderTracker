@@ -22,9 +22,9 @@ class CorreiosTracker : Application(),  Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
+        //if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        }
+        //}
         delayedInit()
     }
 
@@ -37,7 +37,6 @@ class CorreiosTracker : Application(),  Configuration.Provider {
         applicationScope.launch {
             LocalNotification.createNotificationChannel(applicationContext)
             RefreshTracksWorker.startWorker(applicationContext)
-            //LocalNotification.sendNotificationTest(applicationContext)
         }
     }
 }

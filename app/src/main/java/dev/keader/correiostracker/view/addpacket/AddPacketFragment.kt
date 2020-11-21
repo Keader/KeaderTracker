@@ -73,7 +73,7 @@ class AddPacketFragment : Fragment() {
                             ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
                             ?.show()
 
-                    RefreshTracksWorker.startWorker(requireContext())
+                    RefreshTracksWorker.startWorker(requireNotNull(activity).application)
                     findNavController().popBackStack()
                 }
                 else {
