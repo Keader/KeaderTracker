@@ -85,6 +85,10 @@ class AddPacketFragment : Fragment() {
 
             }
         })
+
+        binding.backImage.setOnClickListener {
+            findNavController().popBackStack()
+        }
         
         return binding.root
     }

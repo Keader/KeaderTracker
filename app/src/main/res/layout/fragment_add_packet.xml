@@ -33,6 +33,15 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:id="@+id/back_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_back" />
+
+                    <ImageView
                         android:id="@+id/label_pray_for_sedex"
                         android:layout_width="241dp"
                         android:layout_height="193dp"

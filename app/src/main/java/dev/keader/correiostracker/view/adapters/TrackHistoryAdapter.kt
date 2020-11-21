@@ -19,7 +19,9 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class TrackHistoryAdapter(private val clickListener: DeleteItemListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
+class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
+                          private val backClickListener: BackButtonListener)
+    : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -46,7 +48,7 @@ class TrackHistoryAdapter(private val clickListener: DeleteItemListener) : ListA
             }
             is TrackDetailHeaderViewHolder -> {
                 val item = getItem(position) as DataItem.Header
-                holder.bind(item.itemWithTracks, clickListener)
+                holder.bind(item.itemWithTracks, deleteClickListener, backClickListener)
             }
         }
     }
@@ -66,9 +68,10 @@ class TrackHistoryAdapter(private val clickListener: DeleteItemListener) : ListA
 
     class TrackDetailHeaderViewHolder private constructor(val binding: ListItemTrackDetailHeaderBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemWithTracks, clickListener: DeleteItemListener) {
+        fun bind(item: ItemWithTracks, clickListener: DeleteItemListener, backClickListener: BackButtonListener) {
             binding.itemWithTracks = item
             binding.clickListener = clickListener
+            binding.backClickListener = backClickListener
             binding.executePendingBindings()
         }
 
@@ -85,13 +88,15 @@ class TrackHistoryAdapter(private val clickListener: DeleteItemListener) : ListA
 
         fun bind(track: TrackWithStatus, isFirstElement: Boolean, isLastElement: Boolean) {
             binding.track = track.track
-            if (isFirstElement || isLastElement)
-                handleIconChange(track, isFirstElement, isLastElement)
+            val isDelivery = track.track.status.contains(
+                    binding.root.context.getString(R.string.delivery_message))
+            if (isFirstElement || isLastElement || isDelivery)
+                handleIconChange(track, isFirstElement, isLastElement, isDelivery)
             binding.executePendingBindings()
         }
 
-        private fun handleIconChange(track: TrackWithStatus,
-                                     firstElement: Boolean, lastElement: Boolean) {
+        private fun handleIconChange(track: TrackWithStatus, firstElement: Boolean,
+                                      lastElement: Boolean, isDelivery: Boolean) {
             if (firstElement) {
                 binding.arrowUp.visibility = View.GONE
                 binding.arrowDown.visibility = View.VISIBLE
@@ -103,6 +108,8 @@ class TrackHistoryAdapter(private val clickListener: DeleteItemListener) : ListA
                 binding.arrowDown.visibility = View.GONE
                 binding.arrowUp.visibility = View.VISIBLE
                 binding.trackIcon.setImageResource(R.drawable.posted)
+            } else if (isDelivery) {
+                binding.trackIcon.setImageResource(R.drawable.delivery_progress)
             }
         }
 
@@ -141,4 +148,8 @@ sealed class DataItem {
 
 class DeleteItemListener(val clickListener: (itemTrack: ItemWithTracks) -> Unit) {
     fun onClick(item: ItemWithTracks) = clickListener(item)
+}
+
+class BackButtonListener(val clickListener: () -> Unit) {
+    fun onClick() = clickListener()
 }

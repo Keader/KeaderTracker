@@ -5,11 +5,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.correiostracker.repository.TrackingRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class TrackDetailViewModel @ViewModelInject constructor(
         private val repository: TrackingRepository) : ViewModel() {
@@ -20,8 +17,10 @@ class TrackDetailViewModel @ViewModelInject constructor(
         repository.getItemWithTracks(trackCode)
     }
 
-    val isArchived = Transformations.map(trackItem) {
-        it.item.isArchived
+    val isArchived = Transformations.map(trackItem) { track ->
+        track?.let {
+            it.item.isArchived
+        }
     }
 
     fun setTrackCode(code: String) {

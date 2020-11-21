@@ -4,19 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="itemWithTracks"
             type="dev.keader.correiostracker.database.ItemWithTracks" />
-
         <variable
             name="clickListener"
             type="dev.keader.correiostracker.view.adapters.DeleteItemListener" />
+        <variable
+            name="backClickListener"
+            type="dev.keader.correiostracker.view.adapters.BackButtonListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="26dp"
+            android:onClick="@{() -> backClickListener.onClick()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
 
         <ImageView
             android:id="@+id/delete_image"
@@ -33,12 +45,12 @@
             android:id="@+id/track_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="@string/track_label"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_back"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
