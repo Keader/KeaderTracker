@@ -1,6 +1,8 @@
 package dev.keader.correiostracker
 
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -34,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigation.visibility = visibility
             binding.floatingActionButton.visibility = visibility
         })
-
     }
 
     fun getSnackInstance(string: String, duration: Int): Snackbar? {

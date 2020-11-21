@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import dagger.hilt.android.HiltAndroidApp
+import dev.keader.correiostracker.firebase.CrashlyticsTree
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.work.RefreshTracksWorker
@@ -20,11 +21,18 @@ class CorreiosTracker : Application(),  Configuration.Provider {
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var repository: TrackingRepository
 
+    // TODO: Adicionar as coisas do firebase
+    // TODO: Adicionar o About
+    // TODO: Adicionar na Google Play
+
     override fun onCreate() {
         super.onCreate()
-        //if (BuildConfig.DEBUG) {
+
+        if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
-        //}
+        else
+            Timber.plant(CrashlyticsTree())
+
         delayedInit()
     }
 
