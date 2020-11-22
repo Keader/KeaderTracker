@@ -82,7 +82,7 @@
             android:layout_marginTop="4dp"
             android:textColor="@color/textGreyColor"
             android:textSize="12sp"
-            android:maxWidth="275dp"
+            android:maxWidth="240dp"
             app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
             app:layout_constraintTop_toBottomOf="@+id/status_label2"
             app:observation="@{track}"
