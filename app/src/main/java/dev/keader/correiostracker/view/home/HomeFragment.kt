@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.TrackingDatabase
@@ -29,6 +30,8 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        binding.homeViewModel = homeViewModel
+
         val adapter = TrackAdapter(ListItemListener { code ->
             homeViewModel.onItemTrackClicked(code)
         })
@@ -44,10 +47,23 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, Observer { code ->
+        homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, { code ->
             code?.let{
                 findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
                 homeViewModel.handleNavigateToTrackDetailFinish()
+            }
+        })
+
+        homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, { clicked ->
+            if (clicked) {
+                MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.authors))
+                        .setMessage(getString(R.string.authors_body))
+                        .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                homeViewModel.onInfoButtonEventFinished()
             }
         })
 

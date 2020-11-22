@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="homeViewModel"
+            type="dev.keader.correiostracker.view.home.HomeViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,6 +64,18 @@
             app:layout_constraintTop_toBottomOf="@+id/delivery_label"
             tools:itemCount="4"
             tools:listitem="@layout/list_item_track" />
+
+        <ImageView
+            android:id="@+id/info_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/icon_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_info"
+            android:onClick="@{() -> homeViewModel.onInfoButtonClicked()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -17,6 +17,18 @@ class HomeViewModel @ViewModelInject constructor (private val repository: Tracki
     val eventNavigateToTrackDetail: LiveData<String>
         get() = _eventNavigateToTrackDetail
 
+    private val _eventOpenInfoDialog = MutableLiveData(false)
+    val eventOpenInfoDialog: LiveData<Boolean>
+        get() = _eventOpenInfoDialog
+
+    fun onInfoButtonClicked() {
+        _eventOpenInfoDialog.value = true
+    }
+
+    fun onInfoButtonEventFinished() {
+        _eventOpenInfoDialog.value = false
+    }
+
     fun onItemTrackClicked(code: String) {
         _eventNavigateToTrackDetail.value = code
     }
