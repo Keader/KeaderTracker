@@ -31,6 +31,7 @@
     <string name="channel_description">Channel used to send notifications about updated tracks</string>
     <string name="notification_body_format">"%1$s: %1$s. /n%1$s"</string>
     <string name="delivery_message">saiu para entrega</string>
+    <string name="firebase_channel">Cloud Messaging Channel</string>
     <plurals name="duration_days">
         <item quantity="one">%1$s dia corrido</item>
         <item quantity="other">%1$s dias corridos</item>

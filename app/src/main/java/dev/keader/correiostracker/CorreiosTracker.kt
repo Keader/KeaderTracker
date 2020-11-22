@@ -21,7 +21,6 @@ class CorreiosTracker : Application(),  Configuration.Provider {
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var repository: TrackingRepository
 
-    // TODO: Adicionar as coisas do firebase
     // TODO: Adicionar o About
     // TODO: Adicionar na Google Play
 
