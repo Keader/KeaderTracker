@@ -3,20 +3,14 @@ package dev.keader.correiostracker.notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.NavDeepLinkBuilder
-import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.view.trackdetail.TrackDetailFragmentArgs
-import dev.keader.correiostracker.view.trackdetail.TrackDetailFragmentDirections
-import java.util.Arrays.asList
 
 class LocalNotification {
     companion object {

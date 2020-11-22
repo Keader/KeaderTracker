@@ -5,7 +5,6 @@ import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.*
 import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
 import timber.log.Timber
