@@ -12,6 +12,18 @@ class UIViewModel @ViewModelInject constructor() : ViewModel() {
     val bottomNavVisibility: LiveData<Int>
         get() = _bottomNavVisibility
 
+    private val _qrCodeResult = MutableLiveData<String?>()
+    val qrCodeResult: LiveData<String?>
+        get() = _qrCodeResult
+
+    fun setQrCode(value: String) {
+        _qrCodeResult.value = value
+    }
+
+    fun finishQrCode() {
+        _qrCodeResult.value = null
+    }
+
     fun setBottomNavVisibility(visibility: Int) {
         _bottomNavVisibility.value = visibility
     }

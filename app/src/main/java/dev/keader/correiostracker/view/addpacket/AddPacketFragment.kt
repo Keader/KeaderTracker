@@ -12,8 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiosapi.Correios
+import dev.keader.correiostracker.CaptureActivity
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
@@ -86,6 +88,21 @@ class AddPacketFragment : Fragment() {
             }
         })
 
+        addPacketViewModel.eventQR.observe(viewLifecycleOwner, { clicked ->
+            if (clicked) {
+                scanQRCode()
+                addPacketViewModel.qRCodeEventFinished()
+            }
+        })
+
+        uiViewModel.qrCodeResult.observe(viewLifecycleOwner, { result ->
+            result?.let { qr ->
+                if (Correios.isValidCode(qr))
+                    binding.trackEditText.setText(qr)
+                uiViewModel.finishQrCode()
+            }
+        })
+
         binding.backImage.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -121,6 +138,16 @@ class AddPacketFragment : Fragment() {
             binding.descriptionEditText.error = null
 
         return !error
+    }
+
+    private fun scanQRCode(){
+        val integrator = IntentIntegrator(activity).apply {
+            captureActivity = CaptureActivity::class.java
+            setOrientationLocked(false)
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+            setPrompt(getString(R.string.qr_read))
+        }
+        integrator.initiateScan()
     }
 
     override fun onDestroyView() {

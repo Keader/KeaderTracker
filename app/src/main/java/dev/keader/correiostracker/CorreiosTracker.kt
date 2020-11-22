@@ -1,6 +1,7 @@
 package dev.keader.correiostracker
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
 import dagger.hilt.android.HiltAndroidApp
@@ -21,9 +22,6 @@ class CorreiosTracker : Application(),  Configuration.Provider {
     @Inject lateinit var workerFactory: HiltWorkerFactory
     @Inject lateinit var repository: TrackingRepository
 
-    // TODO: Adicionar o About
-    // TODO: Adicionar na Google Play
-
     override fun onCreate() {
         super.onCreate()
 
@@ -32,6 +30,8 @@ class CorreiosTracker : Application(),  Configuration.Provider {
         else
             Timber.plant(CrashlyticsTree())
 
+        AppCompatDelegate.setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_NO);
         delayedInit()
     }
 

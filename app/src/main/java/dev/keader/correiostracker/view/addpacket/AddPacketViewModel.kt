@@ -32,9 +32,22 @@ class AddPacketViewModel @ViewModelInject constructor(
     val eventCheckInputs: LiveData<Boolean>
         get() = _eventCheckInputs
 
+    private val _eventQR = MutableLiveData<Boolean>()
+    val eventQR: LiveData<Boolean>
+        get() = _eventQR
+
     init {
         _eventCancelButtonNavigation.value = false
         _eventCheckInputs.value = false
+        _eventQR.value = false
+    }
+
+    fun handleQRButton() {
+        _eventQR.value = true
+    }
+
+    fun qRCodeEventFinished() {
+        _eventQR.value = false
     }
 
     fun handleOKButton() {
