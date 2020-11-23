@@ -88,14 +88,14 @@ class AddPacketFragment : Fragment() {
             }
         })
 
-        addPacketViewModel.eventQR.observe(viewLifecycleOwner, { clicked ->
+        addPacketViewModel.eventQR.observe(viewLifecycleOwner, Observer { clicked ->
             if (clicked) {
                 scanQRCode()
                 addPacketViewModel.qRCodeEventFinished()
             }
         })
 
-        uiViewModel.qrCodeResult.observe(viewLifecycleOwner, { result ->
+        uiViewModel.qrCodeResult.observe(viewLifecycleOwner, Observer { result ->
             result?.let { qr ->
                 if (Correios.isValidCode(qr))
                     binding.trackEditText.setText(qr)
