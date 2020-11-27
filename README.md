@@ -1,7 +1,7 @@
 # KeaderTracker / CorreiosTracker
 ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/united_ss.png)
 
-O aplicativo oficial pode ser encontrado na [PlayStore](https://play.google.com/store/apps/details?id=xxxx) [WIP]
+O aplicativo oficial pode ser encontrado na [PlayStore](https://play.google.com/store/apps/details?id=dev.keader.correiostracker).
 
 ### Por que?
 
