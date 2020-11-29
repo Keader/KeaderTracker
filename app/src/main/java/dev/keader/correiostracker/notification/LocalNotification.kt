@@ -21,7 +21,7 @@ class LocalNotification {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val name = context.getString(R.string.channel_name)
                 val descriptionText = context.getString(R.string.channel_description)
-                val importance = NotificationManager.IMPORTANCE_DEFAULT
+                val importance = NotificationManager.IMPORTANCE_HIGH
                 val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                     description = descriptionText
                 }
@@ -55,7 +55,7 @@ class LocalNotification {
                             setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
                         }
                     }
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
 
@@ -84,7 +84,7 @@ class LocalNotification {
                         val locale = context.getString(R.string.locale_format, "HONG KONG")
                         setStyle(NotificationCompat.BigTextStyle().bigText("$status: $observation.\n$locale"))
                     }
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
 

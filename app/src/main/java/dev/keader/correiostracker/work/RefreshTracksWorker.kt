@@ -49,12 +49,15 @@ class RefreshTracksWorker @WorkerInject constructor(
 
     override suspend fun doWork(): Result {
         Timber.i("Worker updating tracks.")
-        val updateList = repository.refreshTracks()
-        // If has no tracks, cancel worker
-        if (updateList.isEmpty())
+        LocalNotification.sendNotificationTest(applicationContext)
+
+        val result = repository.refreshTracks()
+        // if dont have items in DB to update, stop worker
+        if (!result.hasItemsInDBToUpdate)
             stopWorker(applicationContext)
-        else
-            sendNotifications(updateList, applicationContext)
+        else if (result.updateList.isNotEmpty())
+            sendNotifications(result.updateList, applicationContext)
+
         return Result.success()
     }
 }

@@ -13,4 +13,3 @@ data class Item(
     val updatedAt: String,
     val isArchived: Boolean
 )
-

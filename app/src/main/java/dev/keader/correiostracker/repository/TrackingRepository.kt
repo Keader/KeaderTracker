@@ -59,13 +59,13 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         return database.getItemWithTracks(itemCode)
     }
 
-    suspend fun refreshTracks(): List<ItemWithTracks> {
+    suspend fun refreshTracks(): UpdateItem {
         return withContext(Dispatchers.IO) {
             val notificationList = mutableListOf<ItemWithTracks>()
             val items = database.getAllItemsToRefresh()
 
             if (items.isEmpty())
-                return@withContext notificationList
+                return@withContext UpdateItem(false, notificationList)
 
             for (item in items) {
                 try {
@@ -78,7 +78,12 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                     Timber.e(e.message, e.stackTrace)
                 }
             }
-            return@withContext notificationList
+            return@withContext UpdateItem(true, notificationList)
         }
     }
 }
+
+data class UpdateItem(
+    val hasItemsInDBToUpdate: Boolean,
+    val updateList: List<ItemWithTracks>
+)
