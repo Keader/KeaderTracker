@@ -7,7 +7,10 @@ import androidx.databinding.BindingAdapter
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.Track
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 @BindingAdapter("trackImage")
 fun ImageView.setTrackIcon(item: ItemWithTracks) {
@@ -48,17 +51,17 @@ fun TextView.setTrackLocale(item: ItemWithTracks) {
 
 @BindingAdapter("daysSpend")
 fun TextView.setDaysSpend(item: ItemWithTracks) {
-    val startDate = item.tracks.last().date
-    val lastDate = item.tracks.first().date
-    val dates = SimpleDateFormat("dd/mm/yyyy")
-    val date1 = dates.parse(startDate)
-    val date2 = dates.parse(lastDate)
-    if (date1 == null || date2 == null)
-        return
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val startDate = LocalDate.parse(item.tracks.last().date, formatter)
+    val endDate = LocalDateTime.now()
+    var difference = startDate.until(endDate, ChronoUnit.DAYS)
 
-    val difference: Long = kotlin.math.abs(date1.time - date2.time)
-    val differenceDates = difference / (24 * 60 * 60 * 1000)
-    text = context.resources.getQuantityString(R.plurals.duration_days, differenceDates.toInt(), differenceDates.toString())
+    if(item.item.isDelivered) {
+        val deliveryDate = LocalDate.parse(item.tracks.first().date, formatter)
+        difference = startDate.until(deliveryDate, ChronoUnit.DAYS)
+    }
+
+    text = context.resources.getQuantityString(R.plurals.duration_days, difference.toInt(), difference.toString())
 }
 
 @BindingAdapter("observation")
