@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
@@ -32,10 +33,10 @@ class LocalNotification {
         }
 
         fun sendNotification(context: Context, item: ItemWithTracks) {
-            val args = Bundle().apply { putString("trackCode", item.item.code) }
+            val args = bundleOf("trackCode" to item.item.code)
             val pendingIntent = NavDeepLinkBuilder(context)
                     .setGraph(R.navigation.nav_graph)
-                    .setDestination(R.id.action_global_trackDetailFragment)
+                    .setDestination(R.id.trackDetailFragment)
                     .setArguments(args)
                     .createPendingIntent()
 

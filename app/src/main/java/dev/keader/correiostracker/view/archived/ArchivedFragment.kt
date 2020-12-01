@@ -13,6 +13,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
+import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
 class ArchivedFragment : Fragment() {
@@ -33,7 +34,9 @@ class ArchivedFragment : Fragment() {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
-                adapter.submitList(it)
+                val dates = SimpleDateFormat("dd/mm/yyyy")
+                val list = it.sortedBy { item ->dates.parse(item.tracks.first().date)?.time }
+                adapter.submitList(list)
                 showRecyclerView()
             }
         })
