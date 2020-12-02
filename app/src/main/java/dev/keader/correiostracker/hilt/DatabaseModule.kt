@@ -11,7 +11,7 @@ import dev.keader.correiostracker.database.TrackingDatabase
 import javax.inject.Singleton
 
 @Module
-    @InstallIn(SingletonComponent::class)
+@InstallIn(SingletonComponent::class)
 object DatabaseModule {
     @Provides
     @Singleton
