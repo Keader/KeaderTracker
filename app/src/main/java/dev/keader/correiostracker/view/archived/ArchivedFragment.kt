@@ -36,7 +36,7 @@ class ArchivedFragment : Fragment() {
             } else {
                 val dates = SimpleDateFormat("dd/mm/yyyy")
                 val list = it.sortedBy { item ->dates.parse(item.tracks.first().date)?.time }
-                adapter.submitList(list)
+                adapter.addHeaderAndSubmitList(list)
                 showRecyclerView()
             }
         })

@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
+import dev.keader.correiostracker.view.adapters.InfoButtonListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import java.text.SimpleDateFormat
@@ -27,10 +28,10 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        binding.homeViewModel = homeViewModel
-
         val adapter = TrackAdapter(ListItemListener { code ->
             homeViewModel.onItemTrackClicked(code)
+        }, InfoButtonListener {
+            homeViewModel.onInfoButtonClicked()
         })
 
         binding.deliveryList.adapter = adapter
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
             } else {
                 val dates = SimpleDateFormat("dd/mm/yyyy")
                 val list = it.sortedBy { item ->dates.parse(item.tracks.first().date)?.time }
-                adapter.submitList(list)
+                adapter.addHeaderAndSubmitList(list)
                 showRecyclerView()
             }
         })
@@ -70,16 +71,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun showEmptyList() {
-        binding.deliveryAnim.visibility = View.GONE
         binding.deliveryList.visibility = View.GONE
-        binding.deliveryLabel.visibility = View.GONE
         binding.emptyList.root.visibility = View.VISIBLE
     }
 
     private fun showRecyclerView() {
-        binding.deliveryAnim.visibility = View.VISIBLE
         binding.deliveryList.visibility = View.VISIBLE
-        binding.deliveryLabel.visibility = View.VISIBLE
         binding.emptyList.root.visibility = View.GONE
     }
 

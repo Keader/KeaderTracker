@@ -6,21 +6,79 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
+import dev.keader.correiostracker.databinding.ListItemTrackHeaderBinding
+import dev.keader.correiostracker.view.home.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+private const val ITEM_VIEW_TYPE_HEADER = 0
+private const val ITEM_VIEW_TYPE_ITEM = 1
+private const val HEADER_ID = "HEADER"
 
-class TrackAdapter(val clickListener: ListItemListener) : ListAdapter<ItemWithTracks, TrackAdapter.ViewHolder>(ItemWitchTracksDiffCallback()) {
+class TrackAdapter(private val itemClickListener: ListItemListener,
+                   private val infoButtonListener: InfoButtonListener? = null) : ListAdapter<TrackData, RecyclerView.ViewHolder>(ItemWitchTracksDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ITEM_VIEW_TYPE_HEADER -> TrackHeaderViewHolder.from(parent)
+            ITEM_VIEW_TYPE_ITEM -> TrackViewHolder.from(parent)
+            else -> throw ClassCastException("Unknown viewType $viewType")
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(clickListener, item)
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is TrackData.Header -> ITEM_VIEW_TYPE_HEADER
+            is TrackData.ItemWithTracksItem -> ITEM_VIEW_TYPE_ITEM
+        }
     }
 
-    class ViewHolder private constructor(val binding: ListItemTrackBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun addHeaderAndSubmitList(items: List<ItemWithTracks>) {
+        adapterScope.launch {
+            val list = mutableListOf<TrackData>()
+            infoButtonListener?.let { list.add(TrackData.Header(HEADER_ID)) }
+            list.addAll(items.map{ TrackData.ItemWithTracksItem(it) })
+            withContext(Dispatchers.Main) {
+                submitList(list)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is TrackViewHolder -> {
+                val item = getItem(position) as TrackData.ItemWithTracksItem
+                holder.bind(itemClickListener, item.item)
+            }
+            is TrackHeaderViewHolder -> {
+                holder.bind(infoButtonListener!!)
+            }
+        }
+    }
+
+    class TrackHeaderViewHolder private constructor(val binding: ListItemTrackHeaderBinding): RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(clickListener: InfoButtonListener) {
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): TrackHeaderViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemTrackHeaderBinding.inflate(layoutInflater, parent, false)
+                return TrackHeaderViewHolder(binding)
+            }
+        }
+    }
+
+    class TrackViewHolder private constructor(val binding: ListItemTrackBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListener: ListItemListener, item: ItemWithTracks) {
             binding.trackItem = item
@@ -29,26 +87,42 @@ class TrackAdapter(val clickListener: ListItemListener) : ListAdapter<ItemWithTr
         }
 
         companion object {
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup): RecyclerView.ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemTrackBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return TrackViewHolder(binding)
             }
         }
     }
 }
 
-class ItemWitchTracksDiffCallback : DiffUtil.ItemCallback<ItemWithTracks>() {
+class ItemWitchTracksDiffCallback : DiffUtil.ItemCallback<TrackData>() {
 
-    override fun areItemsTheSame(oldItem: ItemWithTracks, newItem: ItemWithTracks): Boolean {
-        return oldItem.item.code == newItem.item.code
+    override fun areItemsTheSame(oldItem: TrackData, newItem: TrackData): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: ItemWithTracks, newItem: ItemWithTracks): Boolean {
+    override fun areContentsTheSame(oldItem: TrackData, newItem: TrackData): Boolean {
         return oldItem == newItem
     }
 }
 
 class ListItemListener(val clickListener: (trackCode: String) -> Unit) {
     fun onClick(item: ItemWithTracks) = clickListener(item.item.code)
+}
+
+class InfoButtonListener(val clickListener: () -> Unit) {
+    fun onClick() = clickListener()
+}
+
+sealed class TrackData {
+    data class ItemWithTracksItem(val item: ItemWithTracks): TrackData() {
+        override val id = item.item.code
+    }
+
+    data class Header(val myId: String): TrackData() {
+        override val id = myId
+    }
+
+    abstract val id: String
 }
