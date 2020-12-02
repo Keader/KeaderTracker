@@ -11,7 +11,7 @@
     <string name="track">Rastrear</string>
     <string name="track_label">Rastreio</string>
     <string name="history">Histórico</string>
-    <string name="archived">Arquivados</string>
+    <string name="archived">Entregues</string>
     <string name="add_code_error_message">Este não é um código de rastreamento válido.</string>
     <string name="add_description_error_code">É preciso digitar uma descrição para o produto.</string>
     <string name="add_product_error_message">Por favor preencha todos os campos corretamente e tente novamente.</string>
@@ -23,8 +23,8 @@
     <string name="last_update_format">Última atualização em %1$s</string>
     <string name="locale_format">Em %1$s</string>
     <string name="notification_format">%1$s possui uma nova atualização.</string>
-    <string name="archived_success">Rastreio arquivado com sucesso.</string>
-    <string name="unarchive_success">Rastreio desarquivado com sucesso.</string>
+    <string name="archived_success">Rastreio movido para entregues com sucesso.</string>
+    <string name="unarchive_success">Rastreio movido para aguardando entrega com sucesso.</string>
     <string name="track_deleted">Item deletado com sucesso.</string>
     <string name="tracking_product">Rastreando produto...</string>
     <string name="channel_name">Track Update Channel</string>

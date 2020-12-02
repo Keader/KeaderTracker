@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/history_list"
             android:onClick="@{(view) -> trackDetailViewModel.onFloatButtonPressed(view)}"
-            app:srcCompat="@drawable/ic_archived" />
+            app:srcCompat="@drawable/ic_delivered_outline" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

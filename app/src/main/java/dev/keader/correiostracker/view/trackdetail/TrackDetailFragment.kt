@@ -63,11 +63,11 @@ class TrackDetailFragment : Fragment() {
             isArchived?.let {
                 if (isArchived) {
                     binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
-                    binding.floatButton.setImageResource(R.drawable.ic_unarchive)
+                    binding.floatButton.setImageResource(R.drawable.ic_track_delivery)
                     binding.floatButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primaryColor))
                 } else {
                     binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
-                    binding.floatButton.setImageResource(R.drawable.ic_archived)
+                    binding.floatButton.setImageResource(R.drawable.ic_delivered_outline)
                     binding.floatButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                 }
             }

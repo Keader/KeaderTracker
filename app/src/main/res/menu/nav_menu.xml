@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/archivedFragment"
-        android:icon="@drawable/ic_archived"
+        android:icon="@drawable/ic_delivered_outline"
         android:title="Archived" />
 
 </menu>
