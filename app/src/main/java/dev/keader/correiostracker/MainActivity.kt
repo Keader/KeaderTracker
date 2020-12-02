@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getSnackInstance(string: String, duration: Int): Snackbar? {
         return Snackbar.make(binding.root, string, duration)
+                .setAnchorView(binding.bottomNavigation)
     }
 
     private fun setUpNavigation() {

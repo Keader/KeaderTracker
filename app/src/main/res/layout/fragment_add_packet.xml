@@ -82,29 +82,30 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:id="@+id/imageView2"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
+                                android:layout_marginStart="6dp"
                                 android:contentDescription="@string/box_icon_description"
                                 android:src="@drawable/packet"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/track_edit_text"
-                                app:layout_constraintHorizontal_bias="0.47"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <EditText
                                 android:id="@+id/track_edit_text"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
                                 android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:ems="11"
                                 android:hint="@string/track_number"
                                 android:inputType="textCapCharacters"
-                                android:maxLength="13"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/qr_view"
+                                app:layout_constraintStart_toEndOf="@+id/imageView2"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
@@ -138,30 +139,30 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:id="@+id/imageView3"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
+                                android:layout_marginStart="7dp"
                                 android:contentDescription="@string/box_icon_description"
                                 android:src="@drawable/packet2"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/description_edit_text"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <EditText
                                 android:id="@+id/description_edit_text"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
                                 android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:ems="11"
                                 android:hint="@string/description"
                                 android:inputType="textCapWords"
-                                android:maxLength="21"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.41"
-                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/imageView3"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,14 +32,14 @@
         android:id="@+id/action_global_addPacketFragment"
         app:destination="@id/addPacketFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
         app:popExitAnim="@anim/slide_out_right" />
     <action
         android:id="@+id/action_global_trackDetailFragment"
         app:destination="@id/trackDetailFragment"
         app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/fade_out"
-        app:popEnterAnim="@anim/fade_in"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
         app:popExitAnim="@anim/slide_out_right" />
 </navigation>

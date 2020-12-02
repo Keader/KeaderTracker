@@ -42,7 +42,7 @@ class Correios {
             var lines = document.select(".listEvent").select("tr")
             for (line in lines) {
                 var dataLine = line.select("td")
-                var completeDateString = dataLine[0].text()
+                var completeDateString = dataLine[0].text().toUpperCase()
                 var completeStatusString = dataLine[1].html()
                 val splitDate = completeDateString.split(" ")
                 var date = splitDate[0]

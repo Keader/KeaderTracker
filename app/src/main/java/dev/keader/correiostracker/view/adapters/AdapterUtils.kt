@@ -15,8 +15,8 @@ import java.time.temporal.ChronoUnit
 @BindingAdapter("trackImage")
 fun ImageView.setTrackIcon(item: ItemWithTracks) {
     setImageResource(when (item.item.isDelivered) {
-        true -> R.drawable.truck
-        false -> R.drawable.box
+        true -> R.drawable.box2
+        false -> R.drawable.truck2
     })
 }
 
