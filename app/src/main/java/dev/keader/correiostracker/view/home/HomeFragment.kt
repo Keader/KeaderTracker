@@ -12,10 +12,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
-import dev.keader.correiostracker.view.adapters.InfoButtonListener
-import dev.keader.correiostracker.view.adapters.TrackAdapter
-import dev.keader.correiostracker.view.adapters.ListItemListener
-import java.text.SimpleDateFormat
+import dev.keader.correiostracker.view.adapters.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
@@ -40,8 +40,11 @@ class HomeFragment : Fragment() {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
-                val dates = SimpleDateFormat("dd/mm/yyyy")
-                val list = it.sortedBy { item ->dates.parse(item.tracks.first().date)?.time }
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                val list = it.sortedBy { item ->
+                    val localDate = LocalDate.parse(item.item.updatedAt, formatter)
+                    return@sortedBy localDate.until(LocalDate.now(), ChronoUnit.DAYS)
+                }
                 adapter.addHeaderAndSubmitList(list)
                 showRecyclerView()
             }
