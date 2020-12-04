@@ -1,5 +1,8 @@
 package dev.keader.correiostracker.view.addpacket
 
+import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +33,7 @@ class AddPacketFragment : Fragment() {
     private val addPacketViewModel: AddPacketViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
@@ -110,7 +113,7 @@ class AddPacketFragment : Fragment() {
         return binding.root
     }
 
-    fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {
+    private fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {
         val activity = activity
         if (activity is MainActivity)
             return activity.getSnackInstance(string, duration)
@@ -122,7 +125,7 @@ class AddPacketFragment : Fragment() {
         var error = false
 
         // Check code
-        if (!Correios.isValidCode(code.toString())) {
+        if (!Correios.isValidCode(code)) {
             binding.trackEditText.error = getString(R.string.add_code_error_message)
             error = true
         }
@@ -153,5 +156,18 @@ class AddPacketFragment : Fragment() {
     override fun onDestroyView() {
         uiViewModel.setBottomNavVisibility(View.VISIBLE)
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = clipboard.primaryClip
+        clipData?.let {
+            if (clipboard.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN) == true) {
+                val text = clipData.getItemAt(0).text.toString().trim()
+                if (Correios.isValidCode(text))
+                    binding.trackEditText.setText(text)
+            }
+        }
     }
 }
