@@ -51,8 +51,7 @@ class LocalNotification {
                         val observation = lastTrack.observation
                         if (observation.isNotEmpty()) {
                             val locale = context.getString(R.string.locale_format, lastTrack.locale)
-                            val bigTextArgs = arrayOf(lastTrack.status, observation, locale)
-                            val bigText = context.getString(R.string.notification_body_format,*bigTextArgs)
+                            val bigText = context.getString(R.string.notification_body_format,lastTrack.status, observation, locale)
                             setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
                         }
                     }

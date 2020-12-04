@@ -29,7 +29,7 @@
     <string name="tracking_product">Rastreando produto...</string>
     <string name="channel_name">Track Update Channel</string>
     <string name="channel_description">Channel used to send notifications about updated tracks</string>
-    <string name="notification_body_format">"%1$s: %1$s. /n%1$s"</string>
+    <string name="notification_body_format">"%1$s: %2$s.\n%3$s"</string>
     <string name="delivery_message">saiu para entrega</string>
     <string name="firebase_channel">Cloud Messaging Channel</string>
     <string name="icon_info">Icone de informações</string>
