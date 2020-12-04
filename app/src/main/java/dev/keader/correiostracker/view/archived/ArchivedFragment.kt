@@ -13,7 +13,9 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 @AndroidEntryPoint
 class ArchivedFragment : Fragment() {
@@ -22,7 +24,7 @@ class ArchivedFragment : Fragment() {
     private lateinit var binding: FragmentArchivedBinding
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?,
-                               savedInstanceState: Bundle?): View? {
+                               savedInstanceState: Bundle?): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_archived, container, false)
 
@@ -34,8 +36,11 @@ class ArchivedFragment : Fragment() {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
-                val dates = SimpleDateFormat("dd/mm/yyyy")
-                val list = it.sortedBy { item ->dates.parse(item.tracks.first().date)?.time }
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                val list = it.sortedBy { item ->
+                    val localDate = LocalDate.parse(item.item.updatedAt, formatter)
+                    return@sortedBy localDate.until(LocalDate.now(), ChronoUnit.DAYS)
+                }
                 adapter.addHeaderAndSubmitList(list)
                 showRecyclerView()
             }

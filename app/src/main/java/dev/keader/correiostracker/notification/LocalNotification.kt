@@ -15,8 +15,8 @@ import dev.keader.correiostracker.database.ItemWithTracks
 
 class LocalNotification {
     companion object {
-        private val CHANNEL_ID = "track_update_channel"
-        private val NOTIFICATION_ID = 768
+        private const val CHANNEL_ID = "track_update_channel"
+        private const val NOTIFICATION_ID = 768
 
         fun createNotificationChannel(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

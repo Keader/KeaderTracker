@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
 
-class ArchivedViewModel @ViewModelInject constructor (private val repository: TrackingRepository) : ViewModel() {
+class ArchivedViewModel @ViewModelInject constructor (repository: TrackingRepository) : ViewModel() {
 
     val tracks = repository.getAllArchivedItemsWithTracks()
 

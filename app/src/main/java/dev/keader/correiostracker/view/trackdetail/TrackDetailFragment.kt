@@ -33,7 +33,7 @@ class TrackDetailFragment : Fragment() {
     private val uiViewModel: UIViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         val binding = DataBindingUtil.inflate<FragmentTrackDetailBinding>(inflater,
                 R.layout.fragment_track_detail, container, false)
