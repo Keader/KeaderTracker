@@ -1,15 +1,15 @@
 package dev.keader.correiostracker.view.adapters
 
+import android.content.res.Resources
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
 import dev.keader.correiostracker.databinding.ListItemTrackHeaderBinding
-import dev.keader.correiostracker.view.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,6 +73,10 @@ class TrackAdapter(private val itemClickListener: ListItemListener,
             fun from(parent: ViewGroup): TrackHeaderViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemTrackHeaderBinding.inflate(layoutInflater, parent, false)
+                val displayMetrics = Resources.getSystem().displayMetrics
+                // Remove animation, in 720p devices :/
+                if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300)
+                    binding.deliveryAnim.visibility = View.GONE
                 return TrackHeaderViewHolder(binding)
             }
         }
