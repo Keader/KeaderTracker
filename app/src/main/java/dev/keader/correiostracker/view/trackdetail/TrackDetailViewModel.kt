@@ -9,7 +9,7 @@ import dev.keader.correiostracker.repository.TrackingRepository
 import kotlinx.coroutines.launch
 
 class TrackDetailViewModel @ViewModelInject constructor(
-        private val repository: TrackingRepository) : ViewModel() {
+    private val repository: TrackingRepository) : ViewModel() {
 
     val trackCode = MutableLiveData<String>()
 
@@ -32,6 +32,7 @@ class TrackDetailViewModel @ViewModelInject constructor(
     }
 
     private val _eventFloatButton = MutableLiveData<Boolean?>()
+
     // if true is archive, if false is unArchive
     val eventFloatButton: LiveData<Boolean?>
         get() = _eventFloatButton
@@ -52,7 +53,7 @@ class TrackDetailViewModel @ViewModelInject constructor(
     }
 
     fun onFloatButtonPressed(view: View) {
-        when(view.getTag(R.id.tag_archived)) {
+        when (view.getTag(R.id.tag_archived)) {
             TAG_VALUE_UNARCHIVED -> handleArchiveTrack()
             TAG_VALUE_ARCHIVED -> handleUnArchiveTrack()
         }

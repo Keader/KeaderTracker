@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
 
-class HomeViewModel @ViewModelInject constructor (repository: TrackingRepository) : ViewModel() {
+class HomeViewModel @ViewModelInject constructor(repository: TrackingRepository) : ViewModel() {
 
     val tracks = repository.getAllItemsWithTracks()
 

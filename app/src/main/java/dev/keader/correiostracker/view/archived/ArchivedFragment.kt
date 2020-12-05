@@ -23,12 +23,12 @@ class ArchivedFragment : Fragment() {
     private val archivedViewModel: ArchivedViewModel by viewModels()
     private lateinit var binding: FragmentArchivedBinding
 
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?,
-                               savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_archived, container, false)
 
-        val adapter = TrackAdapter( ListItemListener { code ->
+        val adapter = TrackAdapter(ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
         })
         binding.archivedList.adapter = adapter
@@ -47,7 +47,7 @@ class ArchivedFragment : Fragment() {
         })
 
         archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, { code ->
-            code?.let{
+            code?.let {
                 findNavController().navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
                 archivedViewModel.handleNavigateToTrackDetailFinish()
             }

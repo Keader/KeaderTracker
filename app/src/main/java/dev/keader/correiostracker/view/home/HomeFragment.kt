@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, { code ->
-            code?.let{
+            code?.let {
                 findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
                 homeViewModel.handleNavigateToTrackDetailFinish()
             }
@@ -60,12 +60,12 @@ class HomeFragment : Fragment() {
         homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, { clicked ->
             if (clicked) {
                 MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(getString(R.string.authors))
-                        .setMessage(getString(R.string.authors_body))
-                        .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .show()
+                    .setTitle(getString(R.string.authors))
+                    .setMessage(getString(R.string.authors_body))
+                    .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
                 homeViewModel.onInfoButtonEventFinished()
             }
         })

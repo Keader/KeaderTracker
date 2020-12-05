@@ -56,17 +56,18 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
     fun addHeaderAndSubmitList(item: ItemWithTracks) {
         adapterScope.launch {
             val items = listOf(DataItem.Header(item)) +
-                    item.tracks.map {
-                        DataItem.TrackWithStatusItem(
-                                TrackWithStatus(it, item.item.isDelivered, item.item.isWaitingPost)
-                        )}
+                item.tracks.map {
+                    DataItem.TrackWithStatusItem(
+                        TrackWithStatus(it, item.item.isDelivered, item.item.isWaitingPost)
+                    )
+                }
             withContext(Dispatchers.Main) {
                 submitList(items)
             }
         }
     }
 
-    class TrackDetailHeaderViewHolder private constructor(val binding: ListItemTrackDetailHeaderBinding): RecyclerView.ViewHolder(binding.root) {
+    class TrackDetailHeaderViewHolder private constructor(val binding: ListItemTrackDetailHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ItemWithTracks, clickListener: DeleteItemListener, backClickListener: BackButtonListener) {
             binding.itemWithTracks = item
@@ -89,13 +90,13 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
         fun bind(track: TrackWithStatus, position: Int, size: Int) {
             binding.track = track.track
             val isDelivery = track.track.status.contains(
-                    binding.root.context.getString(R.string.delivery_message))
+                binding.root.context.getString(R.string.delivery_message))
             handleIconChange(track, position, size, isDelivery)
             binding.executePendingBindings()
         }
 
         private fun handleIconChange(track: TrackWithStatus, position: Int,
-                                      size: Int, isDelivery: Boolean) {
+                                     size: Int, isDelivery: Boolean) {
             // We only have Header and 1 element
             if (size == 2) {
                 binding.arrowUp.visibility = View.GONE
@@ -127,8 +128,7 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
                         binding.arrowDown.visibility = View.GONE
                         binding.arrowUp.visibility = View.VISIBLE
                         binding.trackIcon.setImageResource(R.drawable.waiting)
-                    }
-                    else if (position == lastButOne)
+                    } else if (position == lastButOne)
                         binding.trackIcon.setImageResource(R.drawable.posted)
 
                 } else {
@@ -168,11 +168,11 @@ class TrackDiffCallback : DiffUtil.ItemCallback<DataItem>() {
 }
 
 sealed class DataItem {
-    data class TrackWithStatusItem(val track: TrackWithStatus): DataItem() {
+    data class TrackWithStatusItem(val track: TrackWithStatus) : DataItem() {
         override val id = track.track.trackUid
     }
 
-    data class Header(val itemWithTracks: ItemWithTracks): DataItem() {
+    data class Header(val itemWithTracks: ItemWithTracks) : DataItem() {
         override val id = Long.MIN_VALUE
     }
 

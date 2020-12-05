@@ -56,7 +56,7 @@ fun TextView.setDaysSpend(item: ItemWithTracks) {
     val endDate = LocalDateTime.now()
     var difference = startDate.until(endDate, ChronoUnit.DAYS)
 
-    if(item.item.isDelivered) {
+    if (item.item.isDelivered) {
         val deliveryDate = LocalDate.parse(item.tracks.first().date, formatter)
         difference = startDate.until(deliveryDate, ChronoUnit.DAYS)
     }

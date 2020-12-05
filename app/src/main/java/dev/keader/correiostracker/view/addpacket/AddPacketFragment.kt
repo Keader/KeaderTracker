@@ -56,13 +56,12 @@ class AddPacketFragment : Fragment() {
                     addPacketViewModel.handleCheckOK(code, observation)
                     binding.progressBar.visibility = View.VISIBLE
                     getSnack(getString(R.string.tracking_product))
-                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                            ?.show()
-                }
-                else {
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                        ?.show()
+                } else {
                     getSnack(getString(R.string.add_product_error_message))
-                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
-                            ?.show()
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
+                        ?.show()
                     addPacketViewModel.handleCheckFail()
                 }
             }
@@ -75,16 +74,15 @@ class AddPacketFragment : Fragment() {
 
                 if (success) {
                     getSnack(getString(R.string.track_add_success))
-                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
-                            ?.show()
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
+                        ?.show()
 
                     RefreshTracksWorker.startWorker(requireNotNull(activity).application)
                     findNavController().popBackStack()
-                }
-                else {
+                } else {
                     getSnack(getString(R.string.track_add_fail))
-                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
-                            ?.show()
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
+                        ?.show()
                 }
                 addPacketViewModel.handleAddEventFinish()
 
@@ -109,7 +107,7 @@ class AddPacketFragment : Fragment() {
         binding.backImage.setOnClickListener {
             findNavController().popBackStack()
         }
-        
+
         return binding.root
     }
 
@@ -128,22 +126,20 @@ class AddPacketFragment : Fragment() {
         if (!Correios.isValidCode(code)) {
             binding.trackEditText.error = getString(R.string.add_code_error_message)
             error = true
-        }
-        else
+        } else
             binding.trackEditText.error = null
 
         // Check product name
         if (observation.isEmpty()) {
             binding.descriptionEditText.error = getString(R.string.add_description_error_code)
             error = true
-        }
-        else
+        } else
             binding.descriptionEditText.error = null
 
         return !error
     }
 
-    private fun scanQRCode(){
+    private fun scanQRCode() {
         val integrator = IntentIntegrator(activity).apply {
             captureActivity = CaptureActivity::class.java
             setOrientationLocked(false)

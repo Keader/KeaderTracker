@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 
 class AddPacketViewModel @ViewModelInject constructor(
-        private val repository: TrackingRepository) : ViewModel() {
+    private val repository: TrackingRepository) : ViewModel() {
 
     private val _eventCancelButtonNavigation = MutableLiveData<Boolean>()
     val eventCancelButtonNavigation: LiveData<Boolean>

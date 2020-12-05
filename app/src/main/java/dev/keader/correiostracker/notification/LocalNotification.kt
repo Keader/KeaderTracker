@@ -27,7 +27,7 @@ class LocalNotification {
                     description = descriptionText
                 }
                 val notificationManager: NotificationManager =
-                        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.createNotificationChannel(channel)
             }
         }
@@ -35,29 +35,29 @@ class LocalNotification {
         fun sendNotification(context: Context, item: ItemWithTracks) {
             val args = bundleOf("trackCode" to item.item.code)
             val pendingIntent = NavDeepLinkBuilder(context)
-                    .setGraph(R.navigation.nav_graph)
-                    .setDestination(R.id.trackDetailFragment)
-                    .setArguments(args)
-                    .createPendingIntent()
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.trackDetailFragment)
+                .setArguments(args)
+                .createPendingIntent()
 
             val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.delivery_man)
             val lastTrack = item.tracks.first()
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(bitmap)
-                    .setContentTitle(context.getString(R.string.notification_format, item.item.name))
-                    .setContentText(item.tracks.first().status)
-                    .apply {
-                        val observation = lastTrack.observation
-                        if (observation.isNotEmpty()) {
-                            val locale = context.getString(R.string.locale_format, lastTrack.locale)
-                            val bigText = context.getString(R.string.notification_body_format,lastTrack.status, observation, locale)
-                            setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
-                        }
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(bitmap)
+                .setContentTitle(context.getString(R.string.notification_format, item.item.name))
+                .setContentText(item.tracks.first().status)
+                .apply {
+                    val observation = lastTrack.observation
+                    if (observation.isNotEmpty()) {
+                        val locale = context.getString(R.string.locale_format, lastTrack.locale)
+                        val bigText = context.getString(R.string.notification_body_format, lastTrack.status, observation, locale)
+                        setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
                     }
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
+                }
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
 
             with(NotificationManagerCompat.from(context)) {
                 notify(NOTIFICATION_ID, builder.build())
@@ -67,26 +67,26 @@ class LocalNotification {
         fun sendNotificationTest(context: Context) {
             val args = Bundle().apply { putString("trackCode", "lb140562449hk".toUpperCase()) }
             val pendingIntent = NavDeepLinkBuilder(context)
-                    .setGraph(R.navigation.nav_graph)
-                    .setDestination(R.id.trackDetailFragment)
-                    .setArguments(args)
-                    .createPendingIntent()
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.trackDetailFragment)
+                .setArguments(args)
+                .createPendingIntent()
 
             val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.delivery_man)
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(bitmap)
-                    .setContentTitle(context.getString(R.string.notification_format, "PC da China"))
-                    .setContentText("Objeto em trânsito - por favor aguarde")
-                    .apply {
-                        val status = "Objeto em trânsito - por favor aguarde"
-                        val observation = "de País em HONG KONG / para País em Unidade de Tratamento Internacional / BR"
-                        val locale = context.getString(R.string.locale_format, "HONG KONG")
-                        setStyle(NotificationCompat.BigTextStyle().bigText("$status: $observation.\n$locale"))
-                    }
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(bitmap)
+                .setContentTitle(context.getString(R.string.notification_format, "PC da China"))
+                .setContentText("Objeto em trânsito - por favor aguarde")
+                .apply {
+                    val status = "Objeto em trânsito - por favor aguarde"
+                    val observation = "de País em HONG KONG / para País em Unidade de Tratamento Internacional / BR"
+                    val locale = context.getString(R.string.locale_format, "HONG KONG")
+                    setStyle(NotificationCompat.BigTextStyle().bigText("$status: $observation.\n$locale"))
+                }
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
 
             with(NotificationManagerCompat.from(context)) {
                 notify(1, builder.build())

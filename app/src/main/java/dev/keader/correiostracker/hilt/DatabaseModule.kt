@@ -18,11 +18,11 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): TrackingDatabase {
         return Room.databaseBuilder(
-                context.applicationContext,
-                TrackingDatabase::class.java,
-                "correios_tracker_database")
-                .addMigrations(M1TO2)
-                .build()
+            context.applicationContext,
+            TrackingDatabase::class.java,
+            "correios_tracker_database")
+            .addMigrations(M1TO2)
+            .build()
     }
 
     @Provides

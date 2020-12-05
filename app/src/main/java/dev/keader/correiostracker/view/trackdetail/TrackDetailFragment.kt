@@ -36,7 +36,7 @@ class TrackDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
 
         val binding = DataBindingUtil.inflate<FragmentTrackDetailBinding>(inflater,
-                R.layout.fragment_track_detail, container, false)
+            R.layout.fragment_track_detail, container, false)
 
         uiViewModel.setBottomNavVisibility(View.GONE)
 
@@ -77,8 +77,8 @@ class TrackDetailFragment : Fragment() {
             if (eventTriggered) {
                 findNavController().popBackStack()
                 getSnack(getString(R.string.track_deleted))
-                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                        ?.show()
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                    ?.show()
                 trackDetailViewModel.onDeleteButtonComplete()
             }
         })
@@ -87,12 +87,12 @@ class TrackDetailFragment : Fragment() {
             clickedButton?.let { isArchived ->
                 if (isArchived) {
                     getSnack(getString(R.string.archived_success))
-                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                            ?.show()
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                        ?.show()
                 } else {
                     getSnack(getString(R.string.unarchive_success))
-                            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                            ?.show()
+                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                        ?.show()
                     RefreshTracksWorker.startWorker(requireNotNull(activity).application)
                 }
                 findNavController().popBackStack()

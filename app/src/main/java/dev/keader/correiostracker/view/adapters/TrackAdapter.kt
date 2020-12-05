@@ -43,7 +43,7 @@ class TrackAdapter(private val itemClickListener: ListItemListener,
         adapterScope.launch {
             val list = mutableListOf<TrackData>()
             infoButtonListener?.let { list.add(TrackData.Header(HEADER_ID)) }
-            list.addAll(items.map{ TrackData.ItemWithTracksItem(it) })
+            list.addAll(items.map { TrackData.ItemWithTracksItem(it) })
             withContext(Dispatchers.Main) {
                 submitList(list)
             }
@@ -62,7 +62,7 @@ class TrackAdapter(private val itemClickListener: ListItemListener,
         }
     }
 
-    class TrackHeaderViewHolder private constructor(val binding: ListItemTrackHeaderBinding): RecyclerView.ViewHolder(binding.root) {
+    class TrackHeaderViewHolder private constructor(val binding: ListItemTrackHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListener: InfoButtonListener) {
             binding.clickListener = clickListener
@@ -120,11 +120,11 @@ class InfoButtonListener(val clickListener: () -> Unit) {
 }
 
 sealed class TrackData {
-    data class ItemWithTracksItem(val item: ItemWithTracks): TrackData() {
+    data class ItemWithTracksItem(val item: ItemWithTracks) : TrackData() {
         override val id = item.item.code
     }
 
-    data class Header(val myId: String): TrackData() {
+    data class Header(val myId: String) : TrackData() {
         override val id = myId
     }
 
