@@ -84,7 +84,7 @@ class Correios {
             return codeValidation.matches(code.toUpperCase())
         }
 
-        private fun handleWithNotPosted(code: String) : CorreiosItem {
+        private fun handleWithNotPosted(code: String): CorreiosItem {
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm")
             val dateTime = formatter.format(LocalDateTime.now())
             val splitDateTime = dateTime.split(" ")
@@ -96,21 +96,21 @@ class Correios {
     }
 
     data class CorreiosItem(
-            val code: String,
-            val type: String,
-            val tracks: List<CorreiosTrack>,
-            val isDelivered: Boolean,
-            val postedAt: String,
-            val updatedAt: String,
-            val isWaitingPost: Boolean = false,
+        val code: String,
+        val type: String,
+        val tracks: List<CorreiosTrack>,
+        val isDelivered: Boolean,
+        val postedAt: String,
+        val updatedAt: String,
+        val isWaitingPost: Boolean = false,
     )
 
     data class CorreiosTrack(
-            val locale: String,
-            val status: String,
-            val observation: String,
-            val trackedAt: String,
-            val date: String,
-            val time: String
+        val locale: String,
+        val status: String,
+        val observation: String,
+        val trackedAt: String,
+        val date: String,
+        val time: String
     )
 }
