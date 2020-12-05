@@ -121,8 +121,8 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
                 if (track.isWaitingPost) {
                     // if we have waiting post, last element will be waiting post dummy
                     // so we need get last but one item to add posted icon
-                    lastPosition = size - 2
-                    val lastButOne = size - 1
+                    lastPosition = size - 1
+                    val lastButOne = size - 2
 
                     if (position == lastPosition) {
                         binding.arrowDown.visibility = View.GONE
