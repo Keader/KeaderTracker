@@ -44,7 +44,7 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
         when (holder) {
             is TrackDetailItemViewHolder -> {
                 val item = getItem(position) as DataItem.TrackWithStatusItem
-                holder.bind(item.track, item == currentList[1], item == currentList.last())
+                holder.bind(item.track, position, currentList.size)
             }
             is TrackDetailHeaderViewHolder -> {
                 val item = getItem(position) as DataItem.Header
@@ -58,7 +58,7 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
             val items = listOf(DataItem.Header(item)) +
                     item.tracks.map {
                         DataItem.TrackWithStatusItem(
-                                TrackWithStatus(it, item.item.isDelivered)
+                                TrackWithStatus(it, item.item.isDelivered, item.item.isWaitingPost)
                         )}
             withContext(Dispatchers.Main) {
                 submitList(items)
@@ -86,30 +86,63 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
 
     class TrackDetailItemViewHolder private constructor(val binding: ListItemTrackHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(track: TrackWithStatus, isFirstElement: Boolean, isLastElement: Boolean) {
+        fun bind(track: TrackWithStatus, position: Int, size: Int) {
             binding.track = track.track
             val isDelivery = track.track.status.contains(
                     binding.root.context.getString(R.string.delivery_message))
-            if (isFirstElement || isLastElement || isDelivery)
-                handleIconChange(track, isFirstElement, isLastElement, isDelivery)
+            handleIconChange(track, position, size, isDelivery)
             binding.executePendingBindings()
         }
 
-        private fun handleIconChange(track: TrackWithStatus, firstElement: Boolean,
-                                      lastElement: Boolean, isDelivery: Boolean) {
-            if (firstElement) {
+        private fun handleIconChange(track: TrackWithStatus, position: Int,
+                                      size: Int, isDelivery: Boolean) {
+            // We only have Header and 1 element
+            if (size == 2) {
                 binding.arrowUp.visibility = View.GONE
-                binding.arrowDown.visibility = View.VISIBLE
-                if (track.delivered)
-                    binding.trackIcon.setImageResource(R.drawable.delivery_done)
-                else
-                    binding.trackIcon.setImageResource(R.drawable.delivery_truck)
-            } else if (lastElement) {
                 binding.arrowDown.visibility = View.GONE
-                binding.arrowUp.visibility = View.VISIBLE
-                binding.trackIcon.setImageResource(R.drawable.posted)
-            } else if (isDelivery) {
-                binding.trackIcon.setImageResource(R.drawable.delivery_progress)
+                if (track.isWaitingPost)
+                    binding.trackIcon.setImageResource(R.drawable.waiting)
+                else
+                    binding.trackIcon.setImageResource(R.drawable.posted)
+            } else {
+                // First element
+                if (position == 1) {
+                    binding.arrowUp.visibility = View.GONE
+                    binding.arrowDown.visibility = View.VISIBLE
+
+                    if (track.delivered)
+                        binding.trackIcon.setImageResource(R.drawable.delivery_done)
+                    else
+                        binding.trackIcon.setImageResource(R.drawable.delivery_truck)
+                }
+
+                var lastPosition: Int
+                if (track.isWaitingPost) {
+                    // if we have waiting post, last element will be waiting post dummy
+                    // so we need get last but one item to add posted icon
+                    lastPosition = size - 2
+                    val lastButOne = size - 1
+
+                    if (position == lastPosition) {
+                        binding.arrowDown.visibility = View.GONE
+                        binding.arrowUp.visibility = View.VISIBLE
+                        binding.trackIcon.setImageResource(R.drawable.waiting)
+                    }
+                    else if (position == lastButOne)
+                        binding.trackIcon.setImageResource(R.drawable.posted)
+
+                } else {
+                    lastPosition = size - 1
+                    if (position == lastPosition) {
+                        binding.arrowDown.visibility = View.GONE
+                        binding.arrowUp.visibility = View.VISIBLE
+                        binding.trackIcon.setImageResource(R.drawable.posted)
+                    }
+                }
+
+                // It should be handled independent of position
+                if (isDelivery)
+                    binding.trackIcon.setImageResource(R.drawable.delivery_progress)
             }
         }
 

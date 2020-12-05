@@ -5,12 +5,17 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
 import org.jsoup.Jsoup
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-const val BASE_URL: String =
+const val BASE_URL =
     "https://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm"
-const val LOCALE_REGEX: String = "[[A-Z]+\\s*]+/[\\s*[A-Z]+]*"
-const val CODE_VALIDATION_REGEX: String = "^[A-Z]{2}[0-9]{9}[A-Z]{2}"
+const val LOCALE_REGEX = "[[A-Z]+\\s*]+/[\\s*[A-Z]+]*"
+const val CODE_VALIDATION_REGEX = "^[A-Z]{2}[0-9]{9}[A-Z]{2}"
 const val ERROR_MESSAGE = "Não é possível exibir informações para o código informado."
+const val UNKNOWN_LOCATION = "DESCONHECIDO, ZZ"
+const val UNKNOWN_TYPE = "DESCONHECIDO"
+const val STATUS_WAITING = "Aguardando postagem pelo remetente."
 
 class Correios {
     companion object {
@@ -37,9 +42,11 @@ class Correios {
 
             val tracks = mutableListOf<CorreiosTrack>()
             val document = Jsoup.parse(response.body!!.string())
-            if (document.html().contains(ERROR_MESSAGE)) throw IOException("Product not Found")
+            if (document.html().contains(ERROR_MESSAGE)) {
+                return handleWithNotPosted(productCode)
+            }
 
-            var lines = document.select(".listEvent").select("tr")
+            val lines = document.select(".listEvent").select("tr")
             for (line in lines) {
                 var dataLine = line.select("td")
                 var completeDateString = dataLine[0].text().toUpperCase()
@@ -68,7 +75,7 @@ class Correios {
             val typeCode = "${productCode[0]}${productCode[1]}"
             var type = CorreiosUtils.Types[typeCode]?.toUpperCase()
             if (type == null)
-                type = "DESCONHECIDO"
+                type = UNKNOWN_TYPE
 
             return CorreiosItem(productCode, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }
@@ -76,23 +83,34 @@ class Correios {
         fun isValidCode(code: String): Boolean {
             return codeValidation.matches(code.toUpperCase())
         }
+
+        private fun handleWithNotPosted(code: String) : CorreiosItem {
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm")
+            val dateTime = formatter.format(LocalDateTime.now())
+            val splitDateTime = dateTime.split(" ")
+            val date = splitDateTime[0]
+            val time = splitDateTime[1]
+            val tracks = listOf(CorreiosTrack(UNKNOWN_LOCATION, STATUS_WAITING, "", dateTime, date, time))
+            return CorreiosItem(code, UNKNOWN_TYPE, tracks, false, dateTime, dateTime, true)
+        }
     }
 
-data class CorreiosItem(
-    val code: String,
-    val type: String,
-    val tracks: List<Correios.CorreiosTrack>,
-    val isDelivered: Boolean,
-    val postedAt: String,
-    val updatedAt: String,
-)
+    data class CorreiosItem(
+            val code: String,
+            val type: String,
+            val tracks: List<CorreiosTrack>,
+            val isDelivered: Boolean,
+            val postedAt: String,
+            val updatedAt: String,
+            val isWaitingPost: Boolean = false,
+    )
 
-data class CorreiosTrack(
-    val locale: String,
-    val status: String,
-    val observation: String,
-    val trackedAt: String,
-    val date: String,
-    val time: String
-)
+    data class CorreiosTrack(
+            val locale: String,
+            val status: String,
+            val observation: String,
+            val trackedAt: String,
+            val date: String,
+            val time: String
+    )
 }

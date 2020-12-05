@@ -71,6 +71,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                 try {
                     val updatedItem = Correios.getTrack(item.item.code).toItemWithTracks()
                     updatedItem.item.name = item.item.name
+                    updatedItem.item.isWaitingPost = item.item.isWaitingPost
                     if (updatedItem.tracks.size != item.tracks.size)
                         notificationList.add(updatedItem)
                     database.insertItemWithTracks(updatedItem)

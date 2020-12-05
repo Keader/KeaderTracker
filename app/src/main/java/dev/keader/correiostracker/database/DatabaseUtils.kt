@@ -3,7 +3,7 @@ package dev.keader.correiostracker.database
 import dev.keader.correiosapi.Correios
 
 fun Correios.CorreiosItem.toItemWithTracks() : ItemWithTracks {
-    val item = Item(code, "", type, isDelivered, postedAt, updatedAt, false)
+    val item = Item(code, "", type, isDelivered, postedAt, updatedAt, false, isWaitingPost)
     val trackList = mutableListOf<Track>()
 
     tracks.forEach {

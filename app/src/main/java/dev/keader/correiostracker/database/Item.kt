@@ -11,5 +11,6 @@ data class Item(
     val isDelivered: Boolean,
     val postedAt: String,
     val updatedAt: String,
-    val isArchived: Boolean
+    val isArchived: Boolean,
+    var isWaitingPost: Boolean = false
 )
