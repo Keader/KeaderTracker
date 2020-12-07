@@ -1,8 +1,10 @@
 package dev.keader.correiostracker.view.adapters
 
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
@@ -70,4 +72,16 @@ fun TextView.setObservation(track: Track) {
         visibility = View.GONE
     else
         text = track.observation
+}
+
+@BindingAdapter("setLink")
+fun TextView.setLink(track: Track) {
+    if (track.link.isNotEmpty()) {
+        val string = context.getString(R.string.imports)
+        val link = "<a href=\"${track.link}\">${string}</a>"
+        val spannable = HtmlCompat.fromHtml(link,0)
+        movementMethod = LinkMovementMethod.getInstance()
+        text = spannable
+        visibility = View.VISIBLE
+    }
 }

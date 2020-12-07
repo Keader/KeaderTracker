@@ -13,7 +13,8 @@ data class Track(
     val observation: String,
     val trackedAt: String,
     val date: String,
-    val time: String
+    val time: String,
+    val link: String
 )
 
 data class TrackWithStatus(

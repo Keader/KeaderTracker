@@ -37,6 +37,7 @@
     <string name="authors_body">- Criador:\nLucas Nascimento (github.com/Keader)\n- Colaboradores:\nJoão P. Sena (github.com/ForceTower)\nAlberto M. Jr. (github.com/AlbertoJunior)</string>
     <string name="OK">OK</string>
     <string name="qr_read">Coloque em direção ao QR Code</string>
+    <string name="imports">Ir para Minhas Importações</string>
     <plurals name="duration_days">
         <item quantity="one">%1$s dia corrido</item>
         <item quantity="other">%1$s dias corridos</item>

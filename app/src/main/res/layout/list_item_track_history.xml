@@ -14,6 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/imports_link"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/date_label"
+            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintTop_toBottomOf="@+id/locale_label"
+            app:setLink="@{track}"
+            tools:text="Imagine o link aqui"
+            tools:visibility="visible" />
+
         <View
             android:id="@+id/arrow_up"
             android:layout_width="1dp"
@@ -113,7 +129,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             app:cardBackgroundColor="@color/textGreyColor"
             app:cardCornerRadius="60dp"
             app:layout_constraintStart_toStartOf="parent"

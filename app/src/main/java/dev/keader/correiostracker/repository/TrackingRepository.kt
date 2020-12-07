@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException
 import timber.log.Timber
+import java.lang.Exception
 import javax.inject.Inject
 
 class TrackingRepository @Inject constructor(private val database: TrackingDatabaseDAO) {
@@ -43,7 +44,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
     suspend fun getTrackInfoFromAPI(code: String, observation: String): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val itemWithTracks = Correios.getTrack(code).toItemWithTracks()
+                val itemWithTracks = Correios.getTrackFromSite(code).toItemWithTracks()
                 itemWithTracks.item.name = observation
                 database.insertItemWithTracks(itemWithTracks)
                 Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
@@ -69,7 +70,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
 
             for (item in items) {
                 try {
-                    val updatedItem = Correios.getTrack(item.item.code).toItemWithTracks()
+                    val updatedItem = Correios.getTrackFromSite(item.item.code).toItemWithTracks()
                     updatedItem.item.name = item.item.name
                     if (updatedItem.tracks.size != item.tracks.size)
                         notificationList.add(updatedItem)

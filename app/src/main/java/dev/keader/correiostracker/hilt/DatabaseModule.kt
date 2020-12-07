@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.keader.correiostracker.database.M1TO2
+import dev.keader.correiostracker.database.M2TO3
 import dev.keader.correiostracker.database.TrackingDatabase
 import javax.inject.Singleton
 
@@ -22,6 +23,7 @@ object DatabaseModule {
             TrackingDatabase::class.java,
             "correios_tracker_database")
             .addMigrations(M1TO2)
+            .addMigrations(M2TO3)
             .build()
     }
 
