@@ -11,6 +11,6 @@ val M1TO2 = object : Migration(1, 2) {
 
 val M2TO3 = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        database.execSQL("ALTER TABLE Track ADD COLUMN link TEXT NOT NULL")
+        database.execSQL("ALTER TABLE Track ADD COLUMN link TEXT NOT NULL DEFAULT ''")
     }
 }
