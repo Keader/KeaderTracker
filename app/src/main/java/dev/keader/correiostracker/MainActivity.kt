@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getSnackInstance(string: String, duration: Int): Snackbar? {
+    fun getSnackInstance(string: String, duration: Int): Snackbar {
         val snackbar = Snackbar.make(binding.root, string, duration)
         val layoutParams = ActionBar.LayoutParams(snackbar.view.layoutParams)
         layoutParams.gravity = Gravity.TOP

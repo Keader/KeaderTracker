@@ -38,8 +38,23 @@
     <string name="OK">OK</string>
     <string name="qr_read">Coloque em direção ao QR Code</string>
     <string name="imports">Ir para Minhas Importações</string>
+    <string name="move_automatic">Mover automaticamente itens entregues para a aba de completos</string>
+    <string name="back_button_description">Botão voltar</string>
+    <string name="qr_code_description">Botão para leitura de QR Code</string>
+    <string name="cancel_button_description">Botão cancelar</string>
+    <string name="track_button_description">Botão Rastrear</string>
     <plurals name="duration_days">
         <item quantity="one">%1$s dia corrido</item>
         <item quantity="other">%1$s dias corridos</item>
     </plurals>
+    <string-array name="frequency_array">
+        <item>15 Minutos</item>
+        <item>30 Minutos</item>
+        <item>1 Hora</item>
+        <item>2 Horas (default)</item>
+        <item>4 Horas</item>
+        <item>8 Horas</item>
+        <item>12 Horas</item>
+        <item>24 Horas</item>
+    </string-array>
 </resources>

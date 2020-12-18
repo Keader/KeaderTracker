@@ -18,12 +18,24 @@ class HomeViewModel @ViewModelInject constructor(repository: TrackingRepository)
     val eventOpenInfoDialog: LiveData<Boolean>
         get() = _eventOpenInfoDialog
 
+    private val _eventOpenSettingsFragment = MutableLiveData(false)
+    val eventOpenSettingsFragment: LiveData<Boolean>
+        get() = _eventOpenSettingsFragment
+
     fun onInfoButtonClicked() {
         _eventOpenInfoDialog.value = true
     }
 
     fun onInfoButtonEventFinished() {
         _eventOpenInfoDialog.value = false
+    }
+
+    fun onSettingsButtonClicked() {
+        _eventOpenSettingsFragment.value = true
+    }
+
+    fun onSettingsButtonEventFinished() {
+        _eventOpenSettingsFragment.value = false
     }
 
     fun onItemTrackClicked(code: String) {

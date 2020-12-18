@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="addPacketViewModel"
             type="dev.keader.correiostracker.view.addpacket.AddPacketViewModel" />
@@ -17,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/purple_card"
@@ -40,7 +39,8 @@
                         android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_back" />
+                        app:srcCompat="@drawable/ic_back"
+                        android:contentDescription="@string/back_button_description"/>
 
                     <ImageView
                         android:id="@+id/label_pray_for_sedex"
@@ -51,7 +51,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                        app:layout_constraintTop_toBottomOf="@+id/pray_for_sedex_textview" />
 
                     <TextView
                         android:id="@+id/title_label"
@@ -73,7 +73,6 @@
                         android:layout_marginTop="24dp"
                         app:cardCornerRadius="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.51"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/title_label">
 
@@ -113,11 +112,12 @@
                                 android:layout_width="32dp"
                                 android:layout_height="29dp"
                                 android:layout_marginEnd="16dp"
+                                android:onClick="@{()-> addPacketViewModel.handleQRButton()}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                android:onClick="@{()-> addPacketViewModel.handleQRButton()}"
-                                app:srcCompat="@drawable/qr_scan" />
+                                app:srcCompat="@drawable/qr_scan"
+                                android:contentDescription="@string/qr_code_description"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -170,7 +170,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/pray_for_sedex_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -224,7 +224,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/cancel2" />
+                            android:src="@drawable/cancel2"
+                            android:contentDescription="@string/cancel_button_description"/>
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -279,7 +280,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/track" />
+                            android:src="@drawable/track"
+                            android:contentDescription="@string/track_button_description"/>
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView

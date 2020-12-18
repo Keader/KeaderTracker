@@ -30,8 +30,11 @@ class HomeFragment : Fragment() {
 
         val adapter = TrackAdapter(ListItemListener { code ->
             homeViewModel.onItemTrackClicked(code)
-        }, InfoButtonListener {
-            homeViewModel.onInfoButtonClicked()
+        }, HomeScreenButtonListener {
+            when (it) {
+                BUTTON_SETTINGS -> homeViewModel.onSettingsButtonClicked()
+                BUTTON_INFO -> homeViewModel.onInfoButtonClicked()
+            }
         })
 
         binding.deliveryList.adapter = adapter
@@ -67,6 +70,12 @@ class HomeFragment : Fragment() {
                     }
                     .show()
                 homeViewModel.onInfoButtonEventFinished()
+            }
+        })
+
+        homeViewModel.eventOpenSettingsFragment.observe(viewLifecycleOwner, { clicked ->
+            if (clicked) {
+                homeViewModel.onSettingsButtonEventFinished()
             }
         })
 

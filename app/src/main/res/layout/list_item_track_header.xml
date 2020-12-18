@@ -2,11 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    
 
     <data>
+        <import type="dev.keader.correiostracker.view.adapters.TrackAdapterKt"/>
         <variable
             name="clickListener"
-            type="dev.keader.correiostracker.view.adapters.InfoButtonListener" />
+            type="dev.keader.correiostracker.view.adapters.HomeScreenButtonListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,10 +51,22 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/icon_info"
-            android:onClick="@{() -> clickListener.onClick()}"
+            android:onClick="@{() -> clickListener.onButtonClick(TrackAdapterKt.BUTTON_INFO)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/config_icon"
+            app:srcCompat="@drawable/ic_info" />
+
+        <ImageView
+            android:id="@+id/config_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/icon_info"
+            android:onClick="@{() -> clickListener.onButtonClick(TrackAdapterKt.BUTTON_SETTINGS)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_info" />
+            app:srcCompat="@drawable/cog_outline" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
