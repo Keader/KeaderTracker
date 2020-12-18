@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/move_switch"
@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--
+
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="0dp"
@@ -34,11 +34,11 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/move_switch" /> -->
+            app:layout_constraintStart_toEndOf="@+id/interval_label"
+            app:layout_constraintTop_toBottomOf="@+id/move_switch" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/interval_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,16 +49,33 @@
             app:layout_constraintTop_toBottomOf="@+id/move_switch" />
 
         <Button
-            android:id="@+id/outlinedButton"
+            android:id="@+id/cancel_btn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="72dp"
             android:layout_marginTop="32dp"
-            android:text="Outlined button"
-            android:textColor="@color/secondaryTextColor"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Cancelar"
+            android:textColor="@color/primaryColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/confirm_btn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            app:layout_constraintTop_toBottomOf="@+id/interval_label" />
+
+        <Button
+            android:id="@+id/confirm_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="72dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/secondaryColor"
+            android:text="Confirmar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/interval_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

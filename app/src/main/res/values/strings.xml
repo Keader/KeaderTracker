@@ -38,7 +38,7 @@
     <string name="OK">OK</string>
     <string name="qr_read">Coloque em direção ao QR Code</string>
     <string name="imports">Ir para Minhas Importações</string>
-    <string name="move_automatic">Mover automaticamente itens entregues para a aba de completos</string>
+    <string name="move_automatic">Mover automaticamente os itens entregues para a aba Entregues.</string>
     <string name="back_button_description">Botão voltar</string>
     <string name="qr_code_description">Botão para leitura de QR Code</string>
     <string name="cancel_button_description">Botão cancelar</string>
@@ -51,10 +51,11 @@
         <item>15 Minutos</item>
         <item>30 Minutos</item>
         <item>1 Hora</item>
-        <item>2 Horas (default)</item>
+        <item>2 Horas (padrão)</item>
         <item>4 Horas</item>
         <item>8 Horas</item>
         <item>12 Horas</item>
         <item>24 Horas</item>
     </string-array>
+    <string name="preference_frequency">PREF_FREQUENCY</string>
 </resources>

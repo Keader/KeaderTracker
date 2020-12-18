@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.view.adapters.*
+import dev.keader.correiostracker.view.settings.SettingsFragment
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -75,6 +76,8 @@ class HomeFragment : Fragment() {
 
         homeViewModel.eventOpenSettingsFragment.observe(viewLifecycleOwner, { clicked ->
             if (clicked) {
+                val bottomSheetFragment = SettingsFragment()
+                bottomSheetFragment.show(parentFragmentManager, "Settings")
                 homeViewModel.onSettingsButtonEventFinished()
             }
         })
