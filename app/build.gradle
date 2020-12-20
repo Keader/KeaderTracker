@@ -18,8 +18,8 @@ android {
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
-        versionName "1.2.1 Hotfix"
+        versionCode 8
+        versionName "1.2.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -51,8 +51,8 @@ android {
 
 dependencies {
     implementation project(path: ':CorreiosAPI')
-    def room_version = "2.2.5"
-    def nav_version = "2.3.1"
+    def room_version = '2.2.6'
+    def nav_version = '2.3.2'
     def work_version = "2.4.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
