@@ -1,5 +1,8 @@
 package dev.keader.correiostracker.view.trackdetail
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,10 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
+import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
-import dev.keader.correiostracker.view.adapters.BackButtonListener
-import dev.keader.correiostracker.view.adapters.DeleteItemListener
-import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
+import dev.keader.correiostracker.view.adapters.*
 import dev.keader.correiostracker.work.RefreshTracksWorker
 
 const val TAG_VALUE_UNARCHIVED = 0
@@ -31,12 +33,15 @@ class TrackDetailFragment : Fragment() {
 
     private val trackDetailViewModel: TrackDetailViewModel by viewModels()
     private val uiViewModel: UIViewModel by activityViewModels()
+    private lateinit var binding: FragmentTrackDetailBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        val binding = DataBindingUtil.inflate<FragmentTrackDetailBinding>(inflater,
-            R.layout.fragment_track_detail, container, false)
+        binding = DataBindingUtil.inflate<FragmentTrackDetailBinding>(
+            inflater,
+            R.layout.fragment_track_detail, container, false
+        )
 
         uiViewModel.setBottomNavVisibility(View.GONE)
 
@@ -46,11 +51,14 @@ class TrackDetailFragment : Fragment() {
         binding.trackDetailViewModel = trackDetailViewModel
         binding.lifecycleOwner = this
 
-        val adapter = TrackHistoryAdapter(DeleteItemListener { itemWithTracks ->
-            trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
-        }, BackButtonListener {
-            findNavController().popBackStack()
+        val adapter = TrackHistoryAdapter(TrackHistoryButtonListener { itemWithTracks, buttonId ->
+            when (buttonId) {
+                BUTTON_BACK -> findNavController().popBackStack()
+                BUTTON_COPY -> copyTrackCodeAndShowSnack(itemWithTracks)
+                BUTTON_DELETE -> trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
+            }
         })
+
         binding.historyList.adapter = adapter
 
         trackDetailViewModel.trackItem.observe(viewLifecycleOwner, { item ->
@@ -64,11 +72,20 @@ class TrackDetailFragment : Fragment() {
                 if (isArchived) {
                     binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
                     binding.floatButton.setImageResource(R.drawable.ic_track_delivery)
-                    binding.floatButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primaryColor))
+                    binding.floatButton.backgroundTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.primaryColor
+                        )
+                    )
                 } else {
                     binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
                     binding.floatButton.setImageResource(R.drawable.ic_delivered_outline)
-                    binding.floatButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                    binding.floatButton.backgroundTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.secondaryColor
+                        ))
                 }
             }
         })
@@ -103,7 +120,16 @@ class TrackDetailFragment : Fragment() {
         return binding.root
     }
 
-    fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {
+    private fun copyTrackCodeAndShowSnack(itemWithTracks: ItemWithTracks) {
+        val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Product Code", itemWithTracks.item.code)
+        clipboard.setPrimaryClip(clip)
+        getSnack(getString(R.string.copy_success))
+            ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+            ?.show()
+    }
+
+    private fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {
         val activity = activity
         if (activity is MainActivity)
             return activity.getSnackInstance(string, duration)

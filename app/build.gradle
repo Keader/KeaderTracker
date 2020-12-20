@@ -102,6 +102,9 @@ dependencies {
     // QR Code
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
 
+    // Preferences
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+
     // Tests
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

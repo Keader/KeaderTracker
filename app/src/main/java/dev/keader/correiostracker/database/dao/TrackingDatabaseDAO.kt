@@ -33,6 +33,9 @@ interface TrackingDatabaseDAO {
     @Query("UPDATE Item SET isArchived = 0 WHERE code = :code")
     suspend fun unArchiveTrack(code: String)
 
+    @Query("UPDATE Item SET isArchived = 1 WHERE isDelivered = 1" )
+    suspend fun archiveAllDeliveredItems()
+
     @Transaction
     @Query("SELECT * FROM Item WHERE code = :code")
     fun getItemWithTracks(code: String): LiveData<ItemWithTracks>

@@ -85,7 +85,6 @@ class AddPacketFragment : Fragment() {
                         ?.show()
                 }
                 addPacketViewModel.handleAddEventFinish()
-
             }
         })
 

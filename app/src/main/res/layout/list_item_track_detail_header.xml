@@ -4,15 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="dev.keader.correiostracker.view.adapters.TrackHistoryAdapterKt"/>
         <variable
             name="itemWithTracks"
             type="dev.keader.correiostracker.database.ItemWithTracks" />
         <variable
             name="clickListener"
-            type="dev.keader.correiostracker.view.adapters.DeleteItemListener" />
-        <variable
-            name="backClickListener"
-            type="dev.keader.correiostracker.view.adapters.BackButtonListener" />
+            type="dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="26dp"
-            android:onClick="@{() -> backClickListener.onClick()}"
+            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryAdapterKt.BUTTON_BACK)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
@@ -36,10 +34,21 @@
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{() -> clickListener.onClick(itemWithTracks)}"
+            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryAdapterKt.BUTTON_DELETE)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_delete" />
+
+        <ImageView
+            android:id="@+id/copy_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryAdapterKt.BUTTON_COPY)}"
+            app:layout_constraintEnd_toStartOf="@+id/delete_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_copy" />
 
         <TextView
             android:id="@+id/track_label"
@@ -95,7 +104,7 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Cabos Sleeved do PC" />
@@ -111,7 +120,7 @@
                     android:text="@{@string/code_format(itemWithTracks.item.code)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/track_title_label"
                     tools:text="Código PZ909656782BR" />
@@ -125,7 +134,7 @@
                     android:layout_marginEnd="8dp"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/product_code_label"
                     app:trackLocale="@{itemWithTracks}"
@@ -142,7 +151,7 @@
                     android:text="@{@string/posted_format(itemWithTracks.item.postedAt)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/start_locate_label"
                     tools:text="Postado em 13/10/20 13:39" />
@@ -160,13 +169,13 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/posted_at_label"
                     tools:text="Última atualização em 22/10/20 14:11" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/localization_icon"
                     android:layout_width="38dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"

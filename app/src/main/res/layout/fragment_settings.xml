@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="settingsViewModel"
+            type="dev.keader.correiostracker.view.settings.SettingsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,41 +14,41 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/move_switch"
+            android:id="@+id/autosave_switch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:checked="false"
             android:text="@string/move_automatic"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/icon_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/icon_book"
+            app:layout_constraintTop_toTopOf="@+id/icon_book" />
 
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/interval_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/interval_label"
-            app:layout_constraintTop_toBottomOf="@+id/move_switch" />
+            app:layout_constraintTop_toTopOf="@+id/interval_label" />
 
         <TextView
             android:id="@+id/interval_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Intervalo de atualização"
+            android:layout_marginStart="8dp"
+            android:text="@string/update_frequency"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/move_switch" />
+            app:layout_constraintBottom_toBottomOf="@+id/icon_book2"
+            app:layout_constraintStart_toEndOf="@+id/icon_book2"
+            app:layout_constraintTop_toTopOf="@+id/icon_book2" />
 
         <Button
             android:id="@+id/cancel_btn"
@@ -57,7 +59,9 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
-            android:text="Cancelar"
+            android:onClick="@{()-> settingsViewModel.onCancelButtonClicked()}"
+            android:text="@string/cancel"
+            app:strokeColor="@color/primaryColor"
             android:textColor="@color/primaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/confirm_btn"
@@ -68,14 +72,33 @@
             android:id="@+id/confirm_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="72dp"
-            android:layout_marginBottom="8dp"
             android:backgroundTint="@color/secondaryColor"
-            android:text="Confirmar"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{()-> settingsViewModel.onOKButtonClicked()}"
+            android:text="@string/confirm"
+            app:layout_constraintBottom_toBottomOf="@+id/cancel_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interval_label" />
+            app:layout_constraintTop_toTopOf="@+id/cancel_btn" />
+
+        <ImageView
+            android:id="@+id/icon_book"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_book_arrow" />
+
+        <ImageView
+            android:id="@+id/icon_book2"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_book"
+            app:srcCompat="@drawable/ic_clock" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -66,7 +66,7 @@
             android:onClick="@{() -> clickListener.onButtonClick(TrackAdapterKt.BUTTON_SETTINGS)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cog_outline" />
+            app:srcCompat="@drawable/ic_settings" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

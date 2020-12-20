@@ -116,7 +116,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/qr_scan"
+                                app:srcCompat="@drawable/ic_qr_scan"
                                 android:contentDescription="@string/qr_code_description"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>

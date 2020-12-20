@@ -26,6 +26,12 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         }
     }
 
+    suspend fun archiveAllDeliveredItems() {
+        withContext(Dispatchers.IO) {
+            database.archiveAllDeliveredItems()
+        }
+    }
+
     suspend fun deleteTrack(itemWithTracks: ItemWithTracks) {
         withContext(Dispatchers.IO) {
             database.deleteItemWithTracks(itemWithTracks)

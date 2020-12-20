@@ -18,9 +18,11 @@ import kotlinx.coroutines.withContext
 
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
+const val BUTTON_BACK = 1
+const val BUTTON_COPY = 2
+const val BUTTON_DELETE = 3
 
-class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
-                          private val backClickListener: BackButtonListener)
+class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonListener)
     : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -48,7 +50,7 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
             }
             is TrackDetailHeaderViewHolder -> {
                 val item = getItem(position) as DataItem.Header
-                holder.bind(item.itemWithTracks, deleteClickListener, backClickListener)
+                holder.bind(item.itemWithTracks, deleteClickListener)
             }
         }
     }
@@ -69,10 +71,9 @@ class TrackHistoryAdapter(private val deleteClickListener: DeleteItemListener,
 
     class TrackDetailHeaderViewHolder private constructor(val binding: ListItemTrackDetailHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemWithTracks, clickListener: DeleteItemListener, backClickListener: BackButtonListener) {
+        fun bind(item: ItemWithTracks, clickListener: TrackHistoryButtonListener) {
             binding.itemWithTracks = item
             binding.clickListener = clickListener
-            binding.backClickListener = backClickListener
             binding.executePendingBindings()
         }
 
@@ -179,8 +180,8 @@ sealed class DataItem {
     abstract val id: Long
 }
 
-class DeleteItemListener(val clickListener: (itemTrack: ItemWithTracks) -> Unit) {
-    fun onClick(item: ItemWithTracks) = clickListener(item)
+class TrackHistoryButtonListener(val clickListener: (itemTrack: ItemWithTracks, id: Int) -> Unit) {
+    fun onClick(item: ItemWithTracks, id: Int) = clickListener(item, id)
 }
 
 class BackButtonListener(val clickListener: () -> Unit) {
