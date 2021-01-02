@@ -18,8 +18,8 @@ android {
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.2.5"
+        versionCode 9
+        versionName "1.2.6 Settings"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -27,7 +27,6 @@ android {
 
     buildFeatures {
         dataBinding = true
-        // for view binding:
          viewBinding = true
     }
 
