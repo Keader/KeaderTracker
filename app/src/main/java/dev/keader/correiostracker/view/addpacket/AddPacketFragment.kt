@@ -2,6 +2,7 @@ package dev.keader.correiostracker.view.addpacket
 
 import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,8 +54,14 @@ class AddPacketFragment : Fragment() {
                 val observation = binding.descriptionEditText.text.toString()
 
                 if (validateInputs(code, observation)) {
+                    val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
+                    val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), false)
                     addPacketViewModel.handleCheckOK(code, observation)
                     binding.progressBar.visibility = View.VISIBLE
+
+                    if (autoMove)
+                        addPacketViewModel.handleAutoSave(code)
+
                     getSnack(getString(R.string.tracking_product))
                         ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                         ?.show()

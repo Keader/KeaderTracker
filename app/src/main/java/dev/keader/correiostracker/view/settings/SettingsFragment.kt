@@ -32,7 +32,7 @@ class SettingsFragment : BottomSheetDialogFragment() {
         binding.settingsViewModel = settingsViewModel
 
         // Shared Prefs
-        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
         var savedPosition = sharedPref.getInt(getString(R.string.preference_frequency_pos), DEFAULT_SPINNER_POSITION)
         binding.autosaveSwitch.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), false)
 

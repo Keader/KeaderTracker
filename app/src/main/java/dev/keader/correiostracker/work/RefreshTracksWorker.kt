@@ -3,15 +3,12 @@ package dev.keader.correiostracker.work
 import android.content.Context
 import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
-import androidx.preference.PreferenceManager
 import androidx.work.*
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.settings.DEFAULT_FREQUENCY_VALUE
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -22,15 +19,13 @@ class RefreshTracksWorker @WorkerInject constructor(
 
     companion object {
         const val WORK_NAME = "RefreshTracksWorker"
-        private val workerScope = CoroutineScope(Dispatchers.Default)
 
         fun startWorker(context: Context) {
             val constraints = Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
 
-
-            val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+            val sharedPref = context.getSharedPreferences(context.getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
             val frequency = sharedPref.getInt(context.getString(R.string.preference_frequency), DEFAULT_FREQUENCY_VALUE).toLong()
 
             val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(frequency, TimeUnit.MINUTES)
@@ -67,7 +62,7 @@ class RefreshTracksWorker @WorkerInject constructor(
     override suspend fun doWork(): Result {
         Timber.i("Worker updating tracks.")
         val result = repository.refreshTracks()
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val sharedPref = applicationContext.getSharedPreferences(applicationContext.getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
         val autoMove = sharedPref.getBoolean(applicationContext.getString(R.string.preference_automove), false)
         // if dont have items in DB to update, stop worker
         if (!result.hasItemsInDBToUpdate)

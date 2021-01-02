@@ -55,6 +55,7 @@
         <item>4 Horas</item>
         <item>8 Horas</item>
     </string-array>
+    <string name="shared_pref_name">dev.keader.keadertracker.prefs</string>
     <string name="preference_frequency">PREF_FREQUENCY</string>
     <string name="preference_frequency_pos">PREF_FREQUENCY_POS</string>
     <string name="preference_automove">PREF_AUTOMOVE</string>

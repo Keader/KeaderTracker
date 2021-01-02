@@ -20,7 +20,7 @@ class SettingsViewModel @ViewModelInject constructor(
         get() = _eventNavigateOK
 
     fun handleArchiveAllCurrentItems() {
-        this.viewModelScope.launch {
+        viewModelScope.launch {
             repository.archiveAllDeliveredItems()
         }
     }

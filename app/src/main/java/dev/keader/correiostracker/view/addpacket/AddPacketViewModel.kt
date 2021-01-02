@@ -1,6 +1,5 @@
 package dev.keader.correiostracker.view.addpacket
 
-
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.keader.correiostracker.repository.TrackingRepository
 import kotlinx.coroutines.launch
-
 
 class AddPacketViewModel @ViewModelInject constructor(
     private val repository: TrackingRepository) : ViewModel() {
@@ -50,6 +48,12 @@ class AddPacketViewModel @ViewModelInject constructor(
     fun handleCheckOK(code: String, observation: String) {
         _eventCheckInputs.value = false
         getTrackInfo(code, observation)
+    }
+
+    fun handleAutoSave(code: String) {
+        viewModelScope.launch {
+            repository.archiveTrack(code)
+        }
     }
 
     private fun getTrackInfo(code: String, observation: String) {
