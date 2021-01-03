@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="dev.keader.correiostracker.view.adapters.TrackHistoryAdapterKt"/>
+
+        <import type="dev.keader.correiostracker.view.adapters.TrackHistoryAdapterKt" />
+
         <variable
             name="itemWithTracks"
             type="dev.keader.correiostracker.database.ItemWithTracks" />
+
         <variable
             name="clickListener"
             type="dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener" />
@@ -18,40 +21,43 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image_back"
+            android:id="@+id/icon_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="26dp"
+            android:contentDescription="@string/back_icon_description"
             android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryAdapterKt.BUTTON_BACK)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
 
         <ImageView
-            android:id="@+id/delete_image"
+            android:id="@+id/icon_delete"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/delete_icon_description"
             android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryAdapterKt.BUTTON_DELETE)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_delete" />
 
         <ImageView
-            android:id="@+id/copy_image"
+            android:id="@+id/icon_copy"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
+            android:contentDescription="@string/copy_icon_description"
             android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryAdapterKt.BUTTON_COPY)}"
-            app:layout_constraintEnd_toStartOf="@+id/delete_image"
+            app:layout_constraintEnd_toStartOf="@+id/icon_delete"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_copy" />
 
         <TextView
-            android:id="@+id/track_label"
+            android:id="@+id/label_track"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -59,11 +65,11 @@
             android:text="@string/track_label"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/image_back"
+            app:layout_constraintStart_toEndOf="@+id/icon_back"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/history_label"
+            android:id="@+id/label_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -74,10 +80,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/purple_card" />
+            app:layout_constraintTop_toBottomOf="@+id/card_purple" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/purple_card"
+            android:id="@+id/card_purple"
             android:layout_width="333dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -87,14 +93,14 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/track_label">
+            app:layout_constraintTop_toBottomOf="@+id/label_track">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/track_title_label"
+                    android:id="@+id/label_track_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -104,13 +110,13 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Cabos Sleeved do PC" />
 
                 <TextView
-                    android:id="@+id/product_code_label"
+                    android:id="@+id/label_product_code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -120,13 +126,13 @@
                     android:text="@{@string/code_format(itemWithTracks.item.code)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/track_title_label"
+                    app:layout_constraintTop_toBottomOf="@+id/label_track_title"
                     tools:text="Código PZ909656782BR" />
 
                 <TextView
-                    android:id="@+id/start_locate_label"
+                    android:id="@+id/label_start_locate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -134,14 +140,14 @@
                     android:layout_marginEnd="8dp"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/product_code_label"
+                    app:layout_constraintTop_toBottomOf="@+id/label_product_code"
                     app:trackLocale="@{itemWithTracks}"
                     tools:text="NITEROI, RJ" />
 
                 <TextView
-                    android:id="@+id/posted_at_label"
+                    android:id="@+id/label_posted_at"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -151,13 +157,13 @@
                     android:text="@{@string/posted_format(itemWithTracks.item.postedAt)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/start_locate_label"
+                    app:layout_constraintTop_toBottomOf="@+id/label_start_locate"
                     tools:text="Postado em 13/10/20 13:39" />
 
                 <TextView
-                    android:id="@+id/last_update_label"
+                    android:id="@+id/label_last_update"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
@@ -169,23 +175,22 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/localization_icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/posted_at_label"
+                    app:layout_constraintTop_toBottomOf="@+id/label_posted_at"
                     tools:text="Última atualização em 22/10/20 14:11" />
 
                 <ImageView
-                    android:id="@+id/localization_icon"
+                    android:id="@+id/icon_localization"
                     android:layout_width="38dp"
                     android:layout_height="42dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
+                    android:contentDescription="@string/localization_icon_description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_location" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

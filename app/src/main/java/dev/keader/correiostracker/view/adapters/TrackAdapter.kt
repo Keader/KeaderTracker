@@ -70,7 +70,7 @@ class TrackAdapter(private val itemClickListener: ListItemListener,
                 val displayMetrics = Resources.getSystem().displayMetrics
                 // Remove animation, in 720p devices :/
                 if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300)
-                    binding.deliveryAnim.visibility = View.GONE
+                    binding.animDelivery.visibility = View.GONE
                 return TrackHeaderViewHolder(binding)
             }
         }

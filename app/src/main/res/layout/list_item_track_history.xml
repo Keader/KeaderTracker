@@ -24,7 +24,7 @@
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
             app:layout_constraintTop_toBottomOf="@+id/locale_label"
             app:setLink="@{track}"
             tools:text="Imagine o link aqui"
@@ -35,9 +35,9 @@
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:background="@color/textGreyColor"
-            app:layout_constraintBottom_toTopOf="@+id/rounded_cardview"
-            app:layout_constraintEnd_toEndOf="@+id/rounded_cardview"
-            app:layout_constraintStart_toStartOf="@+id/rounded_cardview"
+            app:layout_constraintBottom_toTopOf="@+id/card_circle_tracking"
+            app:layout_constraintEnd_toEndOf="@+id/card_circle_tracking"
+            app:layout_constraintStart_toStartOf="@+id/card_circle_tracking"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
@@ -47,9 +47,9 @@
             android:layout_height="0dp"
             android:background="@color/textGreyColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/rounded_cardview"
-            app:layout_constraintStart_toStartOf="@+id/rounded_cardview"
-            app:layout_constraintTop_toBottomOf="@+id/rounded_cardview" />
+            app:layout_constraintEnd_toEndOf="@+id/card_circle_tracking"
+            app:layout_constraintStart_toStartOf="@+id/card_circle_tracking"
+            app:layout_constraintTop_toBottomOf="@+id/card_circle_tracking" />
 
         <TextView
             android:id="@+id/status_label2"
@@ -62,7 +62,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Objeto em trânsito - por favor aguarde" />
 
@@ -102,7 +102,7 @@
             android:textColor="@color/textGreyColor"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
             app:layout_constraintTop_toBottomOf="@+id/status_label2"
             app:observation="@{track}"
             tools:text="para Salvador - CEASA, SALVADOR/BA" />
@@ -118,12 +118,12 @@
             android:textColor="@color/textGreyColor"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/rounded_cardview"
+            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
             app:layout_constraintTop_toBottomOf="@+id/observation_label"
             tools:text="Em de FEIRA DE SANTANA / BA" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/rounded_cardview"
+            android:id="@+id/card_circle_tracking"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_centerHorizontal="true"

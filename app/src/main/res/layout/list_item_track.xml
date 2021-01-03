@@ -44,7 +44,7 @@
                 tools:srcCompat="@drawable/box" />
 
             <TextView
-                android:id="@+id/date_list"
+                android:id="@+id/label_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/icon_list"
@@ -58,7 +58,7 @@
                 tools:text="31/10/20" />
 
             <TextView
-                android:id="@+id/days_spend_list"
+                android:id="@+id/label_days_spend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/icon_list"
@@ -72,20 +72,20 @@
                 tools:text="15 dias corridos" />
 
             <TextView
-                android:id="@+id/hour_list"
+                android:id="@+id/label_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/icon_list"
                 android:textColor="@color/textGreyColor"
                 android:textSize="8sp"
-                app:layout_constraintEnd_toEndOf="@+id/date_list"
-                app:layout_constraintStart_toStartOf="@+id/date_list"
-                app:layout_constraintTop_toBottomOf="@+id/date_list"
+                app:layout_constraintEnd_toEndOf="@+id/label_date"
+                app:layout_constraintStart_toStartOf="@+id/label_date"
+                app:layout_constraintTop_toBottomOf="@+id/label_date"
                 app:trackTimeText="@{trackItem}"
                 tools:text="08:52" />
 
             <TextView
-                android:id="@+id/title_list"
+                android:id="@+id/label_title_track_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -94,14 +94,14 @@
                 android:textColor="@color/primaryColor"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/days_spend_list"
+                app:layout_constraintEnd_toStartOf="@+id/label_days_spend"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Cabos PC" />
 
             <TextView
-                android:id="@+id/code_list"
+                android:id="@+id/label_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -109,13 +109,13 @@
                 android:textColor="@color/textGreyColor"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/title_list"
+                app:layout_constraintEnd_toEndOf="@+id/label_title_track_item"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/title_list"
+                app:layout_constraintTop_toBottomOf="@+id/label_title_track_item"
                 tools:text="PZ909656782BR" />
 
             <TextView
-                android:id="@+id/status_list"
+                android:id="@+id/label_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -125,12 +125,12 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/code_list"
+                app:layout_constraintTop_toBottomOf="@+id/label_code"
                 app:trackStatus="@{trackItem}"
                 tools:text="Objeto recebido pelos Correios do Brasil" />
 
             <TextView
-                android:id="@+id/observation_list"
+                android:id="@+id/label_observation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -140,12 +140,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/status_list"
+                app:layout_constraintTop_toBottomOf="@+id/label_status"
                 app:trackObservation="@{trackItem}"
                 tools:text="UNIDADE INTERNACIONAL CURITIBA" />
 
             <TextView
-                android:id="@+id/locale_list"
+                android:id="@+id/label_locale"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -154,7 +154,7 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/observation_list"
+                app:layout_constraintTop_toBottomOf="@+id/label_observation"
                 app:trackLocale="@{trackItem}"
                 tools:text="NITEROI / RJ" />
 

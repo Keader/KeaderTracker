@@ -59,7 +59,7 @@ class TrackDetailFragment : Fragment() {
             }
         })
 
-        binding.historyList.adapter = adapter
+        binding.recyclerViewHistory.adapter = adapter
 
         trackDetailViewModel.trackItem.observe(viewLifecycleOwner, { item ->
             item?.let {
@@ -70,18 +70,18 @@ class TrackDetailFragment : Fragment() {
         trackDetailViewModel.isArchived.observe(viewLifecycleOwner, { isArchived ->
             isArchived?.let {
                 if (isArchived) {
-                    binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
-                    binding.floatButton.setImageResource(R.drawable.ic_track_delivery)
-                    binding.floatButton.backgroundTintList = ColorStateList.valueOf(
+                    binding.floatButtonArchive.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
+                    binding.floatButtonArchive.setImageResource(R.drawable.ic_track_delivery)
+                    binding.floatButtonArchive.backgroundTintList = ColorStateList.valueOf(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.primaryColor
                         )
                     )
                 } else {
-                    binding.floatButton.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
-                    binding.floatButton.setImageResource(R.drawable.ic_delivered_outline)
-                    binding.floatButton.backgroundTintList = ColorStateList.valueOf(
+                    binding.floatButtonArchive.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
+                    binding.floatButtonArchive.setImageResource(R.drawable.ic_delivered_outline)
+                    binding.floatButtonArchive.backgroundTintList = ColorStateList.valueOf(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.secondaryColor

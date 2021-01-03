@@ -9,7 +9,7 @@
         tools:context=".archived.ArchivedFragment">
 
         <TextView
-            android:id="@+id/archived_label"
+            android:id="@+id/label_delivered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/empty_list_archived"
+            android:id="@+id/recyclerView_empty_delivered"
             layout="@layout/empty_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/archived_list"
+            android:id="@+id/recyclerView_delivered"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/archived_label"
+            app:layout_constraintTop_toBottomOf="@+id/label_delivered"
             tools:listitem="@layout/list_item_track" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

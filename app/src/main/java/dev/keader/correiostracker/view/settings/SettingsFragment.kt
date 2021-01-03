@@ -34,7 +34,7 @@ class SettingsFragment : BottomSheetDialogFragment() {
         // Shared Prefs
         val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
         var savedPosition = sharedPref.getInt(getString(R.string.preference_frequency_pos), DEFAULT_SPINNER_POSITION)
-        binding.autosaveSwitch.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), false)
+        binding.switchAutosave.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), false)
 
         // Configure Spinner
         val spinnerAdapter = ArrayAdapter.createFromResource(
@@ -42,8 +42,8 @@ class SettingsFragment : BottomSheetDialogFragment() {
                 R.array.frequency_array,
                 android.R.layout.simple_spinner_item)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinner.adapter = spinnerAdapter
-        binding.spinner.setSelection(savedPosition)
+        binding.spinnerFrequency.adapter = spinnerAdapter
+        binding.spinnerFrequency.setSelection(savedPosition)
 
         // Events
         settingsViewModel.eventNavigateBack.observe(viewLifecycleOwner, { clicked ->
@@ -56,8 +56,8 @@ class SettingsFragment : BottomSheetDialogFragment() {
         settingsViewModel.eventNavigateOK.observe(viewLifecycleOwner, { clicked ->
             if (clicked) {
                 val sharedEdit = sharedPref.edit()
-                val autoMove = binding.autosaveSwitch.isChecked
-                val position = binding.spinner.selectedItemPosition
+                val autoMove = binding.switchAutosave.isChecked
+                val position = binding.spinnerFrequency.selectedItemPosition
                 val frequency = when (position) {
                     0 -> 15
                     1 -> 30

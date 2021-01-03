@@ -9,7 +9,7 @@
         tools:context=".home.HomeFragment">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/delivery_anim"
+            android:id="@+id/anim_delivery"
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
             app:lottie_rawRes="@raw/delivery" />
 
         <TextView
-            android:id="@+id/delivery_label"
+            android:id="@+id/label_delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -34,7 +34,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/delivery_anim" />
+            app:layout_constraintTop_toBottomOf="@+id/anim_delivery" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

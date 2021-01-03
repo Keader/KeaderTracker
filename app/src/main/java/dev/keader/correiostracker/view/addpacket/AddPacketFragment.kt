@@ -110,7 +110,7 @@ class AddPacketFragment : Fragment() {
             }
         })
 
-        binding.backImage.setOnClickListener {
+        binding.iconBackAdd.setOnClickListener {
             findNavController().popBackStack()
         }
 

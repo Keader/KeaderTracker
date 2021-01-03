@@ -42,7 +42,7 @@
             app:srcCompat="@drawable/ic_settings" />
 
         <include
-            android:id="@+id/empty_list"
+            android:id="@+id/recylerView_empty"
             layout="@layout/empty_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/delivery_list"
+            android:id="@+id/recyclerView_delivery"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clipToPadding="false"

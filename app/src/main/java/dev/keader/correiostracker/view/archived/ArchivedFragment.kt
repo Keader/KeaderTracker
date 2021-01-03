@@ -31,7 +31,8 @@ class ArchivedFragment : Fragment() {
         val adapter = TrackAdapter(ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
         }, false)
-        binding.archivedList.adapter = adapter
+
+        binding.recyclerViewDelivered.adapter = adapter
         archivedViewModel.tracks.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 showEmptyList()
@@ -57,12 +58,12 @@ class ArchivedFragment : Fragment() {
     }
 
     private fun showEmptyList() {
-        binding.emptyListArchived.root.visibility = View.VISIBLE
-        binding.archivedList.visibility = View.GONE
+        binding.recyclerViewEmptyDelivered.root.visibility = View.VISIBLE
+        binding.recyclerViewDelivered.visibility = View.GONE
     }
 
     private fun showRecyclerView() {
-        binding.emptyListArchived.root.visibility = View.GONE
-        binding.archivedList.visibility = View.VISIBLE
+        binding.recyclerViewEmptyDelivered.root.visibility = View.GONE
+        binding.recyclerViewDelivered.visibility = View.VISIBLE
     }
 }

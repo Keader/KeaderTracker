@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/purple_card"
+                android:id="@+id/card_purple"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:cardBackgroundColor="@color/primaryColor"
@@ -33,7 +33,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/back_image"
+                        android:id="@+id/icon_back_add"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -43,7 +43,7 @@
                         android:contentDescription="@string/back_button_description"/>
 
                     <ImageView
-                        android:id="@+id/label_pray_for_sedex"
+                        android:id="@+id/icon_pray_for_sedex"
                         android:layout_width="241dp"
                         android:layout_height="193dp"
                         android:contentDescription="@string/box_icon_description"
@@ -51,10 +51,10 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/pray_for_sedex_textview" />
+                        app:layout_constraintTop_toBottomOf="@+id/label_pray_for_sedex" />
 
                     <TextView
-                        android:id="@+id/title_label"
+                        android:id="@+id/label_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
@@ -67,14 +67,14 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/track_card"
+                        android:id="@+id/card_track"
                         android:layout_width="350dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="24dp"
                         app:cardCornerRadius="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/title_label">
+                        app:layout_constraintTop_toBottomOf="@+id/label_title">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/description_card"
+                        android:id="@+id/card_description"
                         android:layout_width="350dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="24dp"
@@ -132,7 +132,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.51"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/track_card">
+                        app:layout_constraintTop_toBottomOf="@+id/card_track">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -170,7 +170,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
-                        android:id="@+id/pray_for_sedex_textview"
+                        android:id="@+id/label_pray_for_sedex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -180,10 +180,10 @@
                         android:textColor="@color/primaryTextColor"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/label_pray_for_sedex"
+                        app:layout_constraintBottom_toTopOf="@+id/icon_pray_for_sedex"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/description_card" />
+                        app:layout_constraintTop_toBottomOf="@+id/card_description" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -191,7 +191,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_view_cancel"
+                android:id="@+id/card_cancel"
                 android:layout_width="128dp"
                 android:layout_height="136dp"
                 android:layout_marginStart="60dp"
@@ -201,14 +201,14 @@
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/purple_card">
+                app:layout_constraintTop_toBottomOf="@+id/card_purple">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/circle_card"
+                        android:id="@+id/card_circle_cancel"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerHorizontal="true"
@@ -220,7 +220,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/roundedimage"
+                            android:id="@+id/icon_cancel"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
@@ -229,7 +229,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/label_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -239,7 +239,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/circle_card" />
+                        app:layout_constraintTop_toBottomOf="@+id/card_circle_cancel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -247,7 +247,7 @@
 
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_view_ok"
+                android:id="@+id/card_tracking"
                 android:layout_width="128dp"
                 android:layout_height="136dp"
                 android:layout_marginTop="8dp"
@@ -257,14 +257,14 @@
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/purple_card">
+                app:layout_constraintTop_toBottomOf="@+id/card_purple">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/rounded_cardview"
+                        android:id="@+id/card_circle_tracking"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerHorizontal="true"
@@ -276,7 +276,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/roundedimage2"
+                            android:id="@+id/icon_tracking"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
@@ -285,7 +285,7 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/label_tracking"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -295,7 +295,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/rounded_cardview" />
+                        app:layout_constraintTop_toBottomOf="@+id/card_circle_tracking" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

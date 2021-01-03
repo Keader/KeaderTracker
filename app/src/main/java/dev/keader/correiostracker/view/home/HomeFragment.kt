@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
             homeViewModel.onItemTrackClicked(code)
         }, true)
 
-        binding.deliveryList.adapter = adapter
+        binding.recyclerViewDelivery.adapter = adapter
         binding.homeViewModel = homeViewModel
 
         homeViewModel.tracks.observe(viewLifecycleOwner, {
@@ -80,10 +80,10 @@ class HomeFragment : Fragment() {
             }
         })
 
-        // same hack to works in small screen :/
+        // same hack to work in small screens :/
         val displayMetrics = Resources.getSystem().displayMetrics
         if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300) {
-            R.id.localization_icon
+            R.id.icon_localization
             val constraintSet = ConstraintSet()
             constraintSet.clone(binding.constraintLayout)
             constraintSet.clear(R.id.icon_info, ConstraintSet.TOP)
@@ -97,13 +97,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun showEmptyList() {
-        binding.deliveryList.visibility = View.GONE
-        binding.emptyList.root.visibility = View.VISIBLE
+        binding.recyclerViewDelivery.visibility = View.GONE
+        binding.recylerViewEmpty.root.visibility = View.VISIBLE
     }
 
     private fun showRecyclerView() {
-        binding.deliveryList.visibility = View.VISIBLE
-        binding.emptyList.root.visibility = View.GONE
+        binding.recyclerViewDelivery.visibility = View.VISIBLE
+        binding.recylerViewEmpty.root.visibility = View.GONE
     }
 
 }
