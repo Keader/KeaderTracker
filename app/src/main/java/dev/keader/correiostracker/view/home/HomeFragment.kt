@@ -1,10 +1,12 @@
 package dev.keader.correiostracker.view.home
 
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -31,14 +33,10 @@ class HomeFragment : Fragment() {
 
         val adapter = TrackAdapter(ListItemListener { code ->
             homeViewModel.onItemTrackClicked(code)
-        }, HomeScreenButtonListener {
-            when (it) {
-                BUTTON_SETTINGS -> homeViewModel.onSettingsButtonClicked()
-                BUTTON_INFO -> homeViewModel.onInfoButtonClicked()
-            }
-        })
+        }, true)
 
         binding.deliveryList.adapter = adapter
+        binding.homeViewModel = homeViewModel
 
         homeViewModel.tracks.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
@@ -81,6 +79,19 @@ class HomeFragment : Fragment() {
                 homeViewModel.onSettingsButtonEventFinished()
             }
         })
+
+        // same hack to works in small screen :/
+        val displayMetrics = Resources.getSystem().displayMetrics
+        if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300) {
+            R.id.localization_icon
+            val constraintSet = ConstraintSet()
+            constraintSet.clone(binding.constraintLayout)
+            constraintSet.clear(R.id.icon_info, ConstraintSet.TOP)
+            constraintSet.clear(R.id.icon_info, ConstraintSet.END)
+            constraintSet.connect(R.id.icon_info, ConstraintSet.TOP, R.id.icon_config, ConstraintSet.TOP)
+            constraintSet.connect(R.id.icon_info, ConstraintSet.END, R.id.icon_config, ConstraintSet.START, 16)
+            constraintSet.applyTo(binding.constraintLayout)
+        }
 
         return binding.root
     }

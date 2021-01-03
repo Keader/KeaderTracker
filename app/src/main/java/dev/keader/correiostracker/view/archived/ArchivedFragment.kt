@@ -30,7 +30,7 @@ class ArchivedFragment : Fragment() {
 
         val adapter = TrackAdapter(ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
-        })
+        }, false)
         binding.archivedList.adapter = adapter
         archivedViewModel.tracks.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {

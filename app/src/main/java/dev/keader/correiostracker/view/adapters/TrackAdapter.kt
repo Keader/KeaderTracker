@@ -18,12 +18,9 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 private const val HEADER_ID = "HEADER"
-const val BUTTON_SETTINGS = 1
-const val BUTTON_INFO = 2
-
 
 class TrackAdapter(private val itemClickListener: ListItemListener,
-                   private val homeScreenButtonListener: HomeScreenButtonListener? = null) : ListAdapter<TrackData, RecyclerView.ViewHolder>(ItemWitchTracksDiffCallback()) {
+                   private val isHomeScreen: Boolean) : ListAdapter<TrackData, RecyclerView.ViewHolder>(ItemWitchTracksDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
@@ -45,7 +42,8 @@ class TrackAdapter(private val itemClickListener: ListItemListener,
     fun addHeaderAndSubmitList(items: List<ItemWithTracks>) {
         adapterScope.launch {
             val list = mutableListOf<TrackData>()
-            homeScreenButtonListener?.let { list.add(TrackData.Header(HEADER_ID)) }
+            if (isHomeScreen)
+                list.add(TrackData.Header(HEADER_ID))
             list.addAll(items.map { TrackData.ItemWithTracksItem(it) })
             withContext(Dispatchers.Main) {
                 submitList(list)
@@ -59,18 +57,11 @@ class TrackAdapter(private val itemClickListener: ListItemListener,
                 val item = getItem(position) as TrackData.ItemWithTracksItem
                 holder.bind(itemClickListener, item.item)
             }
-            is TrackHeaderViewHolder -> {
-                holder.bind(homeScreenButtonListener!!)
-            }
+            //is TrackHeaderViewHolder -> { }
         }
     }
 
     class TrackHeaderViewHolder private constructor(val binding: ListItemTrackHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(clickListener: HomeScreenButtonListener) {
-            binding.clickListener = clickListener
-            binding.executePendingBindings()
-        }
 
         companion object {
             fun from(parent: ViewGroup): TrackHeaderViewHolder {
@@ -116,10 +107,6 @@ class ItemWitchTracksDiffCallback : DiffUtil.ItemCallback<TrackData>() {
 
 class ListItemListener(val clickListener: (trackCode: String) -> Unit) {
     fun onClick(item: ItemWithTracks) = clickListener(item.item.code)
-}
-
-class HomeScreenButtonListener(val clickListener: (id: Int) -> Unit) {
-    fun onButtonClick(id: Int) = clickListener(id)
 }
 
 sealed class TrackData {

@@ -63,4 +63,5 @@
     <string name="update_frequency">Intervalo de atualização:</string>
     <string name="settings_success">Configurações atualizadas com sucesso.</string>
     <string name="copy_success">Código de rastreio copiado com sucesso.</string>
+    <string name="icon_config_description">Icone de configuração</string>
 </resources>

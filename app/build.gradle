@@ -61,7 +61,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     // Lottie Animation
-    implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'com.airbnb.android:lottie:3.6.0'
 
     // Room Database
     implementation "androidx.room:room-runtime:$room_version"
