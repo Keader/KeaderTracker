@@ -32,7 +32,7 @@ class Correios {
             .cookieJar(MemoryCookieJar())
             .build()
 
-        suspend fun getTrackFromAPI(code: String): CorreiosItem {
+        /*suspend fun getTrackFromAPI(code: String): CorreiosItem {
             val productCode = code.toUpperCase()
 
             if (!isValidCode(productCode)) throw IOException("Invalid Code")
@@ -88,12 +88,12 @@ class Correios {
                 type = UNKNOWN_TYPE
 
             return CorreiosItem(productCode, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
-        }
+        }*/
 
         suspend fun getTrackFromSite(code: String): CorreiosItem {
             val productCode = code.toUpperCase()
 
-            if (!isValidCode(productCode)) throw IOException("Invalid Code")
+            if (!isValidCode(productCode)) throw IOException("Invalid Code: $code")
 
             val formBody = FormBody.Builder()
                 .add("acao", "track")
@@ -148,8 +148,11 @@ class Correios {
                 tracks.add(CorreiosTrack(locale, status, observation, "$date $time", date, time, link))
             }
 
-            val lastTrack = tracks.first()
-            val firstTrack = tracks.last()
+            if (tracks.isEmpty()) throw IOException("Tracks Empty for code: $code")
+
+            // Yes kids, last track will be the first of the list and first track will be the last of list
+            val lastTrack = tracks.first() // last update
+            val firstTrack = tracks.last() // posted
             val isDelivered = lastTrack.status.contains("Objeto entregue")
             val typeCode = "${productCode[0]}${productCode[1]}"
             var type = CorreiosUtils.Types[typeCode]?.toUpperCase()
