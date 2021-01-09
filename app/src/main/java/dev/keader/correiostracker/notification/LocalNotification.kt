@@ -16,7 +16,6 @@ import dev.keader.correiostracker.database.ItemWithTracks
 class LocalNotification {
     companion object {
         private const val CHANNEL_ID = "track_update_channel"
-        private const val NOTIFICATION_ID = 768
 
         fun createNotificationChannel(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -32,8 +31,8 @@ class LocalNotification {
             }
         }
 
-        fun sendNotification(context: Context, item: ItemWithTracks) {
-            val args = bundleOf("trackCode" to item.item.code)
+        fun sendNotification(context: Context, itemTrack: ItemWithTracks) {
+            val args = bundleOf("trackCode" to itemTrack.item.code)
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.trackDetailFragment)
@@ -41,12 +40,12 @@ class LocalNotification {
                 .createPendingIntent()
 
             val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.delivery_man)
-            val lastTrack = item.tracks.first()
+            val lastTrack = itemTrack.tracks.first()
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)
-                .setContentTitle(context.getString(R.string.notification_format, item.item.name))
-                .setContentText(item.tracks.first().status)
+                .setContentTitle(context.getString(R.string.notification_format, itemTrack.item.name))
+                .setContentText(itemTrack.tracks.first().status)
                 .apply {
                     val observation = lastTrack.observation
                     if (observation.isNotEmpty()) {
@@ -60,12 +59,13 @@ class LocalNotification {
                 .setAutoCancel(true)
 
             with(NotificationManagerCompat.from(context)) {
-                notify(NOTIFICATION_ID, builder.build())
+                notify(itemTrack.item.code.hashCode(), builder.build())
             }
         }
 
         fun sendNotificationTest(context: Context) {
-            val args = Bundle().apply { putString("trackCode", "lb140562449hk".toUpperCase()) }
+            val code = "lb140562449hk".toUpperCase()
+            val args = Bundle().apply { putString("trackCode", code) }
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.trackDetailFragment)
@@ -89,7 +89,7 @@ class LocalNotification {
                 .setAutoCancel(true)
 
             with(NotificationManagerCompat.from(context)) {
-                notify(1, builder.build())
+                notify(code.hashCode(), builder.build())
             }
         }
     }
