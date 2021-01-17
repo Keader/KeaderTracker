@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnLayout
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -24,22 +25,26 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     private val _uiViewModel: UIViewModel by viewModels()
+    private val navController
+        get() = findNavController(R.id.nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setUpNavigation()
 
-        binding.floatingActionButton.setOnClickListener { view ->
-            view.findNavController()
-                .navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
+        binding.floatingActionButton.setOnClickListener {
+            navController.navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
         }
 
         _uiViewModel.bottomNavVisibility.observe(this, { visibility ->
             binding.bottomNavigation.visibility = visibility
             binding.floatingActionButton.visibility = visibility
         })
+
+        binding.root.doOnLayout {
+            NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+        }
     }
 
 
@@ -63,12 +68,5 @@ class MainActivity : AppCompatActivity() {
         snackbar.view.layoutParams = layoutParams
         snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
         return snackbar
-    }
-
-    private fun setUpNavigation() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        NavigationUI.setupWithNavController(binding.bottomNavigation, navHostFragment.navController)
-        Navigation.setViewNavController(binding.root, navHostFragment.navController)
     }
 }
