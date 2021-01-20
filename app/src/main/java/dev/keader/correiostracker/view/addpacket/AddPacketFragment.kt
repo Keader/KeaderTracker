@@ -1,6 +1,5 @@
 package dev.keader.correiostracker.view.addpacket
 
-import android.content.ClipDescription.MIMETYPE_TEXT_PLAIN
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
@@ -165,11 +164,9 @@ class AddPacketFragment : Fragment() {
         val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = clipboard.primaryClip
         clipData?.let {
-            if (clipboard.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN) == true) {
                 val text = clipData.getItemAt(0).text.toString().trim()
                 if (Correios.isValidCode(text))
                     binding.trackEditText.setText(text)
-            }
         }
     }
 }
