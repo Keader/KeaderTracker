@@ -1,9 +1,10 @@
 package dev.keader.correiostracker.database
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(indices = [Index(value = ["itemCode"])])
 data class Track(
     @PrimaryKey(autoGenerate = true)
     val trackUid: Long,
