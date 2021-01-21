@@ -80,6 +80,14 @@ class HomeFragment : Fragment() {
             }
         })
 
+        binding.swipeRefresh.setOnRefreshListener {
+            homeViewModel.onRefreshCalled()
+        }
+
+        homeViewModel.eventRefreshFinished.observe(viewLifecycleOwner, { finished ->
+            binding.swipeRefresh.isRefreshing = !finished
+        })
+
         // same hack to work in small screens :/
         val displayMetrics = Resources.getSystem().displayMetrics
         if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300) {

@@ -4,9 +4,11 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.keader.correiostracker.repository.TrackingRepository
+import kotlinx.coroutines.launch
 
-class HomeViewModel @ViewModelInject constructor(repository: TrackingRepository) : ViewModel() {
+class HomeViewModel @ViewModelInject constructor(private val repository: TrackingRepository) : ViewModel() {
 
     val tracks = repository.getAllItemsWithTracks()
 
@@ -21,6 +23,11 @@ class HomeViewModel @ViewModelInject constructor(repository: TrackingRepository)
     private val _eventOpenSettingsFragment = MutableLiveData(false)
     val eventOpenSettingsFragment: LiveData<Boolean>
         get() = _eventOpenSettingsFragment
+
+
+    private val _eventRefreshFinished = MutableLiveData(true)
+    val eventRefreshFinished: LiveData<Boolean>
+        get() = _eventRefreshFinished
 
     fun onInfoButtonClicked() {
         _eventOpenInfoDialog.value = true
@@ -44,6 +51,14 @@ class HomeViewModel @ViewModelInject constructor(repository: TrackingRepository)
 
     fun handleNavigateToTrackDetailFinish() {
         _eventNavigateToTrackDetail.value = null
+    }
+
+    fun onRefreshCalled() {
+        _eventRefreshFinished.value = false
+        viewModelScope.launch {
+            repository.refreshTracks()
+            _eventRefreshFinished.value = true
+        }
     }
 
 }
