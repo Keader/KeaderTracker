@@ -18,8 +18,8 @@ android {
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 12
-        versionName "1.2.9 Notifications"
+        versionCode 13
+        versionName "1.3.0 Swipe"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
