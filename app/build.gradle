@@ -43,6 +43,11 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [crashlyticsEnabled: true]
+        }
+
+        debug {
+            manifestPlaceholders = [crashlyticsEnabled: false]
         }
     }
 
