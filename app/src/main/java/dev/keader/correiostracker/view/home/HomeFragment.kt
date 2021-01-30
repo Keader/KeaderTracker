@@ -14,6 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
+import dev.keader.correiostracker.util.EventObserver
 import dev.keader.correiostracker.view.adapters.*
 import dev.keader.correiostracker.view.settings.SettingsFragment
 import java.time.LocalDate
@@ -52,32 +53,23 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, { code ->
+        homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             code?.let {
                 findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
-                homeViewModel.handleNavigateToTrackDetailFinish()
             }
         })
 
-        homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, { clicked ->
-            if (clicked) {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(getString(R.string.authors))
-                    .setMessage(getString(R.string.authors_body))
-                    .setPositiveButton(getString(R.string.OK)) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .show()
-                homeViewModel.onInfoButtonEventFinished()
-            }
+        homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, EventObserver {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.authors))
+                .setMessage(getString(R.string.authors_body))
+                .setPositiveButton(getString(R.string.OK)) { dialog, _ -> dialog.dismiss() }
+                .show()
         })
 
-        homeViewModel.eventOpenSettingsFragment.observe(viewLifecycleOwner, { clicked ->
-            if (clicked) {
-                val bottomSheetFragment = SettingsFragment()
-                bottomSheetFragment.show(parentFragmentManager, "Settings")
-                homeViewModel.onSettingsButtonEventFinished()
-            }
+        homeViewModel.eventOpenSettingsFragment.observe(viewLifecycleOwner, EventObserver {
+            val bottomSheetFragment = SettingsFragment()
+            bottomSheetFragment.show(parentFragmentManager, "Settings")
         })
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -90,16 +82,8 @@ class HomeFragment : Fragment() {
 
         // same hack to work in small screens :/
         val displayMetrics = Resources.getSystem().displayMetrics
-        if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300) {
-            R.id.icon_localization
-            val constraintSet = ConstraintSet()
-            constraintSet.clone(binding.constraintLayout)
-            constraintSet.clear(R.id.icon_info, ConstraintSet.TOP)
-            constraintSet.clear(R.id.icon_info, ConstraintSet.END)
-            constraintSet.connect(R.id.icon_info, ConstraintSet.TOP, R.id.icon_config, ConstraintSet.TOP)
-            constraintSet.connect(R.id.icon_info, ConstraintSet.END, R.id.icon_config, ConstraintSet.START, 16)
-            constraintSet.applyTo(binding.constraintLayout)
-        }
+        if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300)
+            applySmallScreensHack()
 
         return binding.root
     }
@@ -112,6 +96,16 @@ class HomeFragment : Fragment() {
     private fun showRecyclerView() {
         binding.recyclerViewDelivery.visibility = View.VISIBLE
         binding.recylerViewEmpty.root.visibility = View.GONE
+    }
+
+    private fun applySmallScreensHack() {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(binding.constraintLayout)
+        constraintSet.clear(R.id.icon_info, ConstraintSet.TOP)
+        constraintSet.clear(R.id.icon_info, ConstraintSet.END)
+        constraintSet.connect(R.id.icon_info, ConstraintSet.TOP, R.id.icon_config, ConstraintSet.TOP)
+        constraintSet.connect(R.id.icon_info, ConstraintSet.END, R.id.icon_config, ConstraintSet.START, 16)
+        constraintSet.applyTo(binding.constraintLayout)
     }
 
 }

@@ -15,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentSettingsBinding
+import dev.keader.correiostracker.util.EventObserver
 import dev.keader.correiostracker.work.RefreshTracksWorker
 
 const val DEFAULT_SPINNER_POSITION = 3
@@ -46,44 +47,38 @@ class SettingsFragment : BottomSheetDialogFragment() {
         binding.spinnerFrequency.setSelection(savedPosition)
 
         // Events
-        settingsViewModel.eventNavigateBack.observe(viewLifecycleOwner, { clicked ->
-            if (clicked) {
-                dismiss()
-                settingsViewModel.onCancelButtonEventFinished()
-            }
+        settingsViewModel.eventNavigateBack.observe(viewLifecycleOwner, EventObserver {
+            dismiss()
         })
 
-        settingsViewModel.eventNavigateOK.observe(viewLifecycleOwner, { clicked ->
-            if (clicked) {
-                val sharedEdit = sharedPref.edit()
-                val autoMove = binding.switchAutosave.isChecked
-                val position = binding.spinnerFrequency.selectedItemPosition
-                val frequency = when (position) {
-                    0 -> 15
-                    1 -> 30
-                    2 -> 60
-                    3 -> 120
-                    4 -> 240
-                    5 -> 480
-                    else -> DEFAULT_FREQUENCY_VALUE
-                }
-                // Update shared prefs
-                sharedEdit.putBoolean(getString(R.string.preference_automove), autoMove)
-                sharedEdit.putInt(getString(R.string.preference_frequency), frequency)
-                sharedEdit.putInt(getString(R.string.preference_frequency_pos), position)
-                sharedEdit.commit()
-                // Replace current worker
-                RefreshTracksWorker.startWorker(requireNotNull(activity).application)
+        settingsViewModel.eventNavigateOK.observe(viewLifecycleOwner, EventObserver {
+            val sharedEdit = sharedPref.edit()
+            val autoMove = binding.switchAutosave.isChecked
+            val position = binding.spinnerFrequency.selectedItemPosition
+            val frequency = when (position) {
+                0 -> 15
+                1 -> 30
+                2 -> 60
+                3 -> 120
+                4 -> 240
+                5 -> 480
+                else -> DEFAULT_FREQUENCY_VALUE
+            }
+            // Update shared prefs
+            sharedEdit.putBoolean(getString(R.string.preference_automove), autoMove)
+            sharedEdit.putInt(getString(R.string.preference_frequency), frequency)
+            sharedEdit.putInt(getString(R.string.preference_frequency_pos), position)
+            sharedEdit.commit()
+            // Replace current worker
+            RefreshTracksWorker.startWorker(requireNotNull(activity).application)
 
-                settingsViewModel.onOKButtonEventFinished()
-                if (autoMove)
-                    settingsViewModel.handleArchiveAllCurrentItems()
+            if (autoMove)
+                settingsViewModel.handleArchiveAllCurrentItems()
 
-                getSnack(getString(R.string.settings_success))
+            getSnack(getString(R.string.settings_success))
                 ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                 ?.show()
-                dismiss()
-            }
+            dismiss()
         })
 
         return binding.root

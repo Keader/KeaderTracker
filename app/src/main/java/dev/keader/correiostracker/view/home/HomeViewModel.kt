@@ -6,22 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.correiostracker.util.Event
 import kotlinx.coroutines.launch
 
 class HomeViewModel @ViewModelInject constructor(private val repository: TrackingRepository) : ViewModel() {
 
     val tracks = repository.getAllItemsWithTracks()
 
-    private val _eventNavigateToTrackDetail = MutableLiveData<String>()
-    val eventNavigateToTrackDetail: LiveData<String>
+    private val _eventNavigateToTrackDetail = MutableLiveData<Event<String>>()
+    val eventNavigateToTrackDetail: LiveData<Event<String>>
         get() = _eventNavigateToTrackDetail
 
-    private val _eventOpenInfoDialog = MutableLiveData(false)
-    val eventOpenInfoDialog: LiveData<Boolean>
+    private val _eventOpenInfoDialog = MutableLiveData<Event<Unit>>()
+    val eventOpenInfoDialog: LiveData<Event<Unit>>
         get() = _eventOpenInfoDialog
 
-    private val _eventOpenSettingsFragment = MutableLiveData(false)
-    val eventOpenSettingsFragment: LiveData<Boolean>
+    private val _eventOpenSettingsFragment = MutableLiveData<Event<Unit>>()
+    val eventOpenSettingsFragment: LiveData<Event<Unit>>
         get() = _eventOpenSettingsFragment
 
 
@@ -30,27 +31,15 @@ class HomeViewModel @ViewModelInject constructor(private val repository: Trackin
         get() = _eventRefreshFinished
 
     fun onInfoButtonClicked() {
-        _eventOpenInfoDialog.value = true
-    }
-
-    fun onInfoButtonEventFinished() {
-        _eventOpenInfoDialog.value = false
+        _eventOpenInfoDialog.value = Event(Unit)
     }
 
     fun onSettingsButtonClicked() {
-        _eventOpenSettingsFragment.value = true
-    }
-
-    fun onSettingsButtonEventFinished() {
-        _eventOpenSettingsFragment.value = false
+        _eventOpenSettingsFragment.value = Event(Unit)
     }
 
     fun onItemTrackClicked(code: String) {
-        _eventNavigateToTrackDetail.value = code
-    }
-
-    fun handleNavigateToTrackDetailFinish() {
-        _eventNavigateToTrackDetail.value = null
+        _eventNavigateToTrackDetail.value = Event(code)
     }
 
     fun onRefreshCalled() {

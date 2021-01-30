@@ -23,6 +23,7 @@ import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
+import dev.keader.correiostracker.util.EventObserver
 import dev.keader.correiostracker.work.RefreshTracksWorker
 
 @AndroidEntryPoint
@@ -39,74 +40,58 @@ class AddPacketFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
         binding.addPacketViewModel = addPacketViewModel
 
-        addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, Observer { navigate ->
-            if (navigate) {
-                findNavController().popBackStack()
-                addPacketViewModel.handleCancelButtonEventFinish()
-            }
+        addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, EventObserver {
+            findNavController().popBackStack()
         })
 
         // Triggered by OK button
-        addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, Observer { checkInputs ->
-            if (checkInputs) {
-                val code = binding.trackEditText.text.toString().toUpperCase()
-                val observation = binding.descriptionEditText.text.toString()
+        addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, EventObserver {
+            val code = binding.trackEditText.text.toString().toUpperCase()
+            val observation = binding.descriptionEditText.text.toString()
 
-                if (validateInputs(code, observation)) {
-                    val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-                    val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), false)
-                    addPacketViewModel.handleCheckOK(code, observation)
-                    binding.progressBar.visibility = View.VISIBLE
+            if (validateInputs(code, observation)) {
+                val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
+                val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), false)
+                addPacketViewModel.handleCheckOK(code, observation)
+                binding.progressBar.visibility = View.VISIBLE
 
-                    if (autoMove)
-                        addPacketViewModel.handleAutoSave(code)
+                if (autoMove)
+                    addPacketViewModel.handleAutoSave(code)
 
-                    getSnack(getString(R.string.tracking_product))
-                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                        ?.show()
-                } else {
-                    getSnack(getString(R.string.add_product_error_message))
-                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
-                        ?.show()
-                    addPacketViewModel.handleCheckFail()
-                }
+                getSnack(getString(R.string.tracking_product))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                    ?.show()
+            } else {
+                getSnack(getString(R.string.add_product_error_message))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
+                    ?.show()
             }
         })
 
         // Return of API
-        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, Observer { success ->
-            if (success != null) {
-                binding.progressBar.visibility = View.GONE
+        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, EventObserver { success ->
+            binding.progressBar.visibility = View.GONE
+            if (success) {
+                getSnack(getString(R.string.track_add_success))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
+                    ?.show()
 
-                if (success) {
-                    getSnack(getString(R.string.track_add_success))
-                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
-                        ?.show()
-
-                    RefreshTracksWorker.startWorker(requireNotNull(activity).application)
-                    findNavController().popBackStack()
-                } else {
-                    getSnack(getString(R.string.track_add_fail))
-                        ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
-                        ?.show()
-                }
-                addPacketViewModel.handleAddEventFinish()
+                RefreshTracksWorker.startWorker(requireNotNull(activity).application)
+                findNavController().popBackStack()
+            } else {
+                getSnack(getString(R.string.track_add_fail))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
+                    ?.show()
             }
         })
 
-        addPacketViewModel.eventQR.observe(viewLifecycleOwner, Observer { clicked ->
-            if (clicked) {
-                scanQRCode()
-                addPacketViewModel.qRCodeEventFinished()
-            }
+        addPacketViewModel.eventQR.observe(viewLifecycleOwner, EventObserver {
+            scanQRCode()
         })
 
-        uiViewModel.qrCodeResult.observe(viewLifecycleOwner, Observer { result ->
-            result?.let { qr ->
-                if (Correios.isValidCode(qr))
-                    binding.trackEditText.setText(qr)
-                uiViewModel.finishQrCode()
-            }
+        uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver { qr ->
+            if (Correios.isValidCode(qr))
+                binding.trackEditText.setText(qr)
         })
 
         binding.iconBackAdd.setOnClickListener {

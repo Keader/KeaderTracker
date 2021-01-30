@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
+import dev.keader.correiostracker.util.EventObserver
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import java.time.LocalDate
@@ -47,11 +48,8 @@ class ArchivedFragment : Fragment() {
             }
         })
 
-        archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, { code ->
-            code?.let {
-                findNavController().navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
-                archivedViewModel.handleNavigateToTrackDetailFinish()
-            }
+        archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
+            findNavController().navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
         })
 
         return binding.root

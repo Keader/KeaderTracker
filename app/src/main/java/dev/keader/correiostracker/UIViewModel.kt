@@ -5,6 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dev.keader.correiostracker.util.Event
 
 class UIViewModel @ViewModelInject constructor() : ViewModel() {
 
@@ -12,16 +13,12 @@ class UIViewModel @ViewModelInject constructor() : ViewModel() {
     val bottomNavVisibility: LiveData<Int>
         get() = _bottomNavVisibility
 
-    private val _qrCodeResult = MutableLiveData<String?>()
-    val qrCodeResult: LiveData<String?>
+    private val _qrCodeResult = MutableLiveData<Event<String>>()
+    val qrCodeResult: LiveData<Event<String>>
         get() = _qrCodeResult
 
     fun setQrCode(value: String) {
-        _qrCodeResult.value = value
-    }
-
-    fun finishQrCode() {
-        _qrCodeResult.value = null
+        _qrCodeResult.value = Event(value)
     }
 
     fun setBottomNavVisibility(visibility: Int) {

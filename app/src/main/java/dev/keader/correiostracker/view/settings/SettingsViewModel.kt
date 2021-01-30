@@ -6,17 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.correiostracker.util.Event
 import kotlinx.coroutines.launch
 
 class SettingsViewModel @ViewModelInject constructor(
     private val repository: TrackingRepository): ViewModel() {
 
-    private val _eventNavigateBack = MutableLiveData(false)
-    val eventNavigateBack: LiveData<Boolean>
+    private val _eventNavigateBack = MutableLiveData<Event<Unit>>()
+    val eventNavigateBack: LiveData<Event<Unit>>
         get() = _eventNavigateBack
 
-    private val _eventNavigateOK = MutableLiveData(false)
-    val eventNavigateOK: LiveData<Boolean>
+    private val _eventNavigateOK = MutableLiveData<Event<Unit>>()
+    val eventNavigateOK: LiveData<Event<Unit>>
         get() = _eventNavigateOK
 
     fun handleArchiveAllCurrentItems() {
@@ -26,19 +27,11 @@ class SettingsViewModel @ViewModelInject constructor(
     }
 
     fun onCancelButtonClicked() {
-        _eventNavigateBack.value = true
-    }
-
-    fun onCancelButtonEventFinished() {
-        _eventNavigateBack.value = false
+        _eventNavigateBack.value = Event(Unit)
     }
 
     fun onOKButtonClicked() {
-        _eventNavigateOK.value = true
-    }
-
-    fun onOKButtonEventFinished() {
-        _eventNavigateOK.value = false
+        _eventNavigateOK.value = Event(Unit)
     }
 
 }
