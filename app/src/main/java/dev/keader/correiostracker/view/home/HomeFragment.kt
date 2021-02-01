@@ -54,9 +54,7 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
-            code?.let {
-                findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
-            }
+            findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
         })
 
         homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, EventObserver {

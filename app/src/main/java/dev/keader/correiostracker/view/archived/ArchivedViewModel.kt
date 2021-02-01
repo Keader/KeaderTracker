@@ -1,13 +1,15 @@
 package dev.keader.correiostracker.view.archived
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.util.Event
+import javax.inject.Inject
 
-class ArchivedViewModel @ViewModelInject constructor(repository: TrackingRepository) : ViewModel() {
+@HiltViewModel
+class ArchivedViewModel @Inject constructor(repository: TrackingRepository) : ViewModel() {
 
     val tracks = repository.getAllArchivedItemsWithTracks()
 

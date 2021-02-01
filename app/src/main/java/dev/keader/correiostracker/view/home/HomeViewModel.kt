@@ -1,15 +1,17 @@
 package dev.keader.correiostracker.view.home
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.util.Event
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel @ViewModelInject constructor(private val repository: TrackingRepository) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: TrackingRepository) : ViewModel() {
 
     val tracks = repository.getAllItemsWithTracks()
 

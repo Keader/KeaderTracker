@@ -1,9 +1,10 @@
 package dev.keader.correiostracker.work
 
 import android.content.Context
-import androidx.hilt.Assisted
-import androidx.hilt.work.WorkerInject
+import androidx.hilt.work.HiltWorker
 import androidx.work.*
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.notification.LocalNotification
@@ -12,10 +13,11 @@ import dev.keader.correiostracker.view.settings.DEFAULT_FREQUENCY_VALUE
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class RefreshTracksWorker @WorkerInject constructor(
-        @Assisted context: Context,
-        @Assisted params: WorkerParameters,
-        val repository: TrackingRepository) : CoroutineWorker(context, params) {
+@HiltWorker
+class RefreshTracksWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters,
+    val repository: TrackingRepository) : CoroutineWorker(context, params) {
 
     companion object {
         const val WORK_NAME = "RefreshTracksWorker"

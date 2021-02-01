@@ -1,15 +1,17 @@
 package dev.keader.correiostracker.view.settings
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.util.Event
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val repository: TrackingRepository): ViewModel() {
 
     private val _eventNavigateBack = MutableLiveData<Event<Unit>>()

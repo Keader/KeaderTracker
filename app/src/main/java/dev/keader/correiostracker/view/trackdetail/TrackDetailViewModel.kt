@@ -1,14 +1,16 @@
 package dev.keader.correiostracker.view.trackdetail
 
 import android.view.View
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.repository.TrackingRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TrackDetailViewModel @ViewModelInject constructor(
+@HiltViewModel
+class TrackDetailViewModel @Inject constructor(
     private val repository: TrackingRepository) : ViewModel() {
 
     val trackCode = MutableLiveData<String>()
