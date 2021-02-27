@@ -47,17 +47,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null && result.contents != null) {
-            val code = result.contents
-            _uiViewModel.setQrCode(code)
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
     fun getSnackInstance(string: String, duration: Int): Snackbar {
         val snackbar = Snackbar.make(binding.root, string, duration)
         val layoutParams = ActionBar.LayoutParams(snackbar.view.layoutParams)
