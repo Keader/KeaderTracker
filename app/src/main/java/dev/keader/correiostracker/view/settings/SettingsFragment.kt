@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -20,6 +23,8 @@ import dev.keader.correiostracker.work.RefreshTracksWorker
 
 const val DEFAULT_SPINNER_POSITION = 3
 const val DEFAULT_FREQUENCY_VALUE = 120
+const val DEFAULT_THEME_VALUE = false
+const val DEFAULT_AUTOMOVE = false
 
 @AndroidEntryPoint
 class SettingsFragment : BottomSheetDialogFragment() {
@@ -35,7 +40,8 @@ class SettingsFragment : BottomSheetDialogFragment() {
         // Shared Prefs
         val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
         var savedPosition = sharedPref.getInt(getString(R.string.preference_frequency_pos), DEFAULT_SPINNER_POSITION)
-        binding.switchAutosave.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), false)
+        binding.switchAutosave.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
+        binding.switchTheme.isChecked = sharedPref.getBoolean(getString(R.string.preference_theme), DEFAULT_THEME_VALUE)
 
         // Configure Spinner
         val spinnerAdapter = ArrayAdapter.createFromResource(
@@ -55,6 +61,7 @@ class SettingsFragment : BottomSheetDialogFragment() {
             val sharedEdit = sharedPref.edit()
             val autoMove = binding.switchAutosave.isChecked
             val position = binding.spinnerFrequency.selectedItemPosition
+            val darkTheme = binding.switchTheme.isChecked
             val frequency = when (position) {
                 0 -> 15
                 1 -> 30
@@ -68,12 +75,18 @@ class SettingsFragment : BottomSheetDialogFragment() {
             sharedEdit.putBoolean(getString(R.string.preference_automove), autoMove)
             sharedEdit.putInt(getString(R.string.preference_frequency), frequency)
             sharedEdit.putInt(getString(R.string.preference_frequency_pos), position)
+            sharedEdit.putBoolean(getString(R.string.preference_theme), darkTheme)
             sharedEdit.commit()
             // Replace current worker
             RefreshTracksWorker.startWorker(requireNotNull(activity).application)
 
             if (autoMove)
                 settingsViewModel.handleArchiveAllCurrentItems()
+
+            if (darkTheme)
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+            else
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
 
             getSnack(getString(R.string.settings_success))
                 ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))

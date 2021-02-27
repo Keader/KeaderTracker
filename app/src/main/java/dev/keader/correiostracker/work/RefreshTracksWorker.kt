@@ -9,6 +9,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.correiostracker.view.settings.DEFAULT_AUTOMOVE
 import dev.keader.correiostracker.view.settings.DEFAULT_FREQUENCY_VALUE
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -65,7 +66,7 @@ class RefreshTracksWorker @AssistedInject constructor(
         Timber.i("Worker updating tracks.")
         val result = repository.refreshTracks()
         val sharedPref = applicationContext.getSharedPreferences(applicationContext.getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-        val autoMove = sharedPref.getBoolean(applicationContext.getString(R.string.preference_automove), false)
+        val autoMove = sharedPref.getBoolean(applicationContext.getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
         // if dont have items in DB to update, stop worker
         if (!result.hasItemsInDBToUpdate)
             stopWorker(applicationContext)

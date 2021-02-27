@@ -1,6 +1,8 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    kotlin_version = '1.4.31'
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.4.21'
+    ext.kotlin_version = '1.4.31'
     ext.version_navigation = "2.3.1"
 
     repositories {
@@ -15,7 +17,7 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.30.1-alpha'
         classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
 
     }
 }

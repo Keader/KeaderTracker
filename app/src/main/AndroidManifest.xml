@@ -51,5 +51,8 @@
     <meta-data
         android:name="com.google.firebase.messaging.default_notification_channel_id"
         android:value="@string/firebase_channel" />
+    <meta-data
+        android:name="firebase_crashlytics_collection_enabled"
+        android:value="${crashlyticsEnabled}" />
 
 </manifest>

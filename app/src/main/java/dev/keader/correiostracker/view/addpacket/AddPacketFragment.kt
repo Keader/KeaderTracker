@@ -24,6 +24,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
 import dev.keader.correiostracker.util.EventObserver
+import dev.keader.correiostracker.view.settings.DEFAULT_AUTOMOVE
 import dev.keader.correiostracker.work.RefreshTracksWorker
 
 @AndroidEntryPoint
@@ -51,7 +52,7 @@ class AddPacketFragment : Fragment() {
 
             if (validateInputs(code, observation)) {
                 val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-                val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), false)
+                val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
                 addPacketViewModel.handleCheckOK(code, observation)
                 binding.progressBar.visibility = View.VISIBLE
 

@@ -23,6 +23,7 @@
             android:checked="false"
             android:text="@string/move_automatic"
             android:textSize="16sp"
+            android:textColor="@color/secondaryTextColor"
             app:layout_constraintBottom_toBottomOf="@+id/icon_book"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon_book"
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="8dp"
+            android:popupBackground="@color/primaryColorSpecial"
             app:layout_constraintBottom_toBottomOf="@+id/label_interval"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_interval"
@@ -46,10 +48,26 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/update_frequency"
+            android:textColor="@color/secondaryTextColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/icon_clock"
             app:layout_constraintStart_toEndOf="@+id/icon_clock"
             app:layout_constraintTop_toTopOf="@+id/icon_clock" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_theme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:checked="false"
+            android:text="@string/dark_theme"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/icon_theme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon_theme"
+            app:layout_constraintTop_toTopOf="@+id/icon_theme" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -66,7 +84,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_confirm"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_interval"
+            app:layout_constraintTop_toBottomOf="@+id/switch_theme"
             app:strokeColor="@color/primaryColor" />
 
         <Button
@@ -91,6 +109,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_book_arrow" />
+
+        <ImageView
+            android:id="@+id/icon_theme"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/theme_icon_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_clock"
+            app:srcCompat="@drawable/ic_theme_light_dark" />
 
         <ImageView
             android:id="@+id/icon_clock"
