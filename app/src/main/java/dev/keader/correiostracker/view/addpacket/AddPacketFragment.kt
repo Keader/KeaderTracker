@@ -159,11 +159,9 @@ class AddPacketFragment : Fragment() {
         val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = clipboard.primaryClip
         clipData?.let {
-            clipData.getItemAt(0).text?.let { text ->
-                val code = text.toString().trim()
-                if (Correios.isValidCode(code))
-                    binding.trackEditText.setText(code)
-            }
+            val code = clipData.getItemAt(0)?.text?.toString()?.trim() ?: return
+            if (Correios.isValidCode(code))
+                binding.trackEditText.setText(code)
         }
     }
 }
