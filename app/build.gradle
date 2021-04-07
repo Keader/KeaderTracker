@@ -18,8 +18,8 @@ android {
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 14
-        versionName "1.4.0 Dark"
+        versionCode 15
+        versionName "1.4.1 Darkness"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
