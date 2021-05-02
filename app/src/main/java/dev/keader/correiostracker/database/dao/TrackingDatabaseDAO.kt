@@ -27,6 +27,17 @@ interface TrackingDatabaseDAO {
         }
     }
 
+    @Transaction
+    suspend fun insertItemWithTracks(tracks: List<ItemWithTracks>) {
+        tracks.forEach { item ->
+            insert(item.item)
+            deleteTracks(item.item.code)
+            item.tracks.forEach {
+                insertTracks(it)
+            }
+        }
+    }
+
     @Query("UPDATE Item SET isArchived = 1 WHERE code = :code")
     suspend fun archiveTrack(code: String)
 

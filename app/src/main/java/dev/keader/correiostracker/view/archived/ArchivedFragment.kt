@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
@@ -34,7 +35,8 @@ class ArchivedFragment : Fragment() {
         }, false)
 
         binding.recyclerViewDelivered.adapter = adapter
-        archivedViewModel.tracks.observe(viewLifecycleOwner, {
+        val tracksDistinctLiveData = Transformations.distinctUntilChanged(archivedViewModel.tracks)
+        tracksDistinctLiveData.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {

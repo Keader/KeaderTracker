@@ -3,6 +3,7 @@ package dev.keader.correiostracker.repository
 import androidx.lifecycle.LiveData
 import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.correiostracker.database.toItemWithTracks
 import kotlinx.coroutines.Dispatchers
@@ -70,23 +71,26 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         return withContext(Dispatchers.IO) {
             val notificationList = mutableListOf<ItemWithTracks>()
             val items = database.getAllItemsToRefresh()
-
             if (items.isEmpty())
                 return@withContext UpdateItem(false, notificationList)
 
-            for (item in items) {
+            // Fetch Info from API
+            items.forEach { oldItem ->
                 try {
-                    val updatedItem = Correios.getTrackFromSite(item.item.code).toItemWithTracks()
-                    updatedItem.item.name = item.item.name
-                    if (updatedItem.tracks.size != item.tracks.size)
+                    val updatedItem = Correios.getTrackFromSite(oldItem.item.code).toItemWithTracks()
+                    updatedItem.item.name = oldItem.item.name
+                    if (updatedItem.tracks.size != oldItem.tracks.size)
                         notificationList.add(updatedItem)
-                    else if (item.item.isWaitingPost && !updatedItem.item.isWaitingPost) // object posted, yay
+                    // object posted, yay
+                    else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
                         notificationList.add(updatedItem)
-                    database.insertItemWithTracks(updatedItem)
                 } catch (e: IOException) {
                     Timber.e(e.message, e.stackTrace)
                 }
             }
+
+            // Update items in Database. It run in a single transaction
+            database.insertItemWithTracks(notificationList)
             return@withContext UpdateItem(true, notificationList)
         }
     }

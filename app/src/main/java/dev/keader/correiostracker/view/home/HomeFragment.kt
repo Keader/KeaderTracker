@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,8 @@ class HomeFragment : Fragment() {
         binding.recyclerViewDelivery.adapter = adapter
         binding.homeViewModel = homeViewModel
 
-        homeViewModel.tracks.observe(viewLifecycleOwner, {
+        val tracksDistinctLiveData = Transformations.distinctUntilChanged(homeViewModel.tracks)
+        tracksDistinctLiveData.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
