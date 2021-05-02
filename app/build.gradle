@@ -63,8 +63,8 @@ android {
 
 dependencies {
     implementation project(path: ':CorreiosAPI')
-    def room_version = '2.2.6'
-    def nav_version = '2.3.4'
+    def room_version = '2.3.0'
+    def nav_version = '2.3.5'
     def work_version = "2.5.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
