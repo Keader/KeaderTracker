@@ -8,9 +8,9 @@
   <color name="secondaryDarkColor">#c66200</color>
   <color name="primaryTextColor">#F6F4F3</color>
   <color name="secondaryTextColor">#FDFCFC</color>
-  <color name="backgroundColor">#EDEDED</color>
+  <color name="backgroundColor">#020202</color>
   <color name="textGreyColor">#C6C5C5</color>
   <color name="errorColor">#F80303</color>
   <color name="sucessColor">#06C32F</color>
-  <color name="primaryColorSpecial">#998D70F3</color>
+  <color name="primaryColorSpecial">#302E2E</color>
 </resources>

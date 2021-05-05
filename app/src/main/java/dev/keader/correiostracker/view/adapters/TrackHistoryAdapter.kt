@@ -21,6 +21,7 @@ private const val ITEM_VIEW_TYPE_ITEM = 1
 const val BUTTON_BACK = 1
 const val BUTTON_COPY = 2
 const val BUTTON_DELETE = 3
+const val BUTTON_SHARE = 4
 
 class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonListener)
     : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {

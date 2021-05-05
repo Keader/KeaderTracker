@@ -1,14 +1,25 @@
 package dev.keader.correiostracker.view.trackdetail
 
+import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.os.Build
+import android.os.Build.HARDWARE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.FileProvider
+import androidx.core.view.drawToBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,11 +28,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dev.keader.correiostracker.BuildConfig
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
+import dev.keader.correiostracker.util.toFile
 import dev.keader.correiostracker.view.adapters.*
 import dev.keader.correiostracker.work.RefreshTracksWorker
 
@@ -38,10 +51,10 @@ class TrackDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = DataBindingUtil.inflate<FragmentTrackDetailBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_track_detail, container, false
-        )
+            R.layout.fragment_track_detail,
+            container,false)
 
         uiViewModel.setBottomNavVisibility(View.GONE)
 
@@ -56,6 +69,7 @@ class TrackDetailFragment : Fragment() {
                 BUTTON_BACK -> findNavController().popBackStack()
                 BUTTON_COPY -> copyTrackCodeAndShowSnack(itemWithTracks)
                 BUTTON_DELETE -> trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
+                BUTTON_SHARE -> handleWithShare()
             }
         })
 
@@ -118,6 +132,17 @@ class TrackDetailFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    private fun handleWithShare() {
+        val context = requireContext()
+        val file = requireView().drawToBitmap().toFile(context)
+        val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.type = "image/jpg"
+        context.startActivity(intent)
     }
 
     private fun copyTrackCodeAndShowSnack(itemWithTracks: ItemWithTracks) {

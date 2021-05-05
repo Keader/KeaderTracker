@@ -12,5 +12,5 @@
   <color name="textGreyColor">#989696</color>
   <color name="errorColor">#F80303</color>
   <color name="sucessColor">#06C32F</color>
-  <color name="primaryColorSpecial">#FBFBFB</color>
+  <color name="primaryColorSpecial">#ffffff</color>
 </resources>
