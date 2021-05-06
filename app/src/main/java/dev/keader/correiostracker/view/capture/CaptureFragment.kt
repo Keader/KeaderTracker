@@ -1,7 +1,6 @@
 package dev.keader.correiostracker.view.capture
 
 import android.Manifest
-import android.media.MediaActionSound
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle

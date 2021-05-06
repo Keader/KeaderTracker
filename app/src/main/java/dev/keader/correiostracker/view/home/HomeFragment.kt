@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
+import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.util.EventObserver
 import dev.keader.correiostracker.view.adapters.*
@@ -25,6 +27,7 @@ import java.time.temporal.ChronoUnit
 class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
+    private val uiViewModel: UIViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +87,11 @@ class HomeFragment : Fragment() {
             applySmallScreensHack()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        uiViewModel.setBottomNavVisibility(View.VISIBLE)
     }
 
     private fun showEmptyList() {

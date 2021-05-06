@@ -26,13 +26,15 @@ import dev.keader.correiostracker.work.RefreshTracksWorker
 
 @AndroidEntryPoint
 class AddPacketFragment : Fragment() {
-
     private val uiViewModel: UIViewModel by activityViewModels()
-    private lateinit var binding: FragmentAddPacketBinding
     private val addPacketViewModel: AddPacketViewModel by viewModels()
+    private lateinit var binding: FragmentAddPacketBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
@@ -126,11 +128,6 @@ class AddPacketFragment : Fragment() {
             binding.descriptionEditText.error = null
 
         return !error
-    }
-
-    override fun onDestroyView() {
-        uiViewModel.setBottomNavVisibility(View.VISIBLE)
-        super.onDestroyView()
     }
 
     override fun onResume() {

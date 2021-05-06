@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="pt_BR">
     <string name="app_name">CorreiosTracker</string>
     <string name="btn_add_description">Adiciona um novo item</string>
     <string name="waiting_delivery">AGUARDANDO A ENTREGA</string>
@@ -73,4 +74,5 @@
     <string name="copy_icon_description">Botão para copiar o código de rastreio</string>
     <string name="delete_icon_description">Botão para deletar o rastreio</string>
     <string name="back_icon_description">Botão de voltar</string>
+    <string name="scan_code_guidelines">Aponte a camera para o QR code ou para o código de rastreio</string>
 </resources>
