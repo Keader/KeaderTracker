@@ -88,7 +88,8 @@ class AddPacketFragment : Fragment() {
         })
 
         addPacketViewModel.eventQR.observe(viewLifecycleOwner, EventObserver {
-            scanQRCode()
+            val directions = AddPacketFragmentDirections.actionAddPacketFragmentToCaptureFragment()
+            findNavController().navigate(directions)
         })
 
         uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver { qr ->
@@ -129,24 +130,6 @@ class AddPacketFragment : Fragment() {
             binding.descriptionEditText.error = null
 
         return !error
-    }
-
-    private val qRResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-        val result = IntentIntegrator.parseActivityResult(REQUEST_CODE, activityResult.resultCode, activityResult.data)
-        if (result != null && result.contents != null) {
-            val code = result.contents
-            uiViewModel.setQrCode(code)
-        }
-    }
-
-    private fun scanQRCode() {
-        val integrator = IntentIntegrator(activity).apply {
-            captureActivity = CaptureActivity::class.java
-            setOrientationLocked(false)
-            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
-            setPrompt(getString(R.string.qr_read))
-        }
-        qRResult.launch(integrator.createScanIntent())
     }
 
     override fun onDestroyView() {
