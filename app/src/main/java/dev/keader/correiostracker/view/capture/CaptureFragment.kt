@@ -1,6 +1,8 @@
 package dev.keader.correiostracker.view.capture
 
 import android.Manifest
+import android.media.MediaActionSound
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentCaptureBinding
 import dev.keader.correiostracker.util.EventObserver
@@ -48,6 +51,9 @@ class CaptureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         uiViewModel.onQrCodeDetected.observe(viewLifecycleOwner, EventObserver {
+            val player = MediaPlayer.create(requireContext(), R.raw.scan_complete)
+            player.setVolume(0.35f, 0.35f)
+            player.start()
             findNavController().popBackStack()
         })
     }
