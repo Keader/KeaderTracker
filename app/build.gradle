@@ -47,6 +47,7 @@ android {
         }
 
         debug {
+            applicationIdSuffix '.debug'
             manifestPlaceholders = [crashlyticsEnabled: false]
         }
     }
@@ -66,12 +67,15 @@ dependencies {
     def room_version = '2.3.0'
     def nav_version = '2.3.5'
     def work_version = "2.5.0"
+    def camerax_version = "1.1.0-alpha04"
+    def camerax_ext_version = "1.0.0-alpha24"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // Lottie Animation
     implementation 'com.airbnb.android:lottie:3.6.1'
@@ -108,11 +112,17 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
-    // QR Code
-    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
-
     // Preferences
     implementation 'androidx.preference:preference-ktx:1.1.1'
+
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-view:${camerax_ext_version}"
+    implementation "androidx.camera:camera-extensions:${camerax_ext_version}"
+
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
+    implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:16.1.4'
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

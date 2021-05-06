@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
+import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.util.EventObserver
 import dev.keader.correiostracker.view.adapters.TrackAdapter
@@ -21,7 +23,7 @@ import java.time.temporal.ChronoUnit
 
 @AndroidEntryPoint
 class ArchivedFragment : Fragment() {
-
+    private val uiViewModel: UIViewModel by activityViewModels()
     private val archivedViewModel: ArchivedViewModel by viewModels()
     private lateinit var binding: FragmentArchivedBinding
 
@@ -65,5 +67,10 @@ class ArchivedFragment : Fragment() {
     private fun showRecyclerView() {
         binding.recyclerViewEmptyDelivered.root.visibility = View.GONE
         binding.recyclerViewDelivered.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        uiViewModel.setBottomNavVisibility(View.VISIBLE)
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
     <fragment
@@ -19,7 +18,15 @@
     <fragment
         android:id="@+id/addPacketFragment"
         android:name="dev.keader.correiostracker.view.addpacket.AddPacketFragment"
-        android:label="AddPacketFragment" />
+        android:label="AddPacketFragment" >
+        <action
+            android:id="@+id/action_addPacketFragment_to_captureFragment"
+            app:destination="@id/captureFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
         android:id="@+id/trackDetailFragment"
         android:name="dev.keader.correiostracker.view.trackdetail.TrackDetailFragment"
@@ -42,4 +49,8 @@
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_in_right"
         app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+        android:id="@+id/captureFragment"
+        android:name="dev.keader.correiostracker.view.capture.CaptureFragment"
+        android:label="CaptureFragment" />
 </navigation>

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,11 +14,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentIntegrator.REQUEST_CODE
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiosapi.Correios
-import dev.keader.correiostracker.CaptureActivity
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
@@ -30,13 +26,15 @@ import dev.keader.correiostracker.work.RefreshTracksWorker
 
 @AndroidEntryPoint
 class AddPacketFragment : Fragment() {
-
     private val uiViewModel: UIViewModel by activityViewModels()
-    private lateinit var binding: FragmentAddPacketBinding
     private val addPacketViewModel: AddPacketViewModel by viewModels()
+    private lateinit var binding: FragmentAddPacketBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
@@ -88,7 +86,8 @@ class AddPacketFragment : Fragment() {
         })
 
         addPacketViewModel.eventQR.observe(viewLifecycleOwner, EventObserver {
-            scanQRCode()
+            val directions = AddPacketFragmentDirections.actionAddPacketFragmentToCaptureFragment()
+            findNavController().navigate(directions)
         })
 
         uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver { qr ->
@@ -129,29 +128,6 @@ class AddPacketFragment : Fragment() {
             binding.descriptionEditText.error = null
 
         return !error
-    }
-
-    private val qRResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-        val result = IntentIntegrator.parseActivityResult(REQUEST_CODE, activityResult.resultCode, activityResult.data)
-        if (result != null && result.contents != null) {
-            val code = result.contents
-            uiViewModel.setQrCode(code)
-        }
-    }
-
-    private fun scanQRCode() {
-        val integrator = IntentIntegrator(activity).apply {
-            captureActivity = CaptureActivity::class.java
-            setOrientationLocked(false)
-            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
-            setPrompt(getString(R.string.qr_read))
-        }
-        qRResult.launch(integrator.createScanIntent())
-    }
-
-    override fun onDestroyView() {
-        uiViewModel.setBottomNavVisibility(View.VISIBLE)
-        super.onDestroyView()
     }
 
     override fun onResume() {
