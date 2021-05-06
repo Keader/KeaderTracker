@@ -1,20 +1,16 @@
 package dev.keader.correiostracker
 
 import android.app.ActionBar
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnLayout
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.zxing.integration.android.IntentIntegrator
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.view.home.HomeFragmentDirections

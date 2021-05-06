@@ -23,10 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CaptureActivity"
-            android:screenOrientation="fullSensor"
-            android:stateNotNeeded="true"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="${applicationId}.workmanager-init"
