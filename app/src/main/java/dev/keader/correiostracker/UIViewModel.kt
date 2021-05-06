@@ -29,6 +29,7 @@ class UIViewModel @Inject constructor() : ViewModel(), CodeDetectionActions {
     }
 
     override fun onCodeDetected(code: String, source: Int) {
-        _qrCodeResult.value = Event(code)
+        _qrCodeResult.postValue(Event(code))
+        _onQrCodeDetected.postValue(Event(Unit))
     }
 }
