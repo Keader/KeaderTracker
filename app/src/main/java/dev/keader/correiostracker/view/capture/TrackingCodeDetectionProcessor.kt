@@ -42,11 +42,10 @@ class TrackingCodeDetectionProcessor (
 
         val input = InputImage.fromMediaImage(mediaImage, image.imageInfo.rotationDegrees)
 
-        val detected = detectFromBarcode(input) ?: detectFromOCR(input)
-        Timber.d("Detected: $detected")
+        val (detected, source) = detectFromBarcode(input) ?: detectFromOCR(input) ?: null to -1
 
         if (detected != null) {
-            actions.onCodeDetected(detected, CodeDetectionActions.SOURCE_OCR)
+            actions.onCodeDetected(detected, source)
             stop()
         }
 
@@ -54,7 +53,7 @@ class TrackingCodeDetectionProcessor (
         image.close()
     }
 
-    private fun detectFromBarcode(input: InputImage): String? {
+    private fun detectFromBarcode(input: InputImage): Pair<String, Int>? {
         val codes = try {
             Tasks.await(barcodeScanner.process(input))
         } catch (error: Throwable) {
@@ -62,12 +61,17 @@ class TrackingCodeDetectionProcessor (
             emptyList()
         }
 
-        return codes
+        val result = codes
             .mapNotNull { it.displayValue }
             .firstOrNull { it.matches(TRACK_CODE_PATTERN) }
+        return if (result == null) {
+            null
+        } else {
+            result to CodeDetectionActions.SOURCE_QR_CODE
+        }
     }
 
-    private fun detectFromOCR(input: InputImage): String? {
+    private fun detectFromOCR(input: InputImage): Pair<String, Int>? {
         val result = try {
             Tasks.await(recognizer.process(input))
         } catch (error: Throwable) {
@@ -90,7 +94,12 @@ class TrackingCodeDetectionProcessor (
         }
 
         // give precedence to the first text that matches criteria
-        return lines.firstOrNull()
+        val detected = lines.firstOrNull()
+        return if (detected == null) {
+            null
+        } else {
+            detected to CodeDetectionActions.SOURCE_OCR
+        }
     }
 
     fun stop() {
