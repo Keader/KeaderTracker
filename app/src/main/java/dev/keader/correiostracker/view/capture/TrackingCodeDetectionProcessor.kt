@@ -79,17 +79,18 @@ class TrackingCodeDetectionProcessor (
 
         val lineTexts = result.textBlocks.flatMap { it.lines }
 
-        val lines = lineTexts.filter { line ->
-            val match = TRACK_CODE_PATTERN.find(line.text)
-            match?.value?.let {
-                val height = line.boundingBox?.height() ?: 0
-                height >= 10
-            } ?: false
+        val lines = lineTexts.mapNotNull { line ->
+            val height = line.boundingBox?.height() ?: 0
+            if (height < 10) {
+                null
+            } else {
+                val match = TRACK_CODE_PATTERN.find(line.text)
+                match?.value
+            }
         }
 
-        return lines.firstOrNull()?.text?.let {
-            TRACK_CODE_PATTERN.find(it)?.value
-        }
+        // give precedence to the first text that matches criteria
+        return lines.firstOrNull()
     }
 
     fun stop() {
