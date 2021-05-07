@@ -3,6 +3,7 @@ package dev.keader.correiostracker.view.addpacket
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiosapi.Correios
@@ -30,15 +33,13 @@ class AddPacketFragment : Fragment() {
     private val addPacketViewModel: AddPacketViewModel by viewModels()
     private lateinit var binding: FragmentAddPacketBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
         binding.addPacketViewModel = addPacketViewModel
+
+        val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
 
         addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, EventObserver {
             findNavController().popBackStack()
@@ -50,7 +51,6 @@ class AddPacketFragment : Fragment() {
             val observation = binding.descriptionEditText.text.toString()
 
             if (validateInputs(code, observation)) {
-                val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
                 val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
                 addPacketViewModel.handleCheckOK(code, observation)
                 binding.progressBar.visibility = View.VISIBLE
@@ -99,7 +99,39 @@ class AddPacketFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        if (sharedPref.getBoolean(getString(R.string.preference_scan_intro), true)) {
+            val sharedEdit = sharedPref.edit()
+            sharedEdit.putBoolean(getString(R.string.preference_scan_intro), false)
+            sharedEdit.apply()
+            showTutorial()
+        }
+
         return binding.root
+    }
+
+    private fun showTutorial() {
+        TapTargetView.showFor(requireActivity(),
+            TapTarget.forView(binding.qrView,
+                getString(R.string.scan_title),
+                getString(R.string.scan_description))
+                .outerCircleColor(R.color.secondaryColor)
+                .outerCircleAlpha(1.0f)
+                .targetCircleColor(android.R.color.white)
+                .titleTextSize(22)
+                .descriptionTextSize(16)
+                .descriptionTextAlpha(0.8f)
+                .textColor(android.R.color.white)  // text and description
+                .textTypeface(Typeface.SANS_SERIF)
+                .drawShadow(true)
+                .cancelable(true)
+                .transparentTarget(true)
+                .targetRadius(40),
+            object : TapTargetView.Listener() {
+                override fun onOuterCircleClick(view: TapTargetView?) {
+                    super.onOuterCircleClick(view)
+                    view?.dismiss(false)
+                }
+            })
     }
 
     private fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {

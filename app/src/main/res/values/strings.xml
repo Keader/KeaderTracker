@@ -62,6 +62,7 @@
     <string name="preference_frequency_pos">PREF_FREQUENCY_POS</string>
     <string name="preference_automove">PREF_AUTOMOVE</string>
     <string name="preference_theme">PREF_THEME</string>
+    <string name="preference_scan_intro">PREF_SCAN_INTRO</string>
     <string name="confirm">Confirmar</string>
     <string name="update_frequency">Intervalo de atualização:</string>
     <string name="settings_success">Configurações atualizadas com sucesso.</string>
@@ -75,4 +76,6 @@
     <string name="delete_icon_description">Botão para deletar o rastreio</string>
     <string name="back_icon_description">Botão de voltar</string>
     <string name="scan_code_guidelines">Aponte a camera para o QR code ou para o código de rastreio</string>
+    <string name="scan_title">Nova funcionalidade de Scan!</string>
+    <string name="scan_description">Agora além de QR Code, você poderá adicionar códigos de rastreio através de qualquer imagem, como sites, comprovantes de envio, fotos, entre outros. Basta apontar a sua câmera para o código desejado.</string>
 </resources>
