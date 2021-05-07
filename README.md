@@ -15,6 +15,16 @@ Fornecer notificações quando houveram atualizações do seu rastreio no site d
 (digitando o código ou utilizando a ferramenta de leitura de QR code) e ficar tranquilo, pois sempre que houver atualização você será notificado.
 Este aplicativo não contem propagandas e nem possui nenhuma pretenção de monetização.
 
+
+### Nova função de reconhecimento de imagens
+
+Após sugestão de um usuário e com a ajuda de João Paulo, decidimos implementar o reconhecimento de imagens.
+Agora na tela de adição de produtos, ao utilizar o botão de scan, você poderá apontar a câmera do celular para o código de rastreio ou QR Code
+distribuido em qualquer imagem e ele será importado para o aplicativo.
+Exemplos de uso em QR Code e em um comprovante:
+
+![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/qr.gif) ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/comprovante.gif)
+
 ### Quer entrar em contato?
 Me mande um email para keader.android@gmail.com ou pelo discord: Keader#0001
 
