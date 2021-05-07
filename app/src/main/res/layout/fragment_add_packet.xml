@@ -51,7 +51,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/label_pray_for_sedex" />
+                        app:layout_constraintTop_toBottomOf="@id/label_pray_for_sedex" />
 
                     <TextView
                         android:id="@+id/label_title"
@@ -74,7 +74,7 @@
                         app:cardCornerRadius="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/label_title">
+                        app:layout_constraintTop_toBottomOf="@id/label_title">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -97,14 +97,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:ems="11"
                                 android:hint="@string/track_number"
                                 android:inputType="textCapCharacters"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/qr_view"
-                                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                                app:layout_constraintEnd_toStartOf="@id/qr_view"
+                                app:layout_constraintStart_toEndOf="@id/imageView2"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <ImageView
@@ -116,7 +115,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_qr_scan"
+                                app:srcCompat="@drawable/ic_scan"
                                 android:contentDescription="@string/qr_code_description"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -132,7 +131,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.51"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card_track">
+                        app:layout_constraintTop_toBottomOf="@id/card_track">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -155,14 +154,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:autofillHints=""
                                 android:background="@android:color/transparent"
                                 android:ems="11"
                                 android:hint="@string/description"
                                 android:inputType="textCapWords"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                                app:layout_constraintStart_toEndOf="@id/imageView3"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -180,10 +178,10 @@
                         android:textColor="@color/primaryTextColor"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/icon_pray_for_sedex"
+                        app:layout_constraintBottom_toTopOf="@id/icon_pray_for_sedex"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card_description" />
+                        app:layout_constraintTop_toBottomOf="@id/card_description" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -201,7 +199,7 @@
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_purple">
+                app:layout_constraintTop_toBottomOf="@id/card_purple">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -239,7 +237,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card_circle_cancel" />
+                        app:layout_constraintTop_toBottomOf="@id/card_circle_cancel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -257,7 +255,7 @@
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_purple">
+                app:layout_constraintTop_toBottomOf="@id/card_purple">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -295,7 +293,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card_circle_tracking" />
+                        app:layout_constraintTop_toBottomOf="@id/card_circle_tracking" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
