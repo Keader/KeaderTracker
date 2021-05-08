@@ -18,7 +18,7 @@ android {
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 16
+        versionCode 17
         versionName "1.5.0 AI"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
