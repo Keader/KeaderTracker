@@ -122,6 +122,7 @@ class AddPacketFragment : Fragment() {
                 .descriptionTextAlpha(0.8f)
                 .textColor(android.R.color.white)  // text and description
                 .textTypeface(Typeface.SANS_SERIF)
+                .dimColor(android.R.color.black)
                 .drawShadow(true)
                 .cancelable(true)
                 .transparentTarget(true)
