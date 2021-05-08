@@ -165,6 +165,10 @@ class AddPacketFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val currentCode = binding.trackEditText.text.toString()
+        if (currentCode.isNotEmpty() && Correios.isValidCode(currentCode))
+            return
+
         val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = clipboard.primaryClip
         clipData?.let {
