@@ -1,13 +1,18 @@
 package dev.keader.correiostracker.view.capture
 
 import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -15,7 +20,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
@@ -25,16 +29,16 @@ import dev.keader.correiostracker.util.EventObserver
 import timber.log.Timber
 import java.util.concurrent.Executors
 
+
 @AndroidEntryPoint
 class CaptureFragment : Fragment() {
     private lateinit var binding: FragmentCaptureBinding
     private lateinit var codeDetector: TrackingCodeDetectionProcessor
-    private val viewModel by viewModels<CaptureViewModel>()
     private val uiViewModel by activityViewModels<UIViewModel>()
 
     private val requestInitialPermissions = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) initializeCamera()
-        else viewModel.onPermissionsDenied()
+        else onPermissionsDenied()
     }
 
     override fun onCreateView(
@@ -61,11 +65,67 @@ class CaptureFragment : Fragment() {
         super.onStart()
         codeDetector = TrackingCodeDetectionProcessor(uiViewModel)
         codeDetector.start()
+
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
+                initializeCamera()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                showPermissionRationale()
+            }
+            else -> {
+                requestInitialPermissions.launch(Manifest.permission.CAMERA)
+            }
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        requestInitialPermissions.launch(Manifest.permission.CAMERA)
+    private fun showPermissionRationale() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permissões necessárias")
+            .setMessage("Precisamos de acesso à câmera para escanear o QR Code")
+            .setCancelable(false)
+            .setPositiveButton("Permitir") { dialog, _ ->
+                requestInitialPermissions.launch(Manifest.permission.CAMERA)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Não, obrigado") { dialog, _ ->
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+            .create()
+            .show()
+    }
+
+    private fun onPermissionsDenied() {
+        if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            Timber.d("User clicked to not ask again...")
+            showPermissionPermanentlyDenied()
+        } else {
+            Timber.d("User didn't allow")
+            Toast.makeText(requireContext(), "A permissão da cãmera não foi concedida", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun showPermissionPermanentlyDenied() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Permissões negadas")
+            .setMessage("A função não está disponível sem acesso à câmera. Ela é necessária para escanear o QR Code")
+            .setCancelable(false)
+            .setPositiveButton("Permitir") { dialog, _ ->
+                dialog.dismiss()
+
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", requireContext().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            .setNegativeButton("Não, obrigado") { dialog, _ ->
+                dialog.dismiss()
+                findNavController().popBackStack()
+            }
+            .create()
+            .show()
     }
 
     private fun initializeCamera() {
@@ -79,14 +139,6 @@ class CaptureFragment : Fragment() {
             preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
 
             val selector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            val rotation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                requireContext().display!!.rotation
-            } else {
-                requireActivity().windowManager.defaultDisplay.rotation
-            }
-
-            Timber.d("Rotation: $rotation")
 
             val imageAnalysis = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
