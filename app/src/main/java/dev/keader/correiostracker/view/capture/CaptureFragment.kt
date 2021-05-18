@@ -81,14 +81,14 @@ class CaptureFragment : Fragment() {
 
     private fun showPermissionRationale() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Permissões necessárias")
-            .setMessage("Precisamos de acesso à câmera para escanear o QR Code")
+            .setTitle(R.string.permissions_camera_ask_permission)
+            .setMessage(R.string.permissions_camera_ask_permission_message)
             .setCancelable(false)
-            .setPositiveButton("Permitir") { dialog, _ ->
+            .setPositiveButton(R.string.permissions_camera_allow) { dialog, _ ->
                 requestInitialPermissions.launch(Manifest.permission.CAMERA)
                 dialog.dismiss()
             }
-            .setNegativeButton("Não, obrigado") { dialog, _ ->
+            .setNegativeButton(R.string.permissions_camera_no_thanks) { dialog, _ ->
                 dialog.dismiss()
                 findNavController().popBackStack()
             }
@@ -102,17 +102,17 @@ class CaptureFragment : Fragment() {
             showPermissionPermanentlyDenied()
         } else {
             Timber.d("User didn't allow")
-            Toast.makeText(requireContext(), "A permissão da cãmera não foi concedida", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.permissions_denied_camera, Toast.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
     }
 
     private fun showPermissionPermanentlyDenied() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Permissões negadas")
-            .setMessage("A função não está disponível sem acesso à câmera. Ela é necessária para escanear o QR Code")
+            .setTitle(R.string.permissions_denied_camera_ask_permission)
+            .setMessage(R.string.permissions_denied_camera_ask_permission_message)
             .setCancelable(false)
-            .setPositiveButton("Permitir") { dialog, _ ->
+            .setPositiveButton(R.string.permissions_camera_allow) { dialog, _ ->
                 dialog.dismiss()
 
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -120,7 +120,7 @@ class CaptureFragment : Fragment() {
                 intent.data = uri
                 startActivity(intent)
             }
-            .setNegativeButton("Não, obrigado") { dialog, _ ->
+            .setNegativeButton(R.string.permissions_camera_no_thanks) { dialog, _ ->
                 dialog.dismiss()
                 findNavController().popBackStack()
             }
