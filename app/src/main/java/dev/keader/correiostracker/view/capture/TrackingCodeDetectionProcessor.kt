@@ -63,6 +63,7 @@ class TrackingCodeDetectionProcessor (
 
         val result = codes
             .mapNotNull { it.displayValue }
+            .also { Timber.d("$it") }
             .firstOrNull { it.matches(TRACK_CODE_PATTERN) }
         return if (result == null) {
             null
