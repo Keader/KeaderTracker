@@ -78,4 +78,11 @@
     <string name="scan_code_guidelines">Aponte a camera para o QR code ou para o código de rastreio</string>
     <string name="scan_title">Nova funcionalidade de Scan!</string>
     <string name="scan_description">Agora além de QR Code, você poderá adicionar códigos de rastreio através de qualquer imagem, como sites, comprovantes de envio, fotos, entre outros. Basta apontar a sua câmera para o código desejado.</string>
+    <string name="permissions_camera_ask_permission">Permissões necessárias</string>
+    <string name="permissions_camera_ask_permission_message">Precisamos de acesso à câmera para escanear o QR Code</string>
+    <string name="permissions_camera_allow">Permitir</string>
+    <string name="permissions_camera_no_thanks">Não, obrigado</string>
+    <string name="permissions_denied_camera_ask_permission">Permissão negada</string>
+    <string name="permissions_denied_camera_ask_permission_message">A função não está disponível sem acesso à câmera. Ela é necessária para escanear o QR Code</string>
+    <string name="permissions_denied_camera">A permissão da cãmera não foi concedida</string>
 </resources>
