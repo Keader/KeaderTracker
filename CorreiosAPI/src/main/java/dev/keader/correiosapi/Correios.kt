@@ -50,7 +50,10 @@ class Correios {
                 .build()
 
             val response = client.newCall(request).executeSuspend()
-            if (!response.isSuccessful) throw IOException("Response: ${response.code} for code: $code")
+            if (!response.isSuccessful) {
+                response.close()
+                throw IOException("Response: ${response.code} for code: $code")
+            }
 
             val tracks = mutableListOf<CorreiosTrack>()
             val document = Jsoup.parse(response.body!!.string())

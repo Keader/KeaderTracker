@@ -84,5 +84,5 @@
     <string name="permissions_camera_no_thanks">Não, obrigado</string>
     <string name="permissions_denied_camera_ask_permission">Permissão negada</string>
     <string name="permissions_denied_camera_ask_permission_message">A função não está disponível sem acesso à câmera. Ela é necessária para escanear o QR Code</string>
-    <string name="permissions_denied_camera">A permissão da cãmera não foi concedida</string>
+    <string name="permissions_denied_camera">A permissão da câmera não foi concedida</string>
 </resources>

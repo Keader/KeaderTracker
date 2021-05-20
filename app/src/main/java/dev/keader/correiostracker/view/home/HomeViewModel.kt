@@ -1,17 +1,20 @@
 package dev.keader.correiostracker.view.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.content.Context
+import androidx.lifecycle.*
+import androidx.work.WorkInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.util.Event
+import dev.keader.correiostracker.work.RefreshTracksWorker
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: TrackingRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    repository: TrackingRepository,
+    @ApplicationContext context: Context) : ViewModel() {
 
     val tracks = repository.getAllItemsWithTracks()
 
@@ -27,10 +30,13 @@ class HomeViewModel @Inject constructor(private val repository: TrackingReposito
     val eventOpenSettingsFragment: LiveData<Event<Unit>>
         get() = _eventOpenSettingsFragment
 
-
-    private val _eventRefreshFinished = MutableLiveData(true)
-    val eventRefreshFinished: LiveData<Boolean>
-        get() = _eventRefreshFinished
+    private val _eventRefreshRunning = Transformations.map(RefreshTracksWorker.getWorkInfoLiveData(context)) {
+        if (it.isEmpty())
+            return@map false
+        return@map it.first().state == WorkInfo.State.RUNNING
+    }
+    val eventRefreshRunning: LiveData<Boolean>
+        get() = _eventRefreshRunning
 
     fun onInfoButtonClicked() {
         _eventOpenInfoDialog.value = Event(Unit)
@@ -44,12 +50,7 @@ class HomeViewModel @Inject constructor(private val repository: TrackingReposito
         _eventNavigateToTrackDetail.value = Event(code)
     }
 
-    fun onRefreshCalled() {
-        _eventRefreshFinished.value = false
-        viewModelScope.launch {
-            repository.refreshTracks()
-            _eventRefreshFinished.value = true
-        }
+    fun onRefreshCalled(context: Context) {
+        RefreshTracksWorker.startWorker(context)
     }
-
 }

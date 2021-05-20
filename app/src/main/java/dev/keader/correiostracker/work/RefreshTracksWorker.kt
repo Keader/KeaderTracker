@@ -2,6 +2,7 @@ package dev.keader.correiostracker.work
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
+import androidx.lifecycle.LiveData
 import androidx.work.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -40,6 +41,10 @@ class RefreshTracksWorker @AssistedInject constructor(
                     WORK_NAME,
                     ExistingPeriodicWorkPolicy.REPLACE,
                     repeating)
+        }
+
+        fun getWorkInfoLiveData(context: Context) : LiveData<List<WorkInfo>> {
+            return WorkManager.getInstance(context).getWorkInfosForUniqueWorkLiveData(WORK_NAME)
         }
 
         fun stopWorker(ctx: Context) {

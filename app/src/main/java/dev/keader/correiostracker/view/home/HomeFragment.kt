@@ -76,11 +76,11 @@ class HomeFragment : Fragment() {
         })
 
         binding.swipeRefresh.setOnRefreshListener {
-            homeViewModel.onRefreshCalled()
+            homeViewModel.onRefreshCalled(requireContext())
         }
 
-        homeViewModel.eventRefreshFinished.observe(viewLifecycleOwner, { finished ->
-            binding.swipeRefresh.isRefreshing = !finished
+        homeViewModel.eventRefreshRunning.observe(viewLifecycleOwner, { running ->
+            binding.swipeRefresh.isRefreshing = running
         })
 
         // same hack to work in small screens :/
@@ -115,5 +115,4 @@ class HomeFragment : Fragment() {
         constraintSet.connect(R.id.icon_info, ConstraintSet.END, R.id.icon_config, ConstraintSet.START, 16)
         constraintSet.applyTo(binding.constraintLayout)
     }
-
 }
