@@ -1,0 +1,47 @@
+name: Android Publisher CI
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Descrypt files
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.DECRIPT_PASSWORD }}" --output keadertracker.jks keadertracker.jks.gpg
+
+      - name: Descrypt Google services
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.DECRIPT_PASSWORD }}" --output app/google-services.json app/google-services.json.gpg
+
+      - name: Descrypt Publish Keys
+          run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.DECRIPT_PASSWORD }}" --output app/publish_key.json app/publish_key.json.gpg
+
+      - name: Dependencies
+        run: ./gradlew dependencies
+
+      - name: Publish Release App
+        run: ./gradlew publishReleaseBundle uploadCrashlyticsMappingFileRelease
+        if: "contains(github.event.head_commit.message, '[publish]')"
+        env:
+          APP_KEYSTORE_ALIAS: ${{ secrets.APP_KEYSTORE_ALIAS }}
+          APP_KEYSTORE_PASSWORD: ${{ secrets.APP_KEYSTORE_PASSWORD }}
+
+      - name: Upload result for job
+        uses: actions/upload-artifact@v1
+        if: "contains(github.event.head_commit.message, '[publish]')"
+        with:
+          name: bundle
+          path: app/build/outputs/bundle/release/app-release.aab

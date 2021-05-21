@@ -9,7 +9,7 @@
 .cxx
 local.properties
 google-services.json
-app/keadertracker.jks
+*.jks
 
 # User-specific stuff:
 .idea/workspace.xml
@@ -58,3 +58,4 @@ fabric.properties
 
 # *.iml
 # modules.xml
+/app/publish_key.json

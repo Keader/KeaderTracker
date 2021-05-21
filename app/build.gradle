@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.github.triplet.play'
 }
 
 apply plugin: 'kotlin-android'
@@ -15,11 +16,14 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+        def commitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+        def last_tag_commit = "git rev-list --tags --max-count=1".execute([], project.rootDir).text.trim()
+        def last_tag = "git describe --tags ${last_tag_commit}".execute([], project.rootDir).text.trim().replace("_", " ")
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 18
-        versionName "1.5.1 Sofia"
+        versionCode commitCount
+        versionName last_tag
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -30,6 +34,19 @@ android {
                         "room.schemaLocation": "$projectDir/schemas".toString()
                 ]
             }
+        }
+    }
+
+    signingConfigs {
+        release {
+            def password = System.getenv("APP_KEYSTORE_PASSWORD")
+            def alias = System.getenv("APP_KEYSTORE_ALIAS")
+            def signFile = project.file("keadertracker.jks")
+
+            storeFile signFile
+            storePassword password
+            keyAlias alias
+            keyPassword password
         }
     }
 
@@ -62,6 +79,11 @@ android {
     }
 }
 
+play {
+    track.set("production")
+    serviceAccountCredentials.set(file("publish_key.json"))
+}
+
 dependencies {
     implementation project(path: ':CorreiosAPI')
     def room_version = '2.3.0'
@@ -72,8 +94,8 @@ dependencies {
     def tapTargetView_version ="1.13.2"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
@@ -135,3 +157,33 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
+
+task buildNotes {
+    doFirst {
+        try {
+            def branch = 'git rev-parse --abbrev-ref HEAD'.execute([], project.rootDir).text.trim()
+            if (branch == "main") {
+                def lastTag = "git describe --abbrev=0".execute([], project.rootDir).text.trim()
+                def tagMessage = "git tag -l --format=%(contents) ${lastTag}".execute([], project.rootDir).text.trim()
+                def production = new File(project.rootDir, "app/src/main/play/release-notes/pt-BR/production.txt")
+                production.text = tagMessage
+            } else if (branch == "development") {
+                def message = "git log -1 --pretty=%B".execute([], project.rootDir).text.trim().split(":").reverse()[0]
+                def internal = new File(project.rootDir, "app/src/main/play/release-notes/pt-BR/internal.txt")
+                internal.text = message
+            }
+        } catch (Exception ignored) {
+            System.err.println("No git installed on the machine or not on a git repo. UNES will not generate release notes")
+        }
+    }
+}
+
+afterEvaluate {
+    def publish = tasks.findByName("publishReleaseBundle")
+    if (publish != null) {
+        publish.configure {
+            dependsOn("buildNotes")
+        }
+    }
+}
+
