@@ -32,6 +32,7 @@ import java.util.concurrent.Executors
 
 @AndroidEntryPoint
 class CaptureFragment : Fragment() {
+    private var dialog: AlertDialog? = null
     private lateinit var binding: FragmentCaptureBinding
     private lateinit var codeDetector: TrackingCodeDetectionProcessor
     private val uiViewModel by activityViewModels<UIViewModel>()
@@ -93,6 +94,7 @@ class CaptureFragment : Fragment() {
                 findNavController().popBackStack()
             }
             .create()
+            .also { dialog = it }
             .show()
     }
 
@@ -125,6 +127,7 @@ class CaptureFragment : Fragment() {
                 findNavController().popBackStack()
             }
             .create()
+            .also { dialog = it }
             .show()
     }
 
@@ -155,6 +158,7 @@ class CaptureFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         codeDetector.stop()
+        dialog?.dismiss()
     }
 
 }
