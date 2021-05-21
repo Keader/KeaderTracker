@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
         })
 
         binding.swipeRefresh.setOnRefreshListener {
-            homeViewModel.onRefreshCalled(requireContext())
+            homeViewModel.onRefreshCalled()
         }
 
         homeViewModel.eventRefreshRunning.observe(viewLifecycleOwner, { running ->

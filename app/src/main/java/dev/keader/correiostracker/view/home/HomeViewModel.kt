@@ -7,13 +7,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.util.Event
+import dev.keader.correiostracker.util.combineWith
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    repository: TrackingRepository,
+    private val repository: TrackingRepository,
     @ApplicationContext context: Context) : ViewModel() {
 
     val tracks = repository.getAllItemsWithTracks()
@@ -30,13 +31,17 @@ class HomeViewModel @Inject constructor(
     val eventOpenSettingsFragment: LiveData<Event<Unit>>
         get() = _eventOpenSettingsFragment
 
-    private val _eventRefreshRunning = Transformations.map(RefreshTracksWorker.getWorkInfoLiveData(context)) {
+    private val _eventSwipeRefreshRunning = MutableLiveData(false)
+
+    private val _isRefreshWorkRunning = Transformations.map(RefreshTracksWorker.getWorkInfoLiveData(context)) {
         if (it.isEmpty())
             return@map false
         return@map it.first().state == WorkInfo.State.RUNNING
     }
-    val eventRefreshRunning: LiveData<Boolean>
-        get() = _eventRefreshRunning
+
+    val eventRefreshRunning = _isRefreshWorkRunning.combineWith(_eventSwipeRefreshRunning) { a, b ->
+        return@combineWith a == true || b == true
+    }
 
     fun onInfoButtonClicked() {
         _eventOpenInfoDialog.value = Event(Unit)
@@ -50,7 +55,11 @@ class HomeViewModel @Inject constructor(
         _eventNavigateToTrackDetail.value = Event(code)
     }
 
-    fun onRefreshCalled(context: Context) {
-        RefreshTracksWorker.startWorker(context)
+    fun onRefreshCalled() {
+        _eventSwipeRefreshRunning.value = true
+        viewModelScope.launch {
+            repository.refreshTracks()
+            _eventSwipeRefreshRunning.value = false
+        }
     }
 }
