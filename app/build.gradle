@@ -41,7 +41,7 @@ android {
         release {
             def password = System.getenv("APP_KEYSTORE_PASSWORD")
             def alias = System.getenv("APP_KEYSTORE_ALIAS")
-            def signFile = project.file("keadertracker.jks")
+            def signFile = rootProject.file("keadertracker.jks")
 
             storeFile signFile
             storePassword password
@@ -57,6 +57,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -166,14 +167,16 @@ task buildNotes {
                 def lastTag = "git describe --abbrev=0".execute([], project.rootDir).text.trim()
                 def tagMessage = "git tag -l --format=%(contents) ${lastTag}".execute([], project.rootDir).text.trim()
                 def production = new File(project.rootDir, "app/src/main/play/release-notes/pt-BR/production.txt")
+                production.createNewFile()
                 production.text = tagMessage
             } else if (branch == "development") {
                 def message = "git log -1 --pretty=%B".execute([], project.rootDir).text.trim().split(":").reverse()[0]
                 def internal = new File(project.rootDir, "app/src/main/play/release-notes/pt-BR/internal.txt")
+                internal.createNewFile()
                 internal.text = message
             }
         } catch (Exception ignored) {
-            System.err.println("No git installed on the machine or not on a git repo. UNES will not generate release notes")
+            System.err.println("No git installed on the machine or not on a git repo. CorreiosTracker will not generate release notes")
         }
     }
 }

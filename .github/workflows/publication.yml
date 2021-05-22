@@ -26,8 +26,8 @@ jobs:
       - name: Descrypt Google services
         run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.DECRIPT_PASSWORD }}" --output app/google-services.json app/google-services.json.gpg
 
-      - name: Descrypt Publish Keys
-          run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.DECRIPT_PASSWORD }}" --output app/publish_key.json app/publish_key.json.gpg
+      - name: Descrypt publish file
+        run: gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.DECRIPT_PASSWORD }}" --output app/publish_key.json app/publish_key.json.gpg
 
       - name: Dependencies
         run: ./gradlew dependencies
