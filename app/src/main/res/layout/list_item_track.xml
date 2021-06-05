@@ -115,6 +115,20 @@
                 tools:text="PZ909656782BR" />
 
             <TextView
+                android:id="@+id/label_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:setType="@{trackItem.item}"
+                android:textColor="@color/textGreyColor"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/icon_list"
+                app:layout_constraintTop_toBottomOf="@+id/label_locale"
+                tools:text="Tipo de Encomenda: Encomenda Pac - Acao social" />
+
+            <TextView
                 android:id="@+id/label_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

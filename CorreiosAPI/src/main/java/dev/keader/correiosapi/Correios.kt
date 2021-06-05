@@ -18,7 +18,7 @@ const val LOCALE_REGEX = "[[A-Z]+\\s*]+/[\\s*[A-Z]+]*"
 const val CODE_VALIDATION_REGEX = "^[A-Z]{2}[0-9]{9}[A-Z]{2}"
 const val ERROR_MESSAGE = "Não é possível exibir informações para o código informado."
 const val UNKNOWN_LOCATION = "LIMBO, DESCONHECIDO"
-const val UNKNOWN_TYPE = "DESCONHECIDO"
+const val UNKNOWN_TYPE = "Desconhecido - "
 const val STATUS_WAITING = "Aguardando postagem pelo remetente."
 
 class Correios {
@@ -85,7 +85,11 @@ class Correios {
                         if (observation.contains(status))
                             observation = observation.substringAfter(status).trim()
                         val data = dataLine[1].selectFirst("a")
-                        link = data.attr("href")
+                        link = data.attr("href").trim()
+                    }
+                    else if (splittedStatus[1].contains("href")) {
+                        val data = dataLine[1].selectFirst("a")
+                        link = data.attr("href").trim()
                     }
                     else if (!splittedStatus[1].contains("<!--") && splittedStatus[1].isNotEmpty())
                         observation = splittedStatus[1].trim()
@@ -101,9 +105,9 @@ class Correios {
             val firstTrack = tracks.last() // posted
             val isDelivered = lastTrack.status.contains("Objeto entregue")
             val typeCode = "${productCode[0]}${productCode[1]}"
-            var type = CorreiosUtils.Types[typeCode]?.toUpperCase(Locale.getDefault())
+            var type = CorreiosUtils.Types[typeCode]
             if (type == null)
-                type = UNKNOWN_TYPE
+                type = "$UNKNOWN_TYPE $typeCode"
 
             return CorreiosItem(productCode, type, tracks, isDelivered, firstTrack.trackedAt, lastTrack.trackedAt)
         }

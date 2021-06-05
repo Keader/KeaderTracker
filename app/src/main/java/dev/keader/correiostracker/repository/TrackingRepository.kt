@@ -2,6 +2,7 @@ package dev.keader.correiostracker.repository
 
 import androidx.lifecycle.LiveData
 import dev.keader.correiosapi.Correios
+import dev.keader.correiosapi.UNKNOWN_TYPE
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
@@ -55,6 +56,11 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                 itemWithTracks.item.name = observation
                 database.insertItemWithTracks(itemWithTracks)
                 Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
+
+                // Log Unknown Codes
+                if (itemWithTracks.item.type.contains(UNKNOWN_TYPE))
+                    Timber.e(itemWithTracks.item.type)
+
                 return@withContext true
             } catch (e: IOException) {
                 Timber.e(e.message, e.stackTrace)
@@ -84,6 +90,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                     // object posted, yay
                     else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
                         notificationList.add(updatedItem)
+
                 } catch (e: IOException) {
                     Timber.e(e.message, e.stackTrace)
                 }

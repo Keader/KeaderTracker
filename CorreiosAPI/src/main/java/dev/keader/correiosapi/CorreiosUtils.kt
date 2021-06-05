@@ -210,6 +210,7 @@ class CorreiosUtils {
             "PU" to "etiqueta l\u00F3gica pac",
             "PV" to "etiqueta l\u00F3gica pac administrativo",
             "PX" to "etiqueta l\u00F3gica pac",
+            "QE" to "pac rastreável",
             "RA" to "registrado priorit\u00E1rio",
             "RB" to "carta registrada",
             "RC" to "carta registrada com valor declarado",

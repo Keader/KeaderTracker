@@ -39,6 +39,7 @@
     <string name="OK">OK</string>
     <string name="qr_read">Coloque em direção ao QR Code</string>
     <string name="imports">Ir para Minhas Importações</string>
+    <string name="deadlines">Consulte os prazos clicando aqui</string>
     <string name="move_automatic">Mover automaticamente os itens entregues para a aba Entregues.</string>
     <string name="dark_theme">Tema escuro.</string>
     <string name="back_button_description">Botão voltar</string>
