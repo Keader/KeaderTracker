@@ -11,6 +11,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.TextRecognizerOptions
 import timber.log.Timber
 
 class TrackingCodeDetectionProcessor (
@@ -26,7 +27,7 @@ class TrackingCodeDetectionProcessor (
             .build()
 
         barcodeScanner = BarcodeScanning.getClient(options)
-        recognizer = TextRecognition.getClient()
+        recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         analyzing = true
     }
 
