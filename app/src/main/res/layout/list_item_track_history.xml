@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/delivery_truck" />
+                android:src="@drawable/ic_delivery_truck" />
 
         </com.google.android.material.card.MaterialCardView>
 

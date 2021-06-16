@@ -39,7 +39,7 @@ class LocalNotification {
                 .setArguments(args)
                 .createPendingIntent()
 
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.delivery_man)
+            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_delivery_man)
             val lastTrack = itemTrack.tracks.first()
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -72,7 +72,7 @@ class LocalNotification {
                 .setArguments(args)
                 .createPendingIntent()
 
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.delivery_man)
+            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_delivery_man)
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)
@@ -80,9 +80,12 @@ class LocalNotification {
                 .setContentText("Objeto em trânsito - por favor aguarde")
                 .apply {
                     val status = "Objeto em trânsito - por favor aguarde"
-                    val observation = "de País em HONG KONG / para País em Unidade de Tratamento Internacional / BR"
+                    val observation =
+                        "de País em HONG KONG / para País em Unidade de Tratamento Internacional / BR"
                     val locale = context.getString(R.string.locale_format, "HONG KONG")
-                    setStyle(NotificationCompat.BigTextStyle().bigText("$status: $observation.\n$locale"))
+                    setStyle(
+                        NotificationCompat.BigTextStyle().bigText("$status: $observation.\n$locale")
+                    )
                 }
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)

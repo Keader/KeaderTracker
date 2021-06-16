@@ -19,8 +19,8 @@ import java.util.*
 @BindingAdapter("trackImage")
 fun ImageView.setTrackIcon(item: ItemWithTracks) {
     setImageResource(when (item.item.isDelivered) {
-        true -> R.drawable.box2
-        false -> R.drawable.truck2
+        true -> R.drawable.ic_box2
+        false -> R.drawable.ic_truck
     })
 }
 
@@ -36,7 +36,16 @@ fun TextView.setTimeText(item: ItemWithTracks) {
 
 @BindingAdapter("trackStatus")
 fun TextView.setTrackStatus(item: ItemWithTracks) {
-    text = item.tracks.first().status
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val lastUpdate = LocalDate.parse(item.tracks.first().date, formatter)
+    val today = LocalDateTime.now()
+    val difference = lastUpdate.until(today, ChronoUnit.DAYS)
+
+    text = if (difference >= 7 && !item.item.isDelivered) {
+        context.getString(R.string.produto_estagnado)
+    } else {
+        item.tracks.first().status
+    }
 }
 
 @BindingAdapter("trackObservation")

@@ -3,6 +3,7 @@ package dev.keader.correiostracker.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -104,22 +105,31 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
                 binding.arrowUp.visibility = View.GONE
                 binding.arrowDown.visibility = View.GONE
                 if (track.isWaitingPost)
-                    binding.trackIcon.setImageResource(R.drawable.waiting)
+                    binding.trackIcon.setImageResource(R.drawable.ic_waiting)
                 else
-                    binding.trackIcon.setImageResource(R.drawable.posted)
+                    binding.trackIcon.setImageResource(R.drawable.ic_posted)
             } else {
                 // First element
                 if (position == 1) {
                     binding.arrowUp.visibility = View.GONE
                     binding.arrowDown.visibility = View.VISIBLE
 
-                    if (track.delivered)
-                        binding.trackIcon.setImageResource(R.drawable.delivery_done)
-                    else
-                        binding.trackIcon.setImageResource(R.drawable.delivery_truck)
+                    if (track.delivered) {
+                        binding.trackIcon.setImageResource(R.drawable.ic_delivery_done)
+                        binding.cardCircleTracking.also {
+                            it.setCardBackgroundColor(
+                                getColor(
+                                    it.context,
+                                    R.color.primarySurfaceColor
+                                )
+                            )
+                        }
+                    } else {
+                        binding.trackIcon.setImageResource(R.drawable.ic_delivery_truck)
+                    }
                 }
 
-                var lastPosition: Int
+                val lastPosition: Int
                 if (track.isWaitingPost) {
                     // if we have waiting post, last element will be waiting post dummy
                     // so we need get last but one item to add posted icon
@@ -129,22 +139,22 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
                     if (position == lastPosition) {
                         binding.arrowDown.visibility = View.GONE
                         binding.arrowUp.visibility = View.VISIBLE
-                        binding.trackIcon.setImageResource(R.drawable.waiting)
+                        binding.trackIcon.setImageResource(R.drawable.ic_waiting)
                     } else if (position == lastButOne)
-                        binding.trackIcon.setImageResource(R.drawable.posted)
+                        binding.trackIcon.setImageResource(R.drawable.ic_posted)
 
                 } else {
                     lastPosition = size - 1
                     if (position == lastPosition) {
                         binding.arrowDown.visibility = View.GONE
                         binding.arrowUp.visibility = View.VISIBLE
-                        binding.trackIcon.setImageResource(R.drawable.posted)
+                        binding.trackIcon.setImageResource(R.drawable.ic_posted)
                     }
                 }
 
                 // It should be handled independent of position
                 if (isDelivery)
-                    binding.trackIcon.setImageResource(R.drawable.delivery_progress)
+                    binding.trackIcon.setImageResource(R.drawable.ic_delivery_progress)
             }
         }
 
@@ -177,7 +187,6 @@ sealed class DataItem {
     data class Header(val itemWithTracks: ItemWithTracks) : DataItem() {
         override val id = Long.MIN_VALUE
     }
-
     abstract val id: Long
 }
 
