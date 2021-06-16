@@ -64,7 +64,7 @@ class TrackingCodeDetectionProcessor (
 
         val result = codes
             .mapNotNull { it.displayValue }
-            .firstOrNull { it.replace("\\s+".toRegex(), "").matches(TRACK_CODE_PATTERN) }
+            .firstOrNull { it.replace(" ", "").matches(TRACK_CODE_PATTERN) }
         return if (result == null) {
             null
         } else {
@@ -89,7 +89,7 @@ class TrackingCodeDetectionProcessor (
             if (height < 10) {
                 null
             } else {
-                val text = line.text.replace("\\s+".toRegex(), "")
+                val text = line.text.replace(" ", "")
                 val match = TRACK_CODE_PATTERN.find(text)
                 match?.value
             }
