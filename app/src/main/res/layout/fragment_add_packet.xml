@@ -47,7 +47,7 @@
                         android:layout_width="241dp"
                         android:layout_height="193dp"
                         android:contentDescription="@string/box_icon_description"
-                        android:src="@drawable/receive"
+                        android:src="@drawable/ic_receive"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                                 android:layout_height="40dp"
                                 android:layout_marginStart="6dp"
                                 android:contentDescription="@string/box_icon_description"
-                                android:src="@drawable/packet"
+                                android:src="@drawable/ic_packet"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -143,7 +143,7 @@
                                 android:layout_height="40dp"
                                 android:layout_marginStart="7dp"
                                 android:contentDescription="@string/box_icon_description"
-                                android:src="@drawable/packet2"
+                                android:src="@drawable/ic_packet2"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -222,8 +222,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/cancel2"
-                            android:contentDescription="@string/cancel_button_description"/>
+                            android:background="@color/primarySurfaceColor"
+                            android:src="@drawable/ic_cancel2"
+                            android:contentDescription="@string/cancel_button_description" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -278,8 +279,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/track"
-                            android:contentDescription="@string/track_button_description"/>
+                            android:background="@color/primarySurfaceColor"
+                            android:src="@drawable/ic_track"
+                            android:contentDescription="@string/track_button_description" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
