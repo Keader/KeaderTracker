@@ -9,6 +9,7 @@
 .cxx
 local.properties
 app/google-services.json
+google-services.json
 *.jks
 
 # User-specific stuff:
