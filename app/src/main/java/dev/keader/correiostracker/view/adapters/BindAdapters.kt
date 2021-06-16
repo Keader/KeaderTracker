@@ -41,7 +41,7 @@ fun TextView.setTrackStatus(item: ItemWithTracks) {
     val today = LocalDateTime.now()
     val difference = lastUpdate.until(today, ChronoUnit.DAYS)
 
-    text = if (difference >= 7 && item.item.isDelivered) {
+    text = if (difference >= 7 && !item.item.isDelivered) {
         context.getString(R.string.produto_estagnado)
     } else {
         item.tracks.first().status
