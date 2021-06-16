@@ -2,15 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
         android:name="dev.keader.correiostracker.view.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/archivedFragment"
         android:name="dev.keader.correiostracker.view.archived.ArchivedFragment"
-        android:label="ArchivedFragment" >
+        android:label="ArchivedFragment"
+        tools:layout="@layout/fragment_archived">
         <argument
             android:name="trackCode"
             app:argType="string" />
@@ -18,19 +21,21 @@
     <fragment
         android:id="@+id/addPacketFragment"
         android:name="dev.keader.correiostracker.view.addpacket.AddPacketFragment"
-        android:label="AddPacketFragment" >
+        android:label="AddPacketFragment"
+        tools:layout="@layout/fragment_add_packet">
         <action
             android:id="@+id/action_addPacketFragment_to_captureFragment"
             app:destination="@id/captureFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/trackDetailFragment"
         android:name="dev.keader.correiostracker.view.trackdetail.TrackDetailFragment"
-        android:label="TrackDetailFragment" >
+        android:label="TrackDetailFragment"
+        tools:layout="@layout/fragment_track_detail">
         <argument
             android:name="trackCode"
             app:argType="string" />
@@ -52,5 +57,6 @@
     <fragment
         android:id="@+id/captureFragment"
         android:name="dev.keader.correiostracker.view.capture.CaptureFragment"
-        android:label="CaptureFragment" />
+        android:label="CaptureFragment"
+        tools:layout="@layout/fragment_capture" />
 </navigation>
