@@ -37,10 +37,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:contentDescription="@string/back_button_description"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_back"
-                        android:contentDescription="@string/back_button_description"/>
+                        app:srcCompat="@drawable/ic_back" />
 
                     <ImageView
                         android:id="@+id/icon_pray_for_sedex"
@@ -111,12 +111,12 @@
                                 android:layout_width="32dp"
                                 android:layout_height="29dp"
                                 android:layout_marginEnd="16dp"
+                                android:contentDescription="@string/qr_code_description"
                                 android:onClick="@{()-> addPacketViewModel.handleQRButton()}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_scan"
-                                android:contentDescription="@string/qr_code_description"/>
+                                app:srcCompat="@drawable/ic_scan" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -192,12 +192,12 @@
                 android:id="@+id/card_cancel"
                 android:layout_width="128dp"
                 android:layout_height="136dp"
-                android:layout_marginStart="60dp"
                 android:layout_marginTop="8dp"
                 android:onClick="@{() -> addPacketViewModel.handleCancelButton()}"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_cente_horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_purple">
 
@@ -221,10 +221,10 @@
                             android:id="@+id/icon_cancel"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
                             android:background="@color/primarySurfaceColor"
-                            android:src="@drawable/ic_cancel2"
-                            android:contentDescription="@string/cancel_button_description" />
+                            android:contentDescription="@string/cancel_button_description"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_cancel2" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -250,12 +250,12 @@
                 android:layout_width="128dp"
                 android:layout_height="136dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="60dp"
                 android:onClick="@{() -> addPacketViewModel.handleOKButton()}"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_cente_horizontal"
                 app:layout_constraintTop_toBottomOf="@id/card_purple">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -278,10 +278,10 @@
                             android:id="@+id/icon_tracking"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
                             android:background="@color/primarySurfaceColor"
-                            android:src="@drawable/ic_track"
-                            android:contentDescription="@string/track_button_description" />
+                            android:contentDescription="@string/track_button_description"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_track" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -312,6 +312,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_cente_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
