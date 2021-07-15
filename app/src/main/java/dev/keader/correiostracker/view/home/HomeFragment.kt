@@ -2,16 +2,17 @@ package dev.keader.correiostracker.view.home
 
 import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
@@ -36,11 +37,16 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        val adapter = TrackAdapter(ListItemListener { code ->
-            homeViewModel.onItemTrackClicked(code)
-        }, true)
+        // Cria o Header
+        val headerAdapter = HeaderAdapter()
+        headerAdapter.submitList(listOf("Tem que mandar algo... ¯\\_(ツ)_//¯"))
 
-        binding.recyclerViewDelivery.adapter = adapter
+        val trackAdapter = TrackAdapter(ListItemListener { code ->
+            homeViewModel.onItemTrackClicked(code)
+        })
+        val concatAdapter = ConcatAdapter(headerAdapter, trackAdapter)
+
+        binding.recyclerViewDelivery.adapter = concatAdapter
         binding.homeViewModel = homeViewModel
 
         val tracksDistinctLiveData = Transformations.distinctUntilChanged(homeViewModel.tracks)
@@ -53,7 +59,7 @@ class HomeFragment : Fragment() {
                     val localDate = LocalDate.parse(item.item.updatedAt, formatter)
                     return@sortedBy localDate.until(LocalDate.now(), ChronoUnit.DAYS)
                 }
-                adapter.addHeaderAndSubmitList(list)
+                trackAdapter.submitList(list)
                 showRecyclerView()
             }
         })

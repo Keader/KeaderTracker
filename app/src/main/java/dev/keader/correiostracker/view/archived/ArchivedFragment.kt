@@ -1,11 +1,11 @@
 package dev.keader.correiostracker.view.archived
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Transformations
@@ -15,8 +15,8 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.util.EventObserver
-import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.ListItemListener
+import dev.keader.correiostracker.view.adapters.TrackAdapter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -34,7 +34,7 @@ class ArchivedFragment : Fragment() {
 
         val adapter = TrackAdapter(ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
-        }, false)
+        })
 
         binding.recyclerViewDelivered.adapter = adapter
         val tracksDistinctLiveData = Transformations.distinctUntilChanged(archivedViewModel.tracks)
@@ -47,7 +47,7 @@ class ArchivedFragment : Fragment() {
                     val localDate = LocalDate.parse(item.item.updatedAt, formatter)
                     return@sortedBy localDate.until(LocalDate.now(), ChronoUnit.DAYS)
                 }
-                adapter.addHeaderAndSubmitList(list)
+                adapter.submitList(list)
                 showRecyclerView()
             }
         })
