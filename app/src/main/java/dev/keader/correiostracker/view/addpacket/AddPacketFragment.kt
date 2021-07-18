@@ -47,7 +47,7 @@ class AddPacketFragment : Fragment() {
 
         // Triggered by OK button
         addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, EventObserver {
-            val code = binding.trackEditText.text.toString().toUpperCase()
+            val code = binding.trackEditText.text.toString().uppercase()
             val observation = binding.descriptionEditText.text.toString()
 
             if (validateInputs(code, observation)) {

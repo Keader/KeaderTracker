@@ -64,7 +64,7 @@ class LocalNotification {
         }
 
         fun sendNotificationTest(context: Context) {
-            val code = "lb140562449hk".toUpperCase()
+            val code = "lb140562449hk".uppercase()
             val args = Bundle().apply { putString("trackCode", code) }
             val pendingIntent = NavDeepLinkBuilder(context)
                 .setGraph(R.navigation.nav_graph)

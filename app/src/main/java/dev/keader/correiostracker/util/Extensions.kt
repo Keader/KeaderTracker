@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import java.io.File
 import java.io.FileOutputStream
+import java.util.*
 
 fun Bitmap.toFile(context: Context): File {
     val parent = File(context.getExternalFilesDir(null), "tracks")
@@ -30,4 +31,13 @@ fun <T, K, R> LiveData<T>.combineWith(
         result.value = block(this.value, liveData.value)
     }
     return result
+}
+
+fun String.toCapitalize(): String {
+    return replaceFirstChar {
+        if (it.isLowerCase())
+            it.titlecase(Locale.getDefault())
+        else
+            it.toString()
+    }
 }

@@ -10,6 +10,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.Item
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.Track
+import dev.keader.correiostracker.util.toCapitalize
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -103,5 +104,5 @@ fun TextView.setLink(track: Track) {
 @BindingAdapter("setType")
 fun TextView.setType(item: Item) {
     val locale = Locale.getDefault()
-    text = item.type.toLowerCase(locale).capitalize(locale)
+    text = item.type.lowercase(locale).toCapitalize()
 }

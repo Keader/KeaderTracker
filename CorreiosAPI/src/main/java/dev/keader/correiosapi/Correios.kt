@@ -5,11 +5,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
 import org.jsoup.Jsoup
-import org.jsoup.parser.Parser
 import java.nio.charset.Charset
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 const val BASE_URL = "https://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm"
@@ -34,7 +32,7 @@ class Correios {
             .build()
 
         suspend fun getTrackFromSite(code: String): CorreiosItem {
-            val productCode = code.toUpperCase()
+            val productCode = code.uppercase()
 
             if (!isValidCode(productCode)) throw IOException("Invalid Code: $code")
 
@@ -66,7 +64,7 @@ class Correios {
             val lines = document.select(".listEvent").select("tr")
             for (line in lines) {
                 val dataLine = line.select("td")
-                val completeDateString = dataLine[0].text().toUpperCase()
+                val completeDateString = dataLine[0].text().uppercase()
                 val completeStatusString = dataLine[1].html()
                 val splitDate = completeDateString.split(" ")
                 val date = splitDate[0]
@@ -113,7 +111,7 @@ class Correios {
         }
 
         fun isValidCode(code: String): Boolean {
-            return codeValidation.matches(code.toUpperCase(Locale.getDefault()))
+            return codeValidation.matches(code.uppercase())
         }
 
         private fun handleWithNotPosted(code: String): CorreiosItem {
