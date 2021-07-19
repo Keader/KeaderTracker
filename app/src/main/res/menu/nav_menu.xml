@@ -9,6 +9,16 @@
     <item
         android:id="@+id/archivedFragment"
         android:icon="@drawable/ic_delivered_outline"
-        android:title="Archived" />
+        android:title="Arquivados" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="Configuração" />
+
+    <item
+        android:id="@+id/authorsFragment"
+        android:icon="@drawable/ic_info"
+        android:title="Authors" />
 
 </menu>

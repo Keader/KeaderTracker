@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         // Cria o Header
-        val headerAdapter = HeaderAdapter()
+        val headerAdapter = TrackHeaderAdapter()
 
         val trackAdapter = TrackAdapter(ListItemListener { code ->
             homeViewModel.onItemTrackClicked(code)
@@ -93,6 +93,7 @@ class HomeFragment : Fragment() {
         if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300)
             applySmallScreensHack()
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 

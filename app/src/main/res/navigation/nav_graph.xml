@@ -59,4 +59,9 @@
         android:name="dev.keader.correiostracker.view.capture.CaptureFragment"
         android:label="CaptureFragment"
         tools:layout="@layout/fragment_capture" />
+    <fragment
+        android:id="@+id/authorsFragment"
+        android:name="dev.keader.correiostracker.view.authors.AuthorsFragment"
+        android:label="AuthorsFragment"
+        tools:layout="@layout/fragment_authors" />
 </navigation>

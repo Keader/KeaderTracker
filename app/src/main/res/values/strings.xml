@@ -87,4 +87,6 @@
     <string name="permissions_denied_camera_ask_permission_message">A função não está disponível sem acesso à câmera. Ela é necessária para escanear o QR Code</string>
     <string name="permissions_denied_camera">A permissão da câmera não foi concedida</string>
     <string name="produto_estagnado">Entregadores estão jogando sinuca com seu produto!</string>
+    <string name="contribute_format">Contribuições: %1$d</string>
+    <string name="pix">Este projeto é totalmente gratuito. Mas se quiser ajudar o autor a continuar dando manutenção, utilize o pix: keader.android@gmail.com</string>
 </resources>

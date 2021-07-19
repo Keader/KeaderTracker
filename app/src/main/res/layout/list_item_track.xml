@@ -41,7 +41,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:trackImage="@{trackItem}"
-                tools:srcCompat="@drawable/box" />
+                tools:srcCompat="@drawable/ic_box" />
 
             <TextView
                 android:id="@+id/label_date"

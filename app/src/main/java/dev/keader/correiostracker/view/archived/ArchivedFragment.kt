@@ -56,6 +56,7 @@ class ArchivedFragment : Fragment() {
             findNavController().navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
         })
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 

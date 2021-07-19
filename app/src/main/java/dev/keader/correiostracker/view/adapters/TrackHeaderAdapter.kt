@@ -11,13 +11,13 @@ import dev.keader.correiostracker.databinding.ListItemTrackHeaderBinding
  * @author Samuel da Costa Araujo Nunes
  * Created 15/07/2021 at 20:01
  */
-class HeaderAdapter : RecyclerView.Adapter<HeaderAdapter.TrackHeaderViewHolder>() {
+class TrackHeaderAdapter : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackHeaderViewHolder {
         return TrackHeaderViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: TrackHeaderViewHolder, position: Int) {}
+    override fun onBindViewHolder(holder: TrackHeaderViewHolder, position: Int) { }
 
     class TrackHeaderViewHolder private constructor(val binding: ListItemTrackHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {

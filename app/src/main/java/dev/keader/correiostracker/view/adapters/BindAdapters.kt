@@ -6,6 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.Item
 import dev.keader.correiostracker.database.ItemWithTracks
@@ -99,6 +102,29 @@ fun TextView.setLink(track: Track) {
         text = spannable
         visibility = View.VISIBLE
     }
+}
+
+@BindingAdapter("setLink")
+fun TextView.setLink(link: String) {
+    val myText = link.replace("https://", "")
+    val clickable = "<a href=\"${link}\">${myText}</a>"
+    val spannable = HtmlCompat.fromHtml(clickable, 0)
+    movementMethod = LinkMovementMethod.getInstance()
+    text = spannable
+}
+
+@BindingAdapter("setContribution")
+fun TextView.setContribution(count: Int) {
+    text = context.getString(R.string.contribute_format, count)
+}
+
+@BindingAdapter("setAvatar")
+fun ImageView.setAvatar(link: String) {
+    Glide.with(context)
+        .load(link)
+        .transform(CenterCrop(), RoundedCorners(16))
+        .placeholder(R.drawable.ic_loading)
+        .into(this)
 }
 
 @BindingAdapter("setType")
