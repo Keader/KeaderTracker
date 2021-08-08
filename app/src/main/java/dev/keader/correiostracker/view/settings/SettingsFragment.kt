@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
@@ -34,12 +33,12 @@ class SettingsFragment : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
         binding.settingsViewModel = settingsViewModel
 
         // Shared Prefs
         val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-        var savedPosition = sharedPref.getInt(getString(R.string.preference_frequency_pos), DEFAULT_SPINNER_POSITION)
+        val savedPosition = sharedPref.getInt(getString(R.string.preference_frequency_pos), DEFAULT_SPINNER_POSITION)
         binding.switchAutosave.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
         binding.switchTheme.isChecked = sharedPref.getBoolean(getString(R.string.preference_theme), DEFAULT_THEME_VALUE)
 
@@ -94,6 +93,7 @@ class SettingsFragment : BottomSheetDialogFragment() {
             dismiss()
         })
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 

@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -32,17 +31,19 @@ class AddPacketFragment : Fragment() {
     private val uiViewModel: UIViewModel by activityViewModels()
     private val addPacketViewModel: AddPacketViewModel by viewModels()
     private lateinit var binding: FragmentAddPacketBinding
+    private val navController
+        get() = findNavController()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_packet, container, false)
+        binding = FragmentAddPacketBinding.inflate(inflater, container, false)
         binding.addPacketViewModel = addPacketViewModel
 
         val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
 
         addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, EventObserver {
-            findNavController().popBackStack()
+            navController.popBackStack()
         })
 
         // Triggered by OK button
@@ -77,7 +78,7 @@ class AddPacketFragment : Fragment() {
                     ?.show()
 
                 RefreshTracksWorker.startWorker(requireNotNull(activity).application)
-                findNavController().popBackStack()
+                navController.popBackStack()
             } else {
                 getSnack(getString(R.string.track_add_fail))
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
@@ -87,7 +88,7 @@ class AddPacketFragment : Fragment() {
 
         addPacketViewModel.eventQR.observe(viewLifecycleOwner, EventObserver {
             val directions = AddPacketFragmentDirections.actionAddPacketFragmentToCaptureFragment()
-            findNavController().navigate(directions)
+            navController.navigate(directions)
         })
 
         uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver { qr ->
@@ -96,7 +97,7 @@ class AddPacketFragment : Fragment() {
         })
 
         binding.iconBackAdd.setOnClickListener {
-            findNavController().popBackStack()
+            navController.popBackStack()
         }
 
         if (sharedPref.getBoolean(getString(R.string.preference_scan_intro), true)) {
@@ -106,6 +107,7 @@ class AddPacketFragment : Fragment() {
             showTutorial()
         }
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 

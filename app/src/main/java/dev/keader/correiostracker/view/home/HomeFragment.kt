@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,6 +17,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.util.EventObserver
+import dev.keader.correiostracker.util.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.*
 import dev.keader.correiostracker.view.settings.SettingsFragment
 import java.time.LocalDate
@@ -31,13 +30,13 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private val uiViewModel: UIViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
+    private val navController
+        get() = findNavController()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // Cria o Header
         val headerAdapter = TrackHeaderAdapter()
 
         val trackAdapter = TrackAdapter(ListItemListener { code ->
@@ -48,8 +47,7 @@ class HomeFragment : Fragment() {
         binding.recyclerViewDelivery.adapter = concatAdapter
         binding.homeViewModel = homeViewModel
 
-        val tracksDistinctLiveData = Transformations.distinctUntilChanged(homeViewModel.tracks)
-        tracksDistinctLiveData.observe(viewLifecycleOwner, {
+        homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
@@ -64,7 +62,7 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
-            findNavController().navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
+            navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
         })
 
         homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, EventObserver {

@@ -1,9 +1,17 @@
 package dev.keader.correiostracker.util
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Handler
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -40,4 +48,27 @@ fun String.toCapitalize(): String {
         else
             it.toString()
     }
+}
+
+fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
+    return Transformations.distinctUntilChanged(this)
+}
+
+fun Handler.removeOldEvents() {
+    removeCallbacksAndMessages(null)
+}
+
+fun Activity.windowInsetsControllerCompat(view: View): WindowInsetsControllerCompat? {
+    return WindowCompat.getInsetsController(window, view)
+}
+
+val View.windowInsetsControllerCompat: WindowInsetsControllerCompat?
+    get() = ViewCompat.getWindowInsetsController(this)
+
+fun View.closeKeyboard() {
+    windowInsetsControllerCompat?.hide(WindowInsetsCompat.Type.ime())
+}
+
+fun View.openKeyboard() {
+    windowInsetsControllerCompat?.show(WindowInsetsCompat.Type.ime())
 }

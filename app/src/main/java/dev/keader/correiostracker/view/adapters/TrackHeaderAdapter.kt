@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.databinding.ListItemTrackHeaderBinding
 
-/**
- * @author Samuel da Costa Araujo Nunes
- * Created 15/07/2021 at 20:01
- */
+
 class TrackHeaderAdapter : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackHeaderViewHolder {

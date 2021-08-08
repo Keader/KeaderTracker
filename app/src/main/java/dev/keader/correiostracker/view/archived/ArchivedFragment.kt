@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Transformations
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.util.EventObserver
+import dev.keader.correiostracker.util.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import java.time.LocalDate
@@ -26,19 +24,20 @@ class ArchivedFragment : Fragment() {
     private val uiViewModel: UIViewModel by activityViewModels()
     private val archivedViewModel: ArchivedViewModel by viewModels()
     private lateinit var binding: FragmentArchivedBinding
+    private val navController
+        get() = findNavController()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_archived, container, false)
+        binding = FragmentArchivedBinding.inflate(inflater, container, false)
 
         val adapter = TrackAdapter(ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
         })
 
         binding.recyclerViewDelivered.adapter = adapter
-        val tracksDistinctLiveData = Transformations.distinctUntilChanged(archivedViewModel.tracks)
-        tracksDistinctLiveData.observe(viewLifecycleOwner, {
+        archivedViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
@@ -53,7 +52,7 @@ class ArchivedFragment : Fragment() {
         })
 
         archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
-            findNavController().navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
+            navController.navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
         })
 
         binding.lifecycleOwner = this

@@ -8,10 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
 
-/**
- * @author Samuel da Costa Araujo Nunes
- * Created 15/07/2021 at 20:01
- */
 class TrackAdapter(private val itemClickListener: ListItemListener) :
     ListAdapter<ItemWithTracks, TrackAdapter.TrackViewHolder>(TrackAdapter) {
 

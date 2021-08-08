@@ -1,26 +1,17 @@
 package dev.keader.correiostracker.view.trackdetail
 
-import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.Bitmap
-import android.os.Build
-import android.os.Build.HARDWARE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.FileProvider
 import androidx.core.view.drawToBitmap
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -47,14 +38,12 @@ class TrackDetailFragment : Fragment() {
     private val trackDetailViewModel: TrackDetailViewModel by viewModels()
     private val uiViewModel: UIViewModel by activityViewModels()
     private lateinit var binding: FragmentTrackDetailBinding
+    private val navController
+        get() = findNavController()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_track_detail,
-            container,false)
+        binding = FragmentTrackDetailBinding.inflate(inflater, container,false)
 
         uiViewModel.setBottomNavVisibility(View.GONE)
 
@@ -62,11 +51,10 @@ class TrackDetailFragment : Fragment() {
         trackDetailViewModel.setTrackCode(args.trackCode)
 
         binding.trackDetailViewModel = trackDetailViewModel
-        binding.lifecycleOwner = this
 
         val adapter = TrackHistoryAdapter(TrackHistoryButtonListener { itemWithTracks, buttonId ->
             when (buttonId) {
-                BUTTON_BACK -> findNavController().popBackStack()
+                BUTTON_BACK -> navController.popBackStack()
                 BUTTON_COPY -> copyTrackCodeAndShowSnack(itemWithTracks)
                 BUTTON_DELETE -> trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
                 BUTTON_SHARE -> handleWithShare()
@@ -106,7 +94,7 @@ class TrackDetailFragment : Fragment() {
 
         trackDetailViewModel.eventDeleteButton.observe(viewLifecycleOwner, { eventTriggered ->
             if (eventTriggered) {
-                findNavController().popBackStack()
+                navController.popBackStack()
                 getSnack(getString(R.string.track_deleted))
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                     ?.show()
@@ -126,11 +114,12 @@ class TrackDetailFragment : Fragment() {
                         ?.show()
                     RefreshTracksWorker.startWorker(requireNotNull(activity).application)
                 }
-                findNavController().popBackStack()
+                navController.popBackStack()
                 trackDetailViewModel.onFloatButtonComplete()
             }
         })
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 

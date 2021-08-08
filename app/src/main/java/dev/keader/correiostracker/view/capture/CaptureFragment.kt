@@ -36,17 +36,15 @@ class CaptureFragment : Fragment() {
     private lateinit var binding: FragmentCaptureBinding
     private lateinit var codeDetector: TrackingCodeDetectionProcessor
     private val uiViewModel by activityViewModels<UIViewModel>()
+    private val navController
+        get() = findNavController()
 
     private val requestInitialPermissions = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) initializeCamera()
         else onPermissionsDenied()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return FragmentCaptureBinding.inflate(inflater, container, false).also {
             binding = it
         }.root
@@ -58,7 +56,7 @@ class CaptureFragment : Fragment() {
             val player = MediaPlayer.create(requireContext(), R.raw.scan_complete)
             player.setVolume(0.35f, 0.35f)
             player.start()
-            findNavController().popBackStack()
+            navController.popBackStack()
         })
     }
 
@@ -91,7 +89,7 @@ class CaptureFragment : Fragment() {
             }
             .setNegativeButton(R.string.permissions_camera_no_thanks) { dialog, _ ->
                 dialog.dismiss()
-                findNavController().popBackStack()
+                navController.popBackStack()
             }
             .create()
             .also { dialog = it }
@@ -105,7 +103,7 @@ class CaptureFragment : Fragment() {
         } else {
             Timber.d("User didn't allow")
             Toast.makeText(requireContext(), R.string.permissions_denied_camera, Toast.LENGTH_SHORT).show()
-            findNavController().popBackStack()
+            navController.popBackStack()
         }
     }
 
@@ -124,7 +122,7 @@ class CaptureFragment : Fragment() {
             }
             .setNegativeButton(R.string.permissions_camera_no_thanks) { dialog, _ ->
                 dialog.dismiss()
-                findNavController().popBackStack()
+                navController.popBackStack()
             }
             .create()
             .also { dialog = it }
