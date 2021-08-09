@@ -6,12 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.work.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
-import dev.keader.correiostracker.view.settings.DEFAULT_AUTOMOVE
-import dev.keader.correiostracker.view.settings.DEFAULT_FREQUENCY_VALUE
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -19,18 +17,18 @@ import java.util.concurrent.TimeUnit
 class RefreshTracksWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
+    val preferences: PreferencesManager,
     val repository: TrackingRepository) : CoroutineWorker(context, params) {
 
     companion object {
         const val WORK_NAME = "RefreshTracksWorker"
 
-        fun startWorker(context: Context) {
+        fun startWorker(context: Context, preferences: PreferencesManager) {
             val constraints = Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build()
 
-            val sharedPref = context.getSharedPreferences(context.getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-            val frequency = sharedPref.getInt(context.getString(R.string.preference_frequency), DEFAULT_FREQUENCY_VALUE).toLong()
+            val frequency = preferences.getFrequency()
 
             val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(frequency, TimeUnit.MINUTES)
                     .setConstraints(constraints)
@@ -70,8 +68,7 @@ class RefreshTracksWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Timber.i("Worker updating tracks.")
         val result = repository.refreshTracks()
-        val sharedPref = applicationContext.getSharedPreferences(applicationContext.getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-        val autoMove = sharedPref.getBoolean(applicationContext.getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
+        val autoMove = preferences.getAutoMove()
         // if dont have items in DB to update, stop worker
         if (!result.hasItemsInDBToUpdate)
             stopWorker(applicationContext)

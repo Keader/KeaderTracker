@@ -25,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentCaptureBinding
-import dev.keader.correiostracker.util.EventObserver
+import dev.keader.correiostracker.model.EventObserver
 import timber.log.Timber
 import java.util.concurrent.Executors
 

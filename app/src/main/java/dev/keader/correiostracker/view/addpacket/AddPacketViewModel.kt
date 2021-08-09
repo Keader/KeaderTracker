@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
-import dev.keader.correiostracker.util.Event
+import dev.keader.correiostracker.model.Event
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

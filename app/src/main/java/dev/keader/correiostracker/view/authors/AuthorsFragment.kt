@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.FragmentAuthorsBinding
-import dev.keader.correiostracker.util.distinctUntilChanged
+import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.AuthorsAdapter
 import dev.keader.correiostracker.view.adapters.AuthorsHeaderAdapter
 

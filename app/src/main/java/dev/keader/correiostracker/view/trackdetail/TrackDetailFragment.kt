@@ -25,9 +25,11 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
-import dev.keader.correiostracker.util.toFile
+import dev.keader.correiostracker.model.PreferencesManager
+import dev.keader.correiostracker.model.toFile
 import dev.keader.correiostracker.view.adapters.*
 import dev.keader.correiostracker.work.RefreshTracksWorker
+import javax.inject.Inject
 
 const val TAG_VALUE_UNARCHIVED = 0
 const val TAG_VALUE_ARCHIVED = 1
@@ -40,6 +42,8 @@ class TrackDetailFragment : Fragment() {
     private lateinit var binding: FragmentTrackDetailBinding
     private val navController
         get() = findNavController()
+    @Inject
+    lateinit var preferences: PreferencesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -112,7 +116,7 @@ class TrackDetailFragment : Fragment() {
                     getSnack(getString(R.string.unarchive_success))
                         ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
                         ?.show()
-                    RefreshTracksWorker.startWorker(requireNotNull(activity).application)
+                    RefreshTracksWorker.startWorker(requireNotNull(activity).application, preferences)
                 }
                 navController.popBackStack()
                 trackDetailViewModel.onFloatButtonComplete()

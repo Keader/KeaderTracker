@@ -13,7 +13,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.database.Item
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.Track
-import dev.keader.correiostracker.util.toCapitalize
+import dev.keader.correiostracker.model.toCapitalize
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

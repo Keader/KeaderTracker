@@ -2,7 +2,7 @@
     tools:locale="pt_BR">
     <string name="app_name">CorreiosTracker</string>
     <string name="btn_add_description">Adiciona um novo item</string>
-    <string name="waiting_delivery">AGUARDANDO A ENTREGA</string>
+    <string name="waiting_delivery">Aguardando a entrega</string>
     <string name="box_icon_description">Box Icon</string>
     <string name="track_your_product">Rastreie seu pedido</string>
     <string name="track_number">Código de Rastreio</string>
@@ -59,14 +59,8 @@
         <item>8 Horas</item>
     </string-array>
     <string name="shared_pref_name">dev.keader.keadertracker.prefs</string>
-    <string name="preference_frequency">PREF_FREQUENCY</string>
-    <string name="preference_frequency_pos">PREF_FREQUENCY_POS</string>
-    <string name="preference_automove">PREF_AUTOMOVE</string>
-    <string name="preference_theme">PREF_THEME</string>
-    <string name="preference_scan_intro">PREF_SCAN_INTRO</string>
     <string name="confirm">Confirmar</string>
     <string name="update_frequency">Intervalo de atualização:</string>
-    <string name="settings_success">Configurações atualizadas com sucesso.</string>
     <string name="copy_success">Código de rastreio copiado com sucesso.</string>
     <string name="icon_config_description">Icone de configuração</string>
     <string name="automove_icon_description">Icone de mover itens automaticamente</string>
@@ -89,4 +83,5 @@
     <string name="produto_estagnado">Entregadores estão jogando sinuca com seu produto!</string>
     <string name="contribute_format">Contribuições: %1$d</string>
     <string name="pix">Este projeto é totalmente gratuito. Mas se quiser ajudar o autor a continuar dando manutenção, utilize o pix: keader.android@gmail.com</string>
+    <string name="settings">Configurações</string>
 </resources>

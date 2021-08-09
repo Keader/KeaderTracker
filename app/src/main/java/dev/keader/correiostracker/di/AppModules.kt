@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.hilt
+package dev.keader.correiostracker.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

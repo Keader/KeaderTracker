@@ -60,6 +60,11 @@
         android:label="CaptureFragment"
         tools:layout="@layout/fragment_capture" />
     <fragment
+        android:id="@+id/settingsFragment"
+        android:name="dev.keader.correiostracker.view.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
         android:id="@+id/authorsFragment"
         android:name="dev.keader.correiostracker.view.authors.AuthorsFragment"
         android:label="AuthorsFragment"

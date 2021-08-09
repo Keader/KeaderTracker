@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.util
+package dev.keader.correiostracker.model
 
 import android.app.Activity
 import android.content.Context

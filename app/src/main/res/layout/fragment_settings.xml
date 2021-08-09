@@ -14,20 +14,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/anim_settings"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            app:layout_constraintDimensionRatio="V,16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/settings" />
+
+        <TextView
+            android:id="@+id/label_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/settings"
+            android:textAlignment="textStart"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/anim_settings" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_autosave"
+            android:id="@+id/switch_automove"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:checked="false"
             android:text="@string/move_automatic"
-            android:textSize="16sp"
             android:textColor="@color/secondaryTextColor"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/icon_book"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon_book"
-            app:layout_constraintTop_toTopOf="@+id/icon_book" />
+            app:layout_constraintTop_toTopOf="@+id/icon_book"
+            app:useMaterialThemeColors="false" />
 
 
         <Spinner
@@ -67,37 +95,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/icon_theme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon_theme"
-            app:layout_constraintTop_toTopOf="@+id/icon_theme" />
-
-        <Button
-            android:id="@+id/btn_cancel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="8dp"
-            android:onClick="@{()-> settingsViewModel.onCancelButtonClicked()}"
-            android:text="@string/cancel"
-            android:textColor="@color/primaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_confirm"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch_theme"
-            app:strokeColor="@color/primaryColor" />
-
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="72dp"
-            android:backgroundTint="@color/secondaryColor"
-            android:onClick="@{()-> settingsViewModel.onOKButtonClicked()}"
-            android:text="@string/confirm"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_cancel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
+            app:layout_constraintTop_toTopOf="@+id/icon_theme"
+            app:useMaterialThemeColors="false" />
 
         <ImageView
             android:id="@+id/icon_book"
@@ -107,7 +106,7 @@
             android:layout_marginTop="16dp"
             android:contentDescription="@string/automove_icon_description"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_settings"
             app:srcCompat="@drawable/ic_book_arrow" />
 
         <ImageView

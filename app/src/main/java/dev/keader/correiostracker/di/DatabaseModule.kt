@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.hilt
+package dev.keader.correiostracker.di
 
 import android.content.Context
 import androidx.room.Room

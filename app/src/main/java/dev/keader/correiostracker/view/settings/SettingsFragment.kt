@@ -1,46 +1,42 @@
 package dev.keader.correiostracker.view.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
-import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
+import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentSettingsBinding
-import dev.keader.correiostracker.util.EventObserver
-import dev.keader.correiostracker.work.RefreshTracksWorker
+import dev.keader.correiostracker.model.PreferencesManager
+import javax.inject.Inject
 
-const val DEFAULT_SPINNER_POSITION = 3
-const val DEFAULT_FREQUENCY_VALUE = 120
-const val DEFAULT_THEME_VALUE = false
-const val DEFAULT_AUTOMOVE = false
 
 @AndroidEntryPoint
-class SettingsFragment : BottomSheetDialogFragment() {
+class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private val settingsViewModel: SettingsViewModel by viewModels()
+    private val uiViewModel: UIViewModel by activityViewModels()
+    @Inject
+    lateinit var preferences: PreferencesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         binding.settingsViewModel = settingsViewModel
 
-        // Shared Prefs
-        val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
-        val savedPosition = sharedPref.getInt(getString(R.string.preference_frequency_pos), DEFAULT_SPINNER_POSITION)
-        binding.switchAutosave.isChecked = sharedPref.getBoolean(getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
-        binding.switchTheme.isChecked = sharedPref.getBoolean(getString(R.string.preference_theme), DEFAULT_THEME_VALUE)
+        // Get current values
+        val savedPosition = preferences.getFrequencyPosition()
+        binding.switchAutomove.isChecked = preferences.getAutoMove()
+        binding.switchTheme.isChecked = preferences.getDarkTheme()
 
         // Configure Spinner
         val spinnerAdapter = ArrayAdapter.createFromResource(
@@ -51,47 +47,26 @@ class SettingsFragment : BottomSheetDialogFragment() {
         binding.spinnerFrequency.adapter = spinnerAdapter
         binding.spinnerFrequency.setSelection(savedPosition)
 
-        // Events
-        settingsViewModel.eventNavigateBack.observe(viewLifecycleOwner, EventObserver {
-            dismiss()
-        })
+        binding.switchAutomove.setOnCheckedChangeListener { _, isChecked ->
+            settingsViewModel.saveAutoMove(isChecked)
+        }
 
-        settingsViewModel.eventNavigateOK.observe(viewLifecycleOwner, EventObserver {
-            val sharedEdit = sharedPref.edit()
-            val autoMove = binding.switchAutosave.isChecked
-            val position = binding.spinnerFrequency.selectedItemPosition
-            val darkTheme = binding.switchTheme.isChecked
-            val frequency = when (position) {
-                0 -> 15
-                1 -> 30
-                2 -> 60
-                3 -> 120
-                4 -> 240
-                5 -> 480
-                else -> DEFAULT_FREQUENCY_VALUE
+        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            settingsViewModel.saveDarkTheme(isChecked)
+        }
+
+        binding.spinnerFrequency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Ignore first call, it's caused by default value
+                if (position != savedPosition)
+                    settingsViewModel.saveFrequency(position)
             }
-            // Update shared prefs
-            sharedEdit.putBoolean(getString(R.string.preference_automove), autoMove)
-            sharedEdit.putInt(getString(R.string.preference_frequency), frequency)
-            sharedEdit.putInt(getString(R.string.preference_frequency_pos), position)
-            sharedEdit.putBoolean(getString(R.string.preference_theme), darkTheme)
-            sharedEdit.commit()
-            // Replace current worker
-            RefreshTracksWorker.startWorker(requireNotNull(activity).application)
 
-            if (autoMove)
-                settingsViewModel.handleArchiveAllCurrentItems()
-
-            if (darkTheme)
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
-            else
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
-
-            getSnack(getString(R.string.settings_success))
-                ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                ?.show()
-            dismiss()
-        })
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                parent?.setSelection(savedPosition)
+            }
+        }
 
         binding.lifecycleOwner = this
         return binding.root
@@ -102,9 +77,5 @@ class SettingsFragment : BottomSheetDialogFragment() {
         if (activity is MainActivity)
             return activity.getSnackInstance(string, duration)
         return null
-    }
-
-    override fun getTheme(): Int {
-        return R.style.AppBottomSheetDialogTheme
     }
 }

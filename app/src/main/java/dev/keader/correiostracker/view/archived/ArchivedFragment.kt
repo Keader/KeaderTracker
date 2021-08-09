@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
-import dev.keader.correiostracker.util.EventObserver
-import dev.keader.correiostracker.util.distinctUntilChanged
+import dev.keader.correiostracker.model.EventObserver
+import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import java.time.LocalDate

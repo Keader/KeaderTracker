@@ -6,8 +6,8 @@ import androidx.work.WorkInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.keader.correiostracker.repository.TrackingRepository
-import dev.keader.correiostracker.util.Event
-import dev.keader.correiostracker.util.combineWith
+import dev.keader.correiostracker.model.Event
+import dev.keader.correiostracker.model.combineWith
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import kotlinx.coroutines.launch
 import javax.inject.Inject

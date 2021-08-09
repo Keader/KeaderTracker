@@ -5,12 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.keader.correiostracker.util.Event
+import dev.keader.correiostracker.model.Event
+import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.view.capture.CodeDetectionActions
 import javax.inject.Inject
 
 @HiltViewModel
-class UIViewModel @Inject constructor() : ViewModel(), CodeDetectionActions {
+class UIViewModel @Inject constructor(
+    private val preferences: PreferencesManager
+) : ViewModel(), CodeDetectionActions {
+
+    val autoMove = preferences.autoMoveLiveData
+    val darkTheme = preferences.darkThemeLiveData
+    val frequency = preferences.frequencyLiveData
 
     private val _bottomNavVisibility = MutableLiveData(View.VISIBLE)
     val bottomNavVisibility: LiveData<Int>

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.repository.TrackingRepository
-import dev.keader.correiostracker.util.Event
+import dev.keader.correiostracker.model.Event
 import javax.inject.Inject
 
 @HiltViewModel

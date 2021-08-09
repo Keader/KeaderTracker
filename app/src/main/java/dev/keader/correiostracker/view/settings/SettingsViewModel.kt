@@ -1,39 +1,36 @@
 package dev.keader.correiostracker.view.settings
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.repository.TrackingRepository
-import dev.keader.correiostracker.util.Event
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val repository: TrackingRepository): ViewModel() {
+    private val repository: TrackingRepository,
+    private val preferences: PreferencesManager
+): ViewModel() {
 
-    private val _eventNavigateBack = MutableLiveData<Event<Unit>>()
-    val eventNavigateBack: LiveData<Event<Unit>>
-        get() = _eventNavigateBack
-
-    private val _eventNavigateOK = MutableLiveData<Event<Unit>>()
-    val eventNavigateOK: LiveData<Event<Unit>>
-        get() = _eventNavigateOK
-
-    fun handleArchiveAllCurrentItems() {
+    fun saveAutoMove(autoMove: Boolean) {
         viewModelScope.launch {
-            repository.archiveAllDeliveredItems()
+            preferences.saveAutoMove(autoMove)
+            if (autoMove)
+                repository.archiveAllDeliveredItems()
         }
     }
 
-    fun onCancelButtonClicked() {
-        _eventNavigateBack.value = Event(Unit)
+    fun saveDarkTheme(darkTheme: Boolean) {
+        viewModelScope.launch {
+            preferences.saveDarkTheme(darkTheme)
+        }
     }
 
-    fun onOKButtonClicked() {
-        _eventNavigateOK.value = Event(Unit)
+    fun saveFrequency(frequency: Int) {
+        viewModelScope.launch {
+            preferences.saveFrequency(frequency)
+        }
     }
-
 }

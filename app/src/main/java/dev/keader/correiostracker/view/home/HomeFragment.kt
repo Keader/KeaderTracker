@@ -1,11 +1,9 @@
 package dev.keader.correiostracker.view.home
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,10 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
-import dev.keader.correiostracker.util.EventObserver
-import dev.keader.correiostracker.util.distinctUntilChanged
+import dev.keader.correiostracker.model.EventObserver
+import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.*
-import dev.keader.correiostracker.view.settings.SettingsFragment
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -45,7 +42,6 @@ class HomeFragment : Fragment() {
         val concatAdapter = ConcatAdapter(headerAdapter, trackAdapter)
 
         binding.recyclerViewDelivery.adapter = concatAdapter
-        binding.homeViewModel = homeViewModel
 
         homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
@@ -74,8 +70,8 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.eventOpenSettingsFragment.observe(viewLifecycleOwner, EventObserver {
-            val bottomSheetFragment = SettingsFragment()
-            bottomSheetFragment.show(parentFragmentManager, "Settings")
+            //val bottomSheetFragment = SettingsFragment()
+            //bottomSheetFragment.show(parentFragmentManager, "Settings")
         })
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -85,11 +81,6 @@ class HomeFragment : Fragment() {
         homeViewModel.eventRefreshRunning.observe(viewLifecycleOwner, { running ->
             binding.swipeRefresh.isRefreshing = running
         })
-
-        // same hack to work in small screens :/
-        val displayMetrics = Resources.getSystem().displayMetrics
-        if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300)
-            applySmallScreensHack()
 
         binding.lifecycleOwner = this
         return binding.root
@@ -108,15 +99,5 @@ class HomeFragment : Fragment() {
     private fun showRecyclerView() {
         binding.recyclerViewDelivery.visibility = View.VISIBLE
         binding.recylerViewEmpty.root.visibility = View.GONE
-    }
-
-    private fun applySmallScreensHack() {
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(binding.constraintLayout)
-        constraintSet.clear(R.id.icon_info, ConstraintSet.TOP)
-        constraintSet.clear(R.id.icon_info, ConstraintSet.END)
-        constraintSet.connect(R.id.icon_info, ConstraintSet.TOP, R.id.icon_config, ConstraintSet.TOP)
-        constraintSet.connect(R.id.icon_info, ConstraintSet.END, R.id.icon_config, ConstraintSet.START, 16)
-        constraintSet.applyTo(binding.constraintLayout)
     }
 }

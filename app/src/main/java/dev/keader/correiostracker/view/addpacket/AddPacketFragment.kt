@@ -1,7 +1,6 @@
 package dev.keader.correiostracker.view.addpacket
 
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -22,9 +22,11 @@ import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
-import dev.keader.correiostracker.util.EventObserver
-import dev.keader.correiostracker.view.settings.DEFAULT_AUTOMOVE
+import dev.keader.correiostracker.model.EventObserver
+import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.work.RefreshTracksWorker
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddPacketFragment : Fragment() {
@@ -33,14 +35,14 @@ class AddPacketFragment : Fragment() {
     private lateinit var binding: FragmentAddPacketBinding
     private val navController
         get() = findNavController()
+    @Inject
+    lateinit var preferences : PreferencesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding = FragmentAddPacketBinding.inflate(inflater, container, false)
         binding.addPacketViewModel = addPacketViewModel
-
-        val sharedPref = requireActivity().getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
 
         addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, EventObserver {
             navController.popBackStack()
@@ -52,7 +54,7 @@ class AddPacketFragment : Fragment() {
             val observation = binding.descriptionEditText.text.toString()
 
             if (validateInputs(code, observation)) {
-                val autoMove = sharedPref.getBoolean(getString(R.string.preference_automove), DEFAULT_AUTOMOVE)
+                val autoMove = preferences.getAutoMove()
                 addPacketViewModel.handleCheckOK(code, observation)
                 binding.progressBar.visibility = View.VISIBLE
 
@@ -77,7 +79,7 @@ class AddPacketFragment : Fragment() {
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
                     ?.show()
 
-                RefreshTracksWorker.startWorker(requireNotNull(activity).application)
+                RefreshTracksWorker.startWorker(requireNotNull(activity).application, preferences)
                 navController.popBackStack()
             } else {
                 getSnack(getString(R.string.track_add_fail))
@@ -100,10 +102,10 @@ class AddPacketFragment : Fragment() {
             navController.popBackStack()
         }
 
-        if (sharedPref.getBoolean(getString(R.string.preference_scan_intro), true)) {
-            val sharedEdit = sharedPref.edit()
-            sharedEdit.putBoolean(getString(R.string.preference_scan_intro), false)
-            sharedEdit.apply()
+        if (preferences.getScanIntro()) {
+            addPacketViewModel.viewModelScope.launch {
+                preferences.saveScanIntro(false)
+            }
             showTutorial()
         }
 
