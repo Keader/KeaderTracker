@@ -111,18 +111,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/texture"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/bg_texture" />
+
                 <TextView
                     android:id="@+id/label_track_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:text="@{itemWithTracks.item.name}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Cabos Sleeved do PC" />
@@ -131,14 +142,13 @@
                     android:id="@+id/label_product_code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
                     android:alpha="0.5"
                     android:text="@{@string/code_format(itemWithTracks.item.code)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_track_title"
                     tools:text="Código PZ909656782BR" />
@@ -147,12 +157,12 @@
                     android:id="@+id/label_start_locate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_product_code"
                     app:trackLocale="@{itemWithTracks}"
@@ -162,14 +172,14 @@
                     android:id="@+id/label_posted_at"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:alpha="0.5"
                     android:text="@{@string/posted_format(itemWithTracks.item.postedAt)}"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_start_locate"
                     tools:text="Postado em 13/10/20 13:39" />
@@ -178,7 +188,7 @@
                     android:id="@+id/label_last_update"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
@@ -187,21 +197,11 @@
                     android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/icon_localization"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_posted_at"
                     tools:text="Última atualização em 22/10/20 14:11" />
 
-                <ImageView
-                    android:id="@+id/icon_localization"
-                    android:layout_width="38dp"
-                    android:layout_height="42dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="24dp"
-                    android:contentDescription="@string/localization_icon_description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_location" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
