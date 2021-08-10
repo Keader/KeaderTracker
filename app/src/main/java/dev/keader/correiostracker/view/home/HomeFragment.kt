@@ -9,9 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.model.EventObserver
@@ -59,19 +57,6 @@ class HomeFragment : Fragment() {
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
-        })
-
-        homeViewModel.eventOpenInfoDialog.observe(viewLifecycleOwner, EventObserver {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.authors))
-                .setMessage(getString(R.string.authors_body))
-                .setPositiveButton(getString(R.string.OK)) { dialog, _ -> dialog.dismiss() }
-                .show()
-        })
-
-        homeViewModel.eventOpenSettingsFragment.observe(viewLifecycleOwner, EventObserver {
-            //val bottomSheetFragment = SettingsFragment()
-            //bottomSheetFragment.show(parentFragmentManager, "Settings")
         })
 
         binding.swipeRefresh.setOnRefreshListener {

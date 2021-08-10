@@ -35,7 +35,6 @@
     <string name="firebase_channel">Cloud Messaging Channel</string>
     <string name="icon_info">Icone de informações</string>
     <string name="authors">Autores</string>
-    <string name="authors_body">- Criador:\n* Lucas Nascimento (github.com/Keader)\n- Colaboradores:\n* João P. Sena (github.com/ForceTower)\n* Alberto M. Jr. (github.com/AlbertoJunior)\n* Mima Cobaltini (linkedin.com/in/yasmindovale)\n* Samuel Nunes(github.com/SamueldaCostaAraujoNunes)</string>
     <string name="OK">OK</string>
     <string name="qr_read">Coloque em direção ao QR Code</string>
     <string name="imports">Ir para Minhas Importações</string>

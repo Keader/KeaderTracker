@@ -29,11 +29,23 @@ class AuthorsFragment : Fragment() {
         binding.recyclerViewAuthors.adapter = concatAdapter
 
         authorsViewModel.authors.distinctUntilChanged().observe(viewLifecycleOwner, {
+            handleWithListVisibility(it.isEmpty())
             if (it.isNotEmpty())
                 authorsAdapter.submitList(it)
         })
 
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    private fun handleWithListVisibility(empty: Boolean) {
+        if (empty) {
+            binding.recyclerViewAuthors.visibility = View.GONE
+            binding.progressAutors.visibility = View.VISIBLE
+        }
+        else {
+            binding.recyclerViewAuthors.visibility = View.VISIBLE
+            binding.progressAutors.visibility = View.GONE
+        }
     }
 }
