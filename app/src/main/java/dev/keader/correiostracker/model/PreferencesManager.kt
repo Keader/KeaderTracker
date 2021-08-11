@@ -114,7 +114,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private object PreferencesKeys {
         val AUTO_MOVE = booleanPreferencesKey("PREF_AUTOMOVE")
-        val FREQUENCY = intPreferencesKey("PREF_FREQUENCY")
+        val FREQUENCY = intPreferencesKey("PREF_FREQUENCY_POS")
         val DARK_THEME = booleanPreferencesKey("PREF_THEME")
         val SCAN_INTRO = booleanPreferencesKey("PREF_SCAN_INTRO")
     }
