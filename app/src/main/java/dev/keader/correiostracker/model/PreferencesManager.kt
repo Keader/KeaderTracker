@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.asLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.model.PreferencesManager.PreferencesKeys.AUTO_MOVE
@@ -40,25 +39,21 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private val dataStore = context.dataStore
 
-    private val autoMoveFlow = dataStore.data.map {
+    val autoMoveFlow = dataStore.data.map {
         it[AUTO_MOVE] ?: DEFAULT_AUTO_MOVE
     }
-    val autoMoveLiveData = autoMoveFlow.asLiveData()
 
-    private val frequencyFlow = dataStore.data.map {
+    val frequencyFlow = dataStore.data.map {
         it[FREQUENCY] ?: DEFAULT_SPINNER_POSITION
     }
-    val frequencyLiveData = frequencyFlow.asLiveData()
 
     val darkThemeFlow = dataStore.data.map {
         it[DARK_THEME] ?: DEFAULT_THEME_VALUE
     }
-    val darkThemeLiveData = darkThemeFlow.asLiveData()
 
-    private val scanIntroFlow = dataStore.data.map {
+    val scanIntroFlow = dataStore.data.map {
         it[SCAN_INTRO] ?: DEFAULT_SCAN_INTRO
     }
-    val scanIntroLiveData = scanIntroFlow.asLiveData()
 
     suspend fun saveAutoMove(autoMove: Boolean) {
         dataStore.edit {

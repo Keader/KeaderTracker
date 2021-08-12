@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
@@ -23,7 +21,6 @@ import java.time.temporal.ChronoUnit
 class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private val uiViewModel: UIViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
     private val navController
         get() = findNavController()
@@ -69,11 +66,6 @@ class HomeFragment : Fragment() {
 
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        uiViewModel.setBottomNavVisibility(View.VISIBLE)
     }
 
     private fun showEmptyList() {

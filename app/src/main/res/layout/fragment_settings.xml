@@ -4,132 +4,138 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="settingsViewModel"
             type="dev.keader.correiostracker.view.settings.SettingsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingBottom="140dp">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/anim_settings"
-            android:layout_width="0dp"
-            android:layout_height="190dp"
-            app:layout_constraintDimensionRatio="V,16:9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_enableMergePathsForKitKatAndAbove="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/settings" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/label_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/settings"
-            android:textAlignment="textStart"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/anim_settings" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/anim_settings"
+                android:layout_width="0dp"
+                android:layout_height="190dp"
+                app:layout_constraintDimensionRatio="V,16:9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_enableMergePathsForKitKatAndAbove="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/settings" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_automove"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:checked="false"
-            android:text="@string/move_automatic"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_book"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon_book"
-            app:layout_constraintTop_toTopOf="@+id/icon_book"
-            app:useMaterialThemeColors="false" />
+            <TextView
+                android:id="@+id/label_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/settings"
+                android:textAlignment="textStart"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/anim_settings" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_automove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:checked="false"
+                android:text="@string/move_automatic"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/icon_book"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/icon_book"
+                app:layout_constraintTop_toTopOf="@+id/icon_book"
+                app:useMaterialThemeColors="false" />
 
 
-        <Spinner
-            android:id="@+id/spinner_frequency"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="8dp"
-            android:popupBackground="@color/primaryColorSpecial"
-            app:layout_constraintBottom_toBottomOf="@+id/label_interval"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/label_interval"
-            app:layout_constraintTop_toTopOf="@+id/label_interval" />
+            <Spinner
+                android:id="@+id/spinner_frequency"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="8dp"
+                android:popupBackground="@color/primaryColorSpecial"
+                app:layout_constraintBottom_toBottomOf="@+id/label_interval"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/label_interval"
+                app:layout_constraintTop_toTopOf="@+id/label_interval" />
 
-        <TextView
-            android:id="@+id/label_interval"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/update_frequency"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_clock"
-            app:layout_constraintStart_toEndOf="@+id/icon_clock"
-            app:layout_constraintTop_toTopOf="@+id/icon_clock" />
+            <TextView
+                android:id="@+id/label_interval"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/update_frequency"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/icon_clock"
+                app:layout_constraintStart_toEndOf="@+id/icon_clock"
+                app:layout_constraintTop_toTopOf="@+id/icon_clock" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_theme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
-            android:checked="false"
-            android:text="@string/dark_theme"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/icon_theme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon_theme"
-            app:layout_constraintTop_toTopOf="@+id/icon_theme"
-            app:useMaterialThemeColors="false" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_theme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:checked="false"
+                android:text="@string/dark_theme"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/icon_theme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/icon_theme"
+                app:layout_constraintTop_toTopOf="@+id/icon_theme"
+                app:useMaterialThemeColors="false" />
 
-        <ImageView
-            android:id="@+id/icon_book"
-            android:layout_width="40dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="@string/automove_icon_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_settings"
-            app:srcCompat="@drawable/ic_book_arrow" />
+            <ImageView
+                android:id="@+id/icon_book"
+                android:layout_width="40dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/automove_icon_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/label_settings"
+                app:srcCompat="@drawable/ic_book_arrow" />
 
-        <ImageView
-            android:id="@+id/icon_theme"
-            android:layout_width="40dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="@string/theme_icon_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icon_clock"
-            app:srcCompat="@drawable/ic_theme_light_dark" />
+            <ImageView
+                android:id="@+id/icon_theme"
+                android:layout_width="40dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/theme_icon_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon_clock"
+                app:srcCompat="@drawable/ic_theme_light_dark" />
 
-        <ImageView
-            android:id="@+id/icon_clock"
-            android:layout_width="40dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:contentDescription="@string/frequency_icon_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icon_book"
-            app:srcCompat="@drawable/ic_clock" />
+            <ImageView
+                android:id="@+id/icon_clock"
+                android:layout_width="40dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/frequency_icon_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon_book"
+                app:srcCompat="@drawable/ic_clock" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

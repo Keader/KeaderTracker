@@ -17,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.model.PreferencesManager
-import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import javax.inject.Inject
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             binding.floatingActionButton.visibility = visibility
         })
 
-        uiViewModel.frequency.distinctUntilChanged().observe(this, {
+        uiViewModel.frequency.observe(this, {
             RefreshTracksWorker.stopWorker(this)
             RefreshTracksWorker.startWorker(this, preferences)
         })
@@ -67,12 +66,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getSnackInstance(string: String, duration: Int): Snackbar {
-        val snackbar = Snackbar.make(binding.root, string, duration)
-        val layoutParams = ActionBar.LayoutParams(snackbar.view.layoutParams)
+        val snackBar = Snackbar.make(binding.root, string, duration)
+        val layoutParams = ActionBar.LayoutParams(snackBar.view.layoutParams)
         layoutParams.gravity = Gravity.TOP
-        snackbar.view.setPadding(0, 10, 0, 0)
-        snackbar.view.layoutParams = layoutParams
-        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
-        return snackbar
+        snackBar.view.setPadding(0, 10, 0, 0)
+        snackBar.view.layoutParams = layoutParams
+        snackBar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
+        return snackBar
     }
 }

@@ -181,4 +181,9 @@ class AddPacketFragment : Fragment() {
                 binding.trackEditText.setText(code)
         }
     }
+
+    override fun onDestroy() {
+        uiViewModel.setBottomNavVisibility(View.VISIBLE)
+        super.onDestroy()
+    }
 }
