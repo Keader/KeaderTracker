@@ -83,4 +83,6 @@
     <string name="contribute_format">Contribuições: %1$d</string>
     <string name="pix">Este projeto é totalmente gratuito. Mas se quiser ajudar o autor a continuar dando manutenção, utilize o pix: keader.android@gmail.com</string>
     <string name="settings">Configurações</string>
+    <string name="contribute">Para contribuir acesse:</string>
+    <string name="repo_link">https://github.com/Keader/KeaderTracker</string>
 </resources>
