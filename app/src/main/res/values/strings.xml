@@ -85,4 +85,6 @@
     <string name="settings">Configurações</string>
     <string name="contribute">Para contribuir acesse:</string>
     <string name="repo_link">https://github.com/Keader/KeaderTracker</string>
+    <string name="package_name">Novo nome do pacote</string>
+    <string name="edit_package_name">Editar nome do pacote</string>
 </resources>

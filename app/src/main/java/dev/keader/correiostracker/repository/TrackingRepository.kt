@@ -4,14 +4,12 @@ import androidx.lifecycle.LiveData
 import dev.keader.correiosapi.Correios
 import dev.keader.correiosapi.UNKNOWN_TYPE
 import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.TrackingDatabase
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.correiostracker.database.toItemWithTracks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 class TrackingRepository @Inject constructor(private val database: TrackingDatabaseDAO) {
@@ -37,6 +35,12 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
     suspend fun deleteTrack(itemWithTracks: ItemWithTracks) {
         withContext(Dispatchers.IO) {
             database.deleteItemWithTracks(itemWithTracks)
+        }
+    }
+
+    suspend fun updateItemName(code: String, newName: String) {
+        withContext(Dispatchers.IO) {
+            database.updateItemName(code, newName)
         }
     }
 

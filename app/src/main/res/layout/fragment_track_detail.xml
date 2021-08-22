@@ -36,7 +36,7 @@
             android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/recyclerView_history"
-            android:onClick="@{(view) -> trackDetailViewModel.onFloatButtonPressed(view)}"
+            android:onClick="@{(view) -> trackDetailViewModel.onFloatButtonClicked(view)}"
             app:srcCompat="@drawable/ic_delivered_outline" />
 
 

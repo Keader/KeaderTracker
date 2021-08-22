@@ -41,6 +41,9 @@ interface TrackingDatabaseDAO {
     @Query("UPDATE Item SET isArchived = 1 WHERE code = :code")
     suspend fun archiveTrack(code: String)
 
+    @Query("UPDATE Item SET name = :newName WHERE code = :code")
+    suspend fun updateItemName(code: String, newName: String)
+
     @Query("UPDATE Item SET isArchived = 0 WHERE code = :code")
     suspend fun unArchiveTrack(code: String)
 
@@ -81,5 +84,4 @@ interface TrackingDatabaseDAO {
         deleteItem(code)
         deleteTracks(code)
     }
-
 }

@@ -19,10 +19,11 @@ import kotlinx.coroutines.withContext
 
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
-const val BUTTON_BACK = 1
-const val BUTTON_COPY = 2
-const val BUTTON_DELETE = 3
-const val BUTTON_SHARE = 4
+//const val BUTTON_BACK = 1
+//const val BUTTON_COPY = 2
+//const val BUTTON_DELETE = 3
+//const val BUTTON_SHARE = 4
+//const val BUTTON_EDIT = 4
 
 class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonListener)
     : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
@@ -190,10 +191,14 @@ sealed class DataItem {
     abstract val id: Long
 }
 
-class TrackHistoryButtonListener(val clickListener: (itemTrack: ItemWithTracks, id: Int) -> Unit) {
-    fun onClick(item: ItemWithTracks, id: Int) = clickListener(item, id)
+class TrackHistoryButtonListener(val clickListener: (itemTrack: ItemWithTracks, id: TrackHistoryButtonTypes) -> Unit) {
+    fun onClick(item: ItemWithTracks, id: TrackHistoryButtonTypes) = clickListener(item, id)
 }
 
-class BackButtonListener(val clickListener: () -> Unit) {
-    fun onClick() = clickListener()
+enum class TrackHistoryButtonTypes {
+    BUTTON_BACK,
+    BUTTON_COPY,
+    BUTTON_DELETE,
+    BUTTON_SHARE,
+    BUTTON_EDIT
 }

@@ -3,15 +3,12 @@ package dev.keader.correiostracker.view.trackdetail
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,15 +16,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dev.keader.correiostracker.BuildConfig
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
 import dev.keader.correiostracker.model.PreferencesManager
-import dev.keader.correiostracker.model.toFile
-import dev.keader.correiostracker.view.adapters.*
+import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.*
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import javax.inject.Inject
 
@@ -46,8 +43,8 @@ class TrackDetailFragment : Fragment() {
     lateinit var preferences: PreferencesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         binding = FragmentTrackDetailBinding.inflate(inflater, container,false)
+        val myContext = requireContext()
 
         uiViewModel.setBottomNavVisibility(View.GONE)
 
@@ -58,10 +55,11 @@ class TrackDetailFragment : Fragment() {
 
         val adapter = TrackHistoryAdapter(TrackHistoryButtonListener { itemWithTracks, buttonId ->
             when (buttonId) {
-                BUTTON_BACK -> navController.popBackStack()
-                BUTTON_COPY -> copyTrackCodeAndShowSnack(itemWithTracks)
+                BUTTON_BACK   -> navController.popBackStack()
+                BUTTON_COPY   -> copyTrackCodeAndShowSnack(itemWithTracks)
                 BUTTON_DELETE -> trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
-                BUTTON_SHARE -> handleWithShare()
+                BUTTON_SHARE  -> trackDetailViewModel.onShareButtonClicked(myContext, requireView())
+                BUTTON_EDIT   -> trackDetailViewModel.onEditButtonClicked(requireActivity())
             }
         })
 
@@ -79,19 +77,14 @@ class TrackDetailFragment : Fragment() {
                     binding.floatButtonArchive.setTag(R.id.tag_archived, TAG_VALUE_ARCHIVED)
                     binding.floatButtonArchive.setImageResource(R.drawable.ic_track_delivery)
                     binding.floatButtonArchive.backgroundTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.primaryColor
-                        )
+                        ContextCompat.getColor(myContext, R.color.primaryColor)
                     )
                 } else {
                     binding.floatButtonArchive.setTag(R.id.tag_archived, TAG_VALUE_UNARCHIVED)
                     binding.floatButtonArchive.setImageResource(R.drawable.ic_delivered_outline)
                     binding.floatButtonArchive.backgroundTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.secondaryColor
-                        ))
+                        ContextCompat.getColor(myContext,R.color.secondaryColor)
+                    )
                 }
             }
         })
@@ -125,17 +118,6 @@ class TrackDetailFragment : Fragment() {
 
         binding.lifecycleOwner = this
         return binding.root
-    }
-
-    private fun handleWithShare() {
-        val context = requireContext()
-        val file = requireView().drawToBitmap().toFile(context)
-        val uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileprovider", file)
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.putExtra(Intent.EXTRA_STREAM, uri)
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intent.type = "image/jpg"
-        context.startActivity(intent)
     }
 
     private fun copyTrackCodeAndShowSnack(itemWithTracks: ItemWithTracks) {
