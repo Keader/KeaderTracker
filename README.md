@@ -1,4 +1,6 @@
 # KeaderTracker / CorreiosTracker
+[![Android Publisher CI](https://github.com/Keader/KeaderTracker/actions/workflows/publication.yml/badge.svg?branch=main)](https://github.com/Keader/KeaderTracker/actions/workflows/publication.yml)
+
 ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/united_ss.png)
 
 O aplicativo oficial pode ser encontrado na [PlayStore](https://play.google.com/store/apps/details?id=dev.keader.correiostracker).
