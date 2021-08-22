@@ -93,9 +93,9 @@ fun TextView.setObservation(track: Track) {
 fun TextView.setLink(track: Track) {
     if (track.link.isNotEmpty()) {
         val string = if (track.link.contains("prazo"))
-            context.getString(R.string.imports)
-        else
             context.getString(R.string.deadlines)
+        else
+            context.getString(R.string.imports)
         val link = "<a href=\"${track.link}\">${string}</a>"
         val spannable = HtmlCompat.fromHtml(link,0)
         movementMethod = LinkMovementMethod.getInstance()
