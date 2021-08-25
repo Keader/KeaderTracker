@@ -105,7 +105,7 @@ class TrackDetailViewModel @Inject constructor(
     fun onEditButtonClicked(activity: Activity) {
         val binding = DialogEditItemNameBinding.inflate(activity.layoutInflater)
         AlertDialog.Builder(activity)
-            .setTitle(activity.getString(R.string.edit_package_name))
+            .setTitle(activity.getString(R.string.edit_package_description))
             .setView(binding.root)
             .setPositiveButton(activity.getString(R.string.OK)) { dialog, _ ->
                 binding.inputText.text?.let { newName ->
