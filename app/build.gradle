@@ -2,18 +2,15 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.github.triplet.play'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
-
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 31
 
     defaultConfig {
         def commitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
@@ -21,7 +18,7 @@ android {
         def last_tag = "git describe --tags ${last_tag_commit}".execute([], project.rootDir).text.trim().replace("_", " ")
         applicationId "dev.keader.correiostracker"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode commitCount
         versionName last_tag
 
@@ -51,8 +48,8 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
-        viewBinding = true
+        dataBinding true
+        viewBinding true
     }
 
     buildTypes {
@@ -90,9 +87,9 @@ dependencies {
     def room_version = '2.3.0'
     def nav_version = '2.3.5'
     def work_version = "2.5.0"
-    def camerax_version = "1.1.0-alpha04"
-    def camerax_ext_version = "1.0.0-alpha24"
-    def tapTargetView_version ="1.13.2"
+    def camerax_version = "1.1.0-alpha08"
+    def camerax_ext_version = "1.0.0-alpha28"
+    def tapTargetView_version = '1.13.3'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -103,7 +100,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // Lottie Animation
-    implementation 'com.airbnb.android:lottie:3.7.0'
+    implementation 'com.airbnb.android:lottie:4.1.0'
 
     // Room Database
     implementation "androidx.room:room-runtime:$room_version"
@@ -111,7 +108,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     // Timber Logs
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -124,8 +121,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
 
     // Hilt
-    implementation 'com.google.dagger:hilt-android:2.37'
-    kapt 'com.google.dagger:hilt-android-compiler:2.37'
+    implementation 'com.google.dagger:hilt-android:2.38.1'
+    kapt 'com.google.dagger:hilt-android-compiler:2.38.1'
     // Hilt-Worker
     implementation 'androidx.hilt:hilt-work:1.0.0'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
@@ -138,7 +135,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-core:1.0.0")
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
@@ -157,19 +154,19 @@ dependencies {
     implementation "androidx.camera:camera-extensions:${camerax_ext_version}"
 
     // MLKit
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.2.0'
-    implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:16.1.5'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+    implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:16.2.1'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     // OkHttp
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
