@@ -83,11 +83,11 @@ class Correios {
                         if (observation.contains(status))
                             observation = observation.substringAfter(status).trim()
                         val data = dataLine[1].selectFirst("a")
-                        link = data.attr("href").trim()
+                        link = data?.attr("href")?.trim() ?: ""
                     }
                     else if (splittedStatus[1].contains("href")) {
                         val data = dataLine[1].selectFirst("a")
-                        link = data.attr("href").trim()
+                        link = data?.attr("href")?.trim() ?: ""
                     }
                     else if (!splittedStatus[1].contains("<!--") && splittedStatus[1].isNotEmpty())
                         observation = splittedStatus[1].trim()
