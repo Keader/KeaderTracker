@@ -21,7 +21,7 @@ const val UNKNOWN_TYPE = "Desconhecido - "
 const val STATUS_WAITING = "Aguardando postagem pelo remetente."
 
 object Correios : DeliveryService {
-    private val deliveryCompany = DeliveryCompany.CORREIOS
+    override val deliveryCompany = DeliveryCompany.CORREIOS
     private val localeRegex = Regex(LOCALE_REGEX)
     private val codeValidation = Regex(CODE_VALIDATION_REGEX)
     private val client = OkHttpClient.Builder()
@@ -123,8 +123,6 @@ object Correios : DeliveryService {
     }
 
     override fun codeHasMultipleParams() = false
-
-    override fun getDeliveryCompany() = deliveryCompany
 
     private fun handleWithNotPosted(code: String): ItemWithTracks {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm")
