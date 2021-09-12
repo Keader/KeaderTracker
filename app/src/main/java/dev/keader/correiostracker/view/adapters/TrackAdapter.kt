@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
+import dev.keader.sharedapiobjects.ItemWithTracks
 
 class TrackAdapter(private val itemClickListener: ListItemListener) :
     ListAdapter<ItemWithTracks, TrackAdapter.TrackViewHolder>(TrackAdapter) {

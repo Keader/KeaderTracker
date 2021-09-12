@@ -7,7 +7,7 @@
     <data>
         <variable
             name="track"
-            type="dev.keader.correiostracker.database.Track" />
+            type="dev.keader.sharedapiobjects.Track" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

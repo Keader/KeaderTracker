@@ -10,10 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.Item
-import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.Track
 import dev.keader.correiostracker.model.toCapitalize
+import dev.keader.sharedapiobjects.Item
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.Track
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

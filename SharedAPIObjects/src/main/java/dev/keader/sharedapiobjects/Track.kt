@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.database
+package dev.keader.sharedapiobjects
 
 import androidx.room.Entity
 import androidx.room.Index

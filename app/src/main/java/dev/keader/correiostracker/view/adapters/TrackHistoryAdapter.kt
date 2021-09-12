@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.databinding.ListItemTrackDetailHeaderBinding
 import dev.keader.correiostracker.databinding.ListItemTrackHistoryBinding
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.TrackWithStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

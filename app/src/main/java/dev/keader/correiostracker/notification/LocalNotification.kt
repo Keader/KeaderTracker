@@ -11,7 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.sharedapiobjects.ItemWithTracks
 
 class LocalNotification {
     companion object {

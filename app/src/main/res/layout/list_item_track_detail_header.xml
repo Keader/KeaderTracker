@@ -10,7 +10,7 @@
 
         <variable
             name="itemWithTracks"
-            type="dev.keader.correiostracker.database.ItemWithTracks" />
+            type="dev.keader.sharedapiobjects.ItemWithTracks" />
 
         <variable
             name="clickListener"

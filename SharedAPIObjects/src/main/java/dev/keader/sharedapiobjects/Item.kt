@@ -1,6 +1,7 @@
-package dev.keader.correiostracker.database
+package dev.keader.sharedapiobjects
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
 data class Item(

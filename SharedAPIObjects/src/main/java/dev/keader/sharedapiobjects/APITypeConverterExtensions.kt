@@ -1,4 +1,4 @@
-package dev.keader.correiostracker.database
+package dev.keader.sharedapiobjects
 
 import dev.keader.correiosapi.Correios
 
@@ -8,7 +8,8 @@ fun Correios.CorreiosItem.toItemWithTracks() : ItemWithTracks {
 
     tracks.forEach {
         trackList.add(Track(0, code, it.locale, it.status,
-                it.observation, it.trackedAt, it.date, it.time, it.link))
+            it.observation, it.trackedAt, it.date, it.time, it.link)
+        )
     }
 
     return ItemWithTracks(item, trackList)

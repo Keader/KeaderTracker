@@ -3,9 +3,9 @@ package dev.keader.correiostracker.repository
 import androidx.lifecycle.LiveData
 import dev.keader.correiosapi.Correios
 import dev.keader.correiosapi.UNKNOWN_TYPE
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
-import dev.keader.correiostracker.database.toItemWithTracks
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.toItemWithTracks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException

@@ -6,10 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.work.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.sharedapiobjects.ItemWithTracks
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 

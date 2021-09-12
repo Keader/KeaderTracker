@@ -19,13 +19,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.UIViewModel
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 import dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener
 import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.*
 import dev.keader.correiostracker.work.RefreshTracksWorker
+import dev.keader.sharedapiobjects.ItemWithTracks
 import javax.inject.Inject
 
 const val TAG_VALUE_UNARCHIVED = 0
