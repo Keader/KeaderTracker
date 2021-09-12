@@ -5,7 +5,6 @@ import dev.keader.correiosapi.Correios
 import dev.keader.correiosapi.UNKNOWN_TYPE
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.sharedapiobjects.ItemWithTracks
-import dev.keader.sharedapiobjects.toItemWithTracks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException
@@ -56,7 +55,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
     suspend fun getTrackInfoFromAPI(code: String, observation: String): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val itemWithTracks = Correios.getTrackFromSite(code).toItemWithTracks()
+                val itemWithTracks = Correios.getProduct(code)
                 itemWithTracks.item.name = observation
                 database.insertItemWithTracks(itemWithTracks)
                 Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
@@ -87,7 +86,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
             // Fetch Info from API
             items.forEach { oldItem ->
                 try {
-                    val updatedItem = Correios.getTrackFromSite(oldItem.item.code).toItemWithTracks()
+                    val updatedItem = Correios.getProduct(oldItem.item.code)
                     updatedItem.item.name = oldItem.item.name
                     if (updatedItem.tracks.size != oldItem.tracks.size)
                         notificationList.add(updatedItem)

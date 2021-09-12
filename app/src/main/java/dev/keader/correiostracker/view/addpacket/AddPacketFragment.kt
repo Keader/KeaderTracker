@@ -94,7 +94,7 @@ class AddPacketFragment : Fragment() {
         })
 
         uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver { qr ->
-            if (Correios.isValidCode(qr))
+            if (Correios.validateCode(qr))
                 binding.trackEditText.setText(qr)
         })
 
@@ -151,7 +151,7 @@ class AddPacketFragment : Fragment() {
         var error = false
 
         // Check code
-        if (!Correios.isValidCode(code)) {
+        if (!Correios.validateCode(code)) {
             binding.trackEditText.error = getString(R.string.add_code_error_message)
             error = true
         } else
@@ -170,14 +170,14 @@ class AddPacketFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val currentCode = binding.trackEditText.text.toString()
-        if (currentCode.isNotEmpty() && Correios.isValidCode(currentCode))
+        if (currentCode.isNotEmpty() && Correios.validateCode(currentCode))
             return
 
         val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = clipboard.primaryClip
         clipData?.let {
             val code = clipData.getItemAt(0)?.text?.toString()?.trim() ?: return
-            if (Correios.isValidCode(code))
+            if (Correios.validateCode(code))
                 binding.trackEditText.setText(code)
         }
     }
