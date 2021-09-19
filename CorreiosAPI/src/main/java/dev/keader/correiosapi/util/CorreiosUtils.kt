@@ -1,4 +1,4 @@
-package dev.keader.correiosapi
+package dev.keader.correiosapi.util
 
 class CorreiosUtils {
     companion object {

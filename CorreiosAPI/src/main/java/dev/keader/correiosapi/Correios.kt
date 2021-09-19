@@ -1,28 +1,27 @@
 package dev.keader.correiosapi
 
+import dev.keader.correiosapi.data.CorreiosEvento
+import dev.keader.correiosapi.data.CorreiosItem
+import dev.keader.correiosapi.data.CorreiosUnidade
 import dev.keader.sharedapiobjects.*
-import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
-import org.jsoup.Jsoup
-import java.nio.charset.Charset
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-const val BASE_URL = "https://www2.correios.com.br/sistemas/rastreamento/resultado_semcontent.cfm"
-const val BASE_URL_SITE = "https://www2.correios.com.br/sistemas/rastreamento/ctrl/ctrlRastreamento.cfm?"
-const val LOCALE_REGEX = "[[A-Z]+\\s*]+/[\\s*[A-Z]+]*"
+const val BASE_URL = "https://rastreamento.correios.com.br/app/resultado.php?objeto="
 const val CODE_VALIDATION_REGEX = "[A-Za-z]{2}[0-9]{9}[A-Za-z]{2}"
-const val ERROR_MESSAGE = "Não é possível exibir informações para o código informado."
 const val UNKNOWN_LOCATION = "LIMBO, DESCONHECIDO"
 const val UNKNOWN_TYPE = "Desconhecido - "
 const val STATUS_WAITING = "Aguardando postagem pelo remetente."
+const val WAITING_PAYMENT = "Aguardando pagamento"
+const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
+const val DELIVERY_STATUS = "E"
 
 object Correios : DeliveryService {
     override val deliveryCompany = DeliveryCompany.CORREIOS
-    private val localeRegex = Regex(LOCALE_REGEX)
     private val codeValidation = Regex(CODE_VALIDATION_REGEX)
     private val client = OkHttpClient.Builder()
         .followRedirects(true)
@@ -34,18 +33,10 @@ object Correios : DeliveryService {
 
     override suspend fun getProduct(code: String): ItemWithTracks {
         val productCode = code.uppercase()
-
         if (!validateCode(productCode)) throw IOException("Invalid Code: $code")
 
-        val formBody = FormBody.Builder()
-            .add("acao", "track")
-            .add("objetos", productCode)
-            .add("btnPesq", "Buscar")
-            .build()
-
         val request = Request.Builder()
-            .url(BASE_URL_SITE)
-            .post(formBody)
+            .url(BASE_URL + productCode)
             .build()
 
         val response = client.newCall(request).executeSuspend()
@@ -54,68 +45,94 @@ object Correios : DeliveryService {
             throw IOException("Response: ${response.code} for code: $code")
         }
 
-        val tracks = mutableListOf<Track>()
-        val document = Jsoup.parse(response.body!!.string())
-        document.charset(Charset.forName("utf-8"))
-        val html = document.html()
-        if (html.contains(ERROR_MESSAGE) || html.contains(STATUS_WAITING)) {
+        val json = response.body!!.string()
+        if (json.contains("erro"))
             return handleWithNotPosted(productCode)
+
+        val correiosItem = fromJson<CorreiosItem>(json)
+
+        val tracks = mutableListOf<Track>()
+        correiosItem.eventos.forEach { event ->
+            val dateTime = event.dtHrCriado.split(" ")
+            val locale = handleEventAddress(event.unidade)
+            val observation = handleObservation(event)
+            val link = handleLink(event)
+            val track = Track(
+                trackUid = 0,
+                itemCode = correiosItem.codObjeto,
+                locale = locale,
+                status = event.descricao,
+                observation = observation,
+                trackedAt = event.dtHrCriado,
+                date = dateTime[0],
+                time = dateTime[1],
+                link = link)
+            tracks.add(track)
         }
 
-        val lines = document.select(".listEvent").select("tr")
-        for (line in lines) {
-            val dataLine = line.select("td")
-            val completeDateString = dataLine[0].text().uppercase()
-            val completeStatusString = dataLine[1].html()
-            val splitDate = completeDateString.split(" ")
-            val date = splitDate[0]
-            val time = splitDate[1]
-            var locale = localeRegex.find(completeDateString)?.value.toString().trim().replace(" /", ",")
-            val splitedLocale = locale.split(",")
-            if (splitedLocale.size > 1 && splitedLocale[1].isEmpty())
-                locale = splitedLocale[0]
-            val splittedStatus = completeStatusString.split("<br>")
-            var observation = ""
-            val status = splittedStatus[0].replace("<strong>", "").replace("</strong>", "").trim()
-            var link = ""
-            if (splittedStatus.size > 1) {
-                if (splittedStatus[1].contains("<!--") && splittedStatus[1].contains("TRUE")) {
-                    observation = dataLine[1].text().substringBefore(".") + "."
-                    if (observation.contains(status))
-                        observation = observation.substringAfter(status).trim()
-                    val data = dataLine[1].selectFirst("a")
-                    link = data?.attr("href")?.trim() ?: ""
-                }
-                else if (splittedStatus[1].contains("href")) {
-                    val data = dataLine[1].selectFirst("a")
-                    link = data?.attr("href")?.trim() ?: ""
-                }
-                else if (!splittedStatus[1].contains("<!--") && splittedStatus[1].isNotEmpty())
-                    observation = splittedStatus[1].trim()
-            }
-
-            tracks.add(Track(
-                trackUid = 0, itemCode = productCode, locale = locale, status = status,
-                observation = observation, trackedAt = "$date $time", date = date, time = time,
-                link = link))
-        }
-
-        if (tracks.isEmpty()) throw IOException("Tracks Empty for code: $code")
-
-        // Yes kids, last track will be the first of the list and first track will be the last of list
-        val lastTrack = tracks.first() // last update
-        val firstTrack = tracks.last() // posted
-        val isDelivered = lastTrack.status.contains("Objeto entregue")
-        val typeCode = "${productCode[0]}${productCode[1]}"
-        var type = CorreiosUtils.Types[typeCode]
-        if (type == null)
-            type = "$UNKNOWN_TYPE $typeCode"
-
+        val updateDate = tracks.first().date
+        val postDate = tracks.last().date
         val item = Item(
-            code = productCode, name = "", type = type, isDelivered = isDelivered,
-            postedAt = firstTrack.trackedAt, updatedAt = lastTrack.trackedAt,
-            isArchived = false, isWaitingPost = false, deliveryCompany = deliveryCompany)
+            code = productCode,
+            name = "",
+            type = correiosItem.tipoPostal.descricao,
+            isDelivered = correiosItem.situacao == DELIVERY_STATUS,
+            postedAt = postDate,
+            updatedAt = updateDate,
+            isArchived = false,
+            isWaitingPost = false,
+            deliveryCompany = deliveryCompany
+        )
+
         return ItemWithTracks(item, tracks)
+    }
+
+    private fun handleLink(event: CorreiosEvento): String {
+        if (event.descricao == WAITING_PAYMENT)
+            return MY_IMPORTS_URL
+        return ""
+    }
+
+    private fun handleObservation(event: CorreiosEvento): String {
+        if (event.unidadeDestino == null)
+            return ""
+
+        val localeOrigin = handleObservationAddress(event.unidade)
+        val localeDestiny = handleObservationAddress(event.unidadeDestino)
+        return "de ${event.unidade.tipo} em $localeOrigin para a ${event.unidadeDestino.tipo} em $localeDestiny."
+    }
+
+    private fun handleObservationAddress(correiosUnit: CorreiosUnidade): String {
+        if (correiosUnit.tipo == "País")
+            return correiosUnit.nome
+
+        val address = correiosUnit.endereco
+        var locale = ""
+        address.cidade?.let {
+            locale += it
+        }
+        address.uf?.let {
+            locale += " - $it"
+        }
+        address.siglaPais?.let {
+            locale += " ($it)"
+        }
+        return locale
+    }
+
+    private fun handleEventAddress(correiosUnit: CorreiosUnidade): String {
+        var locale = correiosUnit.nome
+        val address = correiosUnit.endereco
+        address.cidade?.let {
+            locale += ", $it"
+        }
+        address.uf?.let {
+            locale += " - $it"
+        }
+        address.siglaPais?.let {
+            locale += " ($it)"
+        }
+        return locale
     }
 
     override fun validateCode(code: String): Boolean {
