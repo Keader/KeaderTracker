@@ -16,5 +16,6 @@ data class Item(
     val isArchived: Boolean,
     var isWaitingPost: Boolean = false,
     @TypeConverters(DeliveryCompanyConverter::class)
-    val deliveryCompany: DeliveryCompany = DeliveryCompany.CORREIOS
+    val deliveryCompany: DeliveryCompany = DeliveryCompany.CORREIOS,
+    val deliveryForecast: String // TODO: Add to Migration
 )

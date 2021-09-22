@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "0c49c39348dcd71de0167a514afdb146",
+    "identityHash": "d183dcb352d11795d9fbf8d9f982177e",
     "entities": [
       {
         "tableName": "Item",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `isDelivered` INTEGER NOT NULL, `postedAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `isArchived` INTEGER NOT NULL, `isWaitingPost` INTEGER NOT NULL, `deliveryCompany` TEXT NOT NULL, PRIMARY KEY(`code`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `isDelivered` INTEGER NOT NULL, `postedAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `isArchived` INTEGER NOT NULL, `isWaitingPost` INTEGER NOT NULL, `deliveryCompany` TEXT NOT NULL, `deliveryForecast` TEXT NOT NULL, PRIMARY KEY(`code`))",
         "fields": [
           {
             "fieldPath": "code",
@@ -59,6 +59,12 @@
           {
             "fieldPath": "deliveryCompany",
             "columnName": "deliveryCompany",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deliveryForecast",
+            "columnName": "deliveryForecast",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -153,7 +159,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c49c39348dcd71de0167a514afdb146')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd183dcb352d11795d9fbf8d9f982177e')"
     ]
   }
 }

@@ -3,7 +3,13 @@ package dev.keader.correiosapi
 import dev.keader.correiosapi.data.CorreiosEvento
 import dev.keader.correiosapi.data.CorreiosItem
 import dev.keader.correiosapi.data.CorreiosUnidade
-import dev.keader.sharedapiobjects.*
+import dev.keader.sharedapiobjects.DeliveryCompany
+import dev.keader.sharedapiobjects.DeliveryService
+import dev.keader.sharedapiobjects.Item
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.Track
+import dev.keader.sharedapiobjects.fromJson
+import dev.keader.sharedapiobjects.toCapitalize
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
@@ -19,6 +25,8 @@ const val STATUS_WAITING = "Aguardando postagem pelo remetente."
 const val WAITING_PAYMENT = "Aguardando pagamento"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
 const val DELIVERY_STATUS = "E"
+const val COUNTRY = "País"
+const val ERRO = "erro"
 
 object Correios : DeliveryService {
     override val deliveryCompany = DeliveryCompany.CORREIOS
@@ -46,7 +54,7 @@ object Correios : DeliveryService {
         }
 
         val json = response.body!!.string()
-        if (json.contains("erro"))
+        if (json.contains(ERRO))
             return handleWithNotPosted(productCode)
 
         val correiosItem = fromJson<CorreiosItem>(json)
@@ -66,7 +74,8 @@ object Correios : DeliveryService {
                 trackedAt = event.dtHrCriado,
                 date = dateTime[0],
                 time = dateTime[1],
-                link = link)
+                link = link
+            )
             tracks.add(track)
         }
 
@@ -81,7 +90,8 @@ object Correios : DeliveryService {
             updatedAt = updateDate,
             isArchived = false,
             isWaitingPost = false,
-            deliveryCompany = deliveryCompany
+            deliveryCompany = deliveryCompany,
+            deliveryForecast = correiosItem.dtPrevisaoEntrega
         )
 
         return ItemWithTracks(item, tracks)
@@ -103,35 +113,23 @@ object Correios : DeliveryService {
     }
 
     private fun handleObservationAddress(correiosUnit: CorreiosUnidade): String {
-        if (correiosUnit.tipo == "País")
+        if (correiosUnit.tipo == COUNTRY)
             return correiosUnit.nome
 
         val address = correiosUnit.endereco
         var locale = ""
-        address.cidade?.let {
-            locale += it
-        }
-        address.uf?.let {
-            locale += " - $it"
-        }
-        address.siglaPais?.let {
-            locale += " ($it)"
-        }
+        address.cidade?.let { locale += it.toCapitalize() }
+        address.uf?.let { locale += "/$it" }
+        address.siglaPais?.let { locale += " ($it)" }
         return locale
     }
 
     private fun handleEventAddress(correiosUnit: CorreiosUnidade): String {
         var locale = correiosUnit.nome
         val address = correiosUnit.endereco
-        address.cidade?.let {
-            locale += ", $it"
-        }
-        address.uf?.let {
-            locale += " - $it"
-        }
-        address.siglaPais?.let {
-            locale += " ($it)"
-        }
+        address.cidade?.let { locale += ", $it" }
+        address.uf?.let { locale += " - $it" }
+        address.siglaPais?.let { locale += " ($it)" }
         return locale
     }
 
@@ -151,7 +149,7 @@ object Correios : DeliveryService {
         val item = Item(
             code = code, name = "", type = UNKNOWN_TYPE, isDelivered = false,
             postedAt = dateTime, updatedAt = dateTime, isArchived = false,
-            isWaitingPost = true, deliveryCompany = deliveryCompany
+            isWaitingPost = true, deliveryCompany = deliveryCompany, deliveryForecast = ""
         )
         return ItemWithTracks(item, tracks)
     }
