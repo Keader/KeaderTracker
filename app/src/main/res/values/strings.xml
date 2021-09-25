@@ -16,7 +16,10 @@
     <string name="add_code_error_message">Este não é um código de rastreamento válido.</string>
     <string name="add_description_error_code">É preciso digitar uma descrição para o produto.</string>
     <string name="add_product_error_message">Por favor preencha todos os campos corretamente e tente novamente.</string>
-    <string name="empty_list_label2">Não existem rastreios para serem vistos aqui.</string>
+    <string name="empty_list_label">Aguardando a adição de novos rastreios</string>
+    <string name="empty_list_sublabel">Use o botão laranja para rastrear novos itens !</string>
+    <string name="empty_list_label2">Você ainda não possui itens entregues</string>
+    <string name="empty_list_sublabel2">Quando houver itens entregues, eles aparecerão aqui :D</string>
     <string name="track_add_success">Rastreamento adicionado com sucesso!</string>
     <string name="track_add_fail">Ocorreu um erro na adição do seu rastreamento. Verifique se o código de rastreamento está correto.</string>
     <string name="code_format">Código %1$s</string>

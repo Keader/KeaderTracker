@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.LottieDrawable
 import dagger.hilt.android.AndroidEntryPoint
+import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
@@ -56,9 +58,18 @@ class ArchivedFragment : Fragment() {
         return binding.root
     }
 
+    private fun personalizeEmptyList() {
+        binding.recyclerViewEmptyDelivered.emptyListAnim.setAnimation(R.raw.waiting)
+        binding.recyclerViewEmptyDelivered.emptyListAnim.repeatMode = LottieDrawable.REVERSE
+        binding.recyclerViewEmptyDelivered.emptyListAnim.playAnimation()
+        binding.recyclerViewEmptyDelivered.emptyListLabel2.text = getText(R.string.empty_list_label2)
+        binding.recyclerViewEmptyDelivered.emptyListLabel3.text = getText(R.string.empty_list_sublabel2)
+    }
+
     private fun showEmptyList() {
         binding.recyclerViewEmptyDelivered.root.visibility = View.VISIBLE
         binding.recyclerViewDelivered.visibility = View.GONE
+        personalizeEmptyList()
     }
 
     private fun showRecyclerView() {
