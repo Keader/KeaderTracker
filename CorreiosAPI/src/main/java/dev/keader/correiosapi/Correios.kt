@@ -91,7 +91,7 @@ object Correios : DeliveryService {
             isArchived = false,
             isWaitingPost = false,
             deliveryCompany = deliveryCompany,
-            deliveryForecast = correiosItem.dtPrevisaoEntrega
+            deliveryForecast = correiosItem.dtPrevista
         )
 
         return ItemWithTracks(item, tracks)
