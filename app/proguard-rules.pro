@@ -16,6 +16,13 @@
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
+# Remove Timber from source code :D
+-assumenosideeffects class timber.log.Timber {
+    public static *** v(...);
+    public static *** d(...);
+    public static *** i(...);
+}
+
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
