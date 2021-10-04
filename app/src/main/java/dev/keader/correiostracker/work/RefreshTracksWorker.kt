@@ -74,8 +74,7 @@ class RefreshTracksWorker @AssistedInject constructor(
             stopWorker(applicationContext)
         else if (result.updateList.isNotEmpty()) {
             sendNotifications(result.updateList, applicationContext)
-            if (autoMove)
-                archiveItems(result.updateList, repository)
+            if (autoMove) archiveItems(result.updateList, repository)
         }
 
         return Result.success()

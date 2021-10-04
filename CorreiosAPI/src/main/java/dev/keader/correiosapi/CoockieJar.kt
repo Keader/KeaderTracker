@@ -49,11 +49,13 @@ class WrappedCookie private constructor(val cookie: Cookie) {
     override fun equals(other: Any?): Boolean {
         if (other !is WrappedCookie) return false
 
-        return other.cookie.name == cookie.name &&
-            other.cookie.domain == cookie.domain &&
-            other.cookie.path == cookie.path &&
-            other.cookie.secure == cookie.secure &&
-            other.cookie.hostOnly == cookie.hostOnly
+        other.cookie.run {
+            return name == cookie.name &&
+                    domain == cookie.domain &&
+                    path == cookie.path &&
+                    secure == cookie.secure &&
+                    hostOnly == cookie.hostOnly
+        }
     }
 
     override fun hashCode(): Int {
