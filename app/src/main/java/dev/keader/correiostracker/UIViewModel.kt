@@ -21,16 +21,13 @@ class UIViewModel @Inject constructor(
     val frequency = preferences.frequencyFlow.asLiveData()
 
     private val _bottomNavVisibility = MutableLiveData(View.VISIBLE)
-    val bottomNavVisibility: LiveData<Int>
-        get() = _bottomNavVisibility
+    val bottomNavVisibility: LiveData<Int> = _bottomNavVisibility
 
     private val _qrCodeResult = MutableLiveData<Event<String>>()
-    val qrCodeResult: LiveData<Event<String>>
-        get() = _qrCodeResult
+    val qrCodeResult: LiveData<Event<String>> = _qrCodeResult
 
     private val _onQrCodeDetected = MutableLiveData<Event<Unit>>()
-    val onQrCodeDetected: LiveData<Event<Unit>>
-        get() = _onQrCodeDetected
+    val onQrCodeDetected: LiveData<Event<Unit>> = _onQrCodeDetected
 
     fun setBottomNavVisibility(visibility: Int) {
         _bottomNavVisibility.value = visibility

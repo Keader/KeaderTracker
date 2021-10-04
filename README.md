@@ -13,7 +13,7 @@ de ser floodado de propagandas pelos apps atuais de mesma função.
 
 ### Qual a função do aplicativo?
 
-Fornecer notificações quando houveram atualizações do seu rastreio no site dos Correios. Para isso basta cadastrar o código de rastreio no aplicativo
+Fornecer notificações quando houverem atualizações do seu rastreio no site dos Correios. Para isso basta cadastrar o código de rastreio no aplicativo
 (digitando o código ou utilizando a ferramenta de leitura de QR code) e ficar tranquilo, pois sempre que houver atualização você será notificado.
 Este aplicativo não contem propagandas e nem possui nenhuma pretenção de monetização.
 
