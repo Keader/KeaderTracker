@@ -12,7 +12,7 @@ class CrashlyticsTree : Timber.Tree() {
         }
 
         crashlytics.setCustomKey(CRASHLYTICS_KEY_PRIORITY, priority)
-        if (tag != null) crashlytics.setCustomKey(CRASHLYTICS_KEY_TAG, tag)
+        tag?.also { crashlytics.setCustomKey(CRASHLYTICS_KEY_TAG, it) }
         crashlytics.setCustomKey(CRASHLYTICS_KEY_MESSAGE, message)
 
         val error = t ?: Exception(message)

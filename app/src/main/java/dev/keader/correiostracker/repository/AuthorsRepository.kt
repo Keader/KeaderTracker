@@ -16,7 +16,7 @@ class AuthorsRepository @Inject constructor(private val githubService: GithubSer
                 finalList.addAll(githubService.getContributors())
                 finalList.addAll(getLocalAuthors())
                 return@withContext finalList.sortedByDescending { it.contributions }
-            }catch(ex: Exception) {
+            } catch (ex: Exception) {
                 Timber.e(ex)
                 return@withContext emptyList()
             }
