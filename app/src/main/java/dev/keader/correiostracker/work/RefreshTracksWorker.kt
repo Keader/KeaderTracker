@@ -58,10 +58,7 @@ class RefreshTracksWorker @AssistedInject constructor(
 
         suspend fun archiveItems(updateList: List<ItemWithTracks>, repository: TrackingRepository) {
             Timber.i("Moving items....")
-            for (itemWithTracks in updateList) {
-                if (itemWithTracks.item.isDelivered)
-                    repository.archiveTrack(itemWithTracks.item.code)
-            }
+            updateList.forEach { it.item.run { if (isDelivered) repository.archiveTrack(code) } }
         }
     }
 
