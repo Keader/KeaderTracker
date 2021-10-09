@@ -14,4 +14,63 @@
   <color name="errorColor">#F80303</color>
   <color name="sucessColor">#06C32F</color>
   <color name="primaryColorSpecial">#ffffff</color>
+  <color name="lightOrange">#F9A68A</color>
+  <color name="lightGrey">#D1D1D1</color>
+
+  <!--  Cards   -->
+
+  <color name="bg_posted">#1A4D37B3</color>
+  <color name="title_posted">#4d37b3</color>
+  <color name="code_posted">#6F60B3</color>
+  <color name="location_posted">#6f74dd</color>
+
+  <color name="bg_moving">#1A2196F3</color>
+  <color name="title_moving">#2196F3</color>
+  <color name="code_moving">#5A92BF</color>
+  <color name="location_moving">#64B7FA</color>
+
+  <color name="bg_arrived">#1AFFC107</color>
+  <color name="title_arrived">#AA830F</color>
+  <color name="code_arrived">#B3A16A</color>
+  <color name="location_arrived">#F6D87F</color>
+
+  <color name="bg_inspection">#1AFF1100</color>
+  <color name="title_inspection">#F44336</color>
+  <color name="code_inspection">#A54C46</color>
+  <color name="location_inspection">#FF6D63</color>
+
+  <color name="bg_waiting_payment">#1AFF1100</color>
+  <color name="title_waiting_payment">#FF1100</color>
+  <color name="code_waiting_payment">#6E1610</color>
+  <color name="location_waiting_payment">#FF3D30</color>
+
+  <color name="bg_payment">#1A4CAF50</color>
+  <color name="title_payment">#4CAF50</color>
+  <color name="code_payment">#356A38</color>
+  <color name="location_payment">#77FF7C</color>
+
+  <color name="bg_inspection_ok">#1AFF5722</color>
+  <color name="title_inspection_ok">#FF5722</color>
+  <color name="code_inspection_ok">#812D12</color>
+  <color name="location_inspection_ok">#FF764B</color>
+
+  <color name="bg_delivery_in_progress">#1A9C27B0</color>
+  <color name="title_delivery_in_progress">#9C27B0</color>
+  <color name="code_delivery_in_progress">#541D5E</color>
+  <color name="location_delivery_in_progress">#E46CF8</color>
+
+  <color name="bg_waiting_post">#1A00BCD4</color>
+  <color name="title_waiting_post">#00BCD4</color>
+  <color name="code_waiting_post">#066B78</color>
+  <color name="location_waiting_post">#40E9FF</color>
+
+  <color name="bg_delivered">#1ACDDC39</color>
+  <color name="title_delivered">#BAA919</color>
+  <color name="code_delivered">#80751C</color>
+  <color name="location_delivered">#FBED71</color>
+
+  <color name="bg_unk">#1AB6B6B6</color>
+  <color name="title_unk">#B6B6B6</color>
+  <color name="code_unk">#686868</color>
+  <color name="location_unk">#272626</color>
 </resources>

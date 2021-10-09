@@ -193,7 +193,7 @@
                 android:layout_width="128dp"
                 android:layout_height="136dp"
                 android:layout_marginTop="8dp"
-                android:onClick="@{() -> addPacketViewModel.handleCancelButton()}"
+                android:onClick="@{() -> addPacketViewModel.handleBackButton()}"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"

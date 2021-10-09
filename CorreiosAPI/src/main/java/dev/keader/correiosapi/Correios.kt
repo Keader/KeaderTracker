@@ -21,7 +21,7 @@ const val BASE_URL = "https://rastreamento.correios.com.br/app/resultado.php?obj
 const val CODE_VALIDATION_REGEX = "[A-Za-z]{2}[0-9]{9}[A-Za-z]{2}"
 const val UNKNOWN_LOCATION = "LIMBO, DESCONHECIDO"
 const val UNKNOWN_TYPE = "Desconhecido - "
-const val STATUS_WAITING = "Aguardando postagem pelo remetente."
+const val STATUS_WAITING = "Aguardando postagem pelo remetente"
 const val WAITING_PAYMENT = "Aguardando pagamento"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
 const val DELIVERY_STATUS = "E"
@@ -127,7 +127,12 @@ object Correios : DeliveryService {
     private fun handleEventAddress(correiosUnit: CorreiosUnidade): String {
         var locale = correiosUnit.nome
         val address = correiosUnit.endereco
-        address.cidade?.let { locale += ", $it" }
+        address.cidade?.let {
+            locale += if (locale.isNotEmpty())
+                (", $it")
+            else
+                it
+        }
         address.uf?.let { locale += " - $it" }
         address.siglaPais?.let { locale += " ($it)" }
         return locale

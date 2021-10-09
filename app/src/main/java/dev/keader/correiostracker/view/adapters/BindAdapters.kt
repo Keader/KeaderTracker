@@ -18,15 +18,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.*
-
-@BindingAdapter("trackImage")
-fun ImageView.setTrackIcon(item: ItemWithTracks) {
-    setImageResource(when (item.item.isDelivered) {
-        true -> R.drawable.ic_box2
-        false -> R.drawable.ic_truck
-    })
-}
+import java.util.Locale
 
 @BindingAdapter("trackDateText")
 fun TextView.setDateText(item: ItemWithTracks) {

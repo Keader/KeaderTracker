@@ -44,7 +44,7 @@ class AddPacketFragment : Fragment() {
         binding = FragmentAddPacketBinding.inflate(inflater, container, false)
         binding.addPacketViewModel = addPacketViewModel
 
-        addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, EventObserver {
+        addPacketViewModel.eventBackButtonNavigation.observe(viewLifecycleOwner, EventObserver {
             navController.popBackStack()
         })
 

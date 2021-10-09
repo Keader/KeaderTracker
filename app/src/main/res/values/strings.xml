@@ -2,7 +2,7 @@
     tools:locale="pt_BR">
     <string name="app_name">CorreiosTracker</string>
     <string name="btn_add_description">Adiciona um novo item</string>
-    <string name="waiting_delivery">Aguardando a entrega</string>
+    <string name="waiting_delivery">Pacotes aguardando a entrega</string>
     <string name="box_icon_description">Box Icon</string>
     <string name="track_your_product">Rastreie seu pedido</string>
     <string name="track_number">Código de Rastreio</string>

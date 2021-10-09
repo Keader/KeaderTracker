@@ -14,4 +14,5 @@
   <color name="errorColor">#F80303</color>
   <color name="sucessColor">#06C32F</color>
   <color name="primaryColorSpecial">#302E2E</color>
+  <color name="lightOrange">#F9A68A</color>
 </resources>
