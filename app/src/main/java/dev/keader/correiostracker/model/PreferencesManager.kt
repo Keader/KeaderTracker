@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.model.PreferencesManager.PreferencesKeys.AUTO_MOVE
 import dev.keader.correiostracker.model.PreferencesManager.PreferencesKeys.DARK_THEME
+import dev.keader.correiostracker.model.PreferencesManager.PreferencesKeys.DONTKILL_ALERT
 import dev.keader.correiostracker.model.PreferencesManager.PreferencesKeys.FREQUENCY
 import dev.keader.correiostracker.model.PreferencesManager.PreferencesKeys.SCAN_INTRO
 import kotlinx.coroutines.flow.first
@@ -25,6 +26,7 @@ const val DEFAULT_FREQUENCY_VALUE = 60L
 const val DEFAULT_THEME_VALUE = false
 const val DEFAULT_AUTO_MOVE = false
 const val DEFAULT_SCAN_INTRO = true
+const val DEFAULT_DONTKILL_ALERT = true
 
 @Singleton
 class PreferencesManager @Inject constructor(@ApplicationContext context: Context) {
@@ -55,6 +57,10 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         it[SCAN_INTRO] ?: DEFAULT_SCAN_INTRO
     }
 
+    val dontKillAlertFlow = dataStore.data.map {
+        it[DONTKILL_ALERT] ?: DEFAULT_DONTKILL_ALERT
+    }
+
     suspend fun saveAutoMove(autoMove: Boolean) {
         dataStore.edit {
             it[AUTO_MOVE] = autoMove
@@ -77,6 +83,16 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         dataStore.edit {
             it[SCAN_INTRO] = scanIntro
         }
+    }
+
+    suspend fun saveDontKillAlert(show: Boolean) {
+        dataStore.edit {
+            it[DONTKILL_ALERT] = show
+        }
+    }
+
+    fun shouldShowDontKillAlert() = runBlocking {
+        dontKillAlertFlow.first()
     }
 
     fun getFrequency() = runBlocking {
@@ -112,5 +128,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         val FREQUENCY = intPreferencesKey("PREF_FREQUENCY_POS")
         val DARK_THEME = booleanPreferencesKey("PREF_THEME")
         val SCAN_INTRO = booleanPreferencesKey("PREF_SCAN_INTRO")
+        val DONTKILL_ALERT = booleanPreferencesKey("PREF_DONTKILL_ALERT")
     }
 }

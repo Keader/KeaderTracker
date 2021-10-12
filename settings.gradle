@@ -1,3 +1,4 @@
 include ':CorreiosAPI'
 include ':app'
 rootProject.name = "CorreiosTracker"
+include ':SharedAPIObjects'

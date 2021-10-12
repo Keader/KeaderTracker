@@ -36,13 +36,13 @@
                 android:id="@+id/label_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/settings"
                 android:textAlignment="textStart"
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/anim_settings" />
 
@@ -73,7 +73,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/label_interval"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/label_interval"
-                app:layout_constraintTop_toTopOf="@+id/label_interval" />
+                app:layout_constraintTop_toTopOf="@+id/label_interval"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/label_interval"
@@ -112,7 +113,7 @@
                 android:contentDescription="@string/automove_icon_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/label_settings"
-                app:srcCompat="@drawable/ic_book_arrow" />
+                app:srcCompat="@drawable/ic_move" />
 
             <ImageView
                 android:id="@+id/icon_theme"
@@ -123,7 +124,7 @@
                 android:contentDescription="@string/theme_icon_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/icon_clock"
-                app:srcCompat="@drawable/ic_theme_light_dark" />
+                app:srcCompat="@drawable/ic_lamp" />
 
             <ImageView
                 android:id="@+id/icon_clock"
@@ -134,7 +135,7 @@
                 android:contentDescription="@string/frequency_icon_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/icon_book"
-                app:srcCompat="@drawable/ic_clock" />
+                app:srcCompat="@drawable/ic_time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

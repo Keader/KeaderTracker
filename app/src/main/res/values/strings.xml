@@ -2,13 +2,13 @@
     tools:locale="pt_BR">
     <string name="app_name">CorreiosTracker</string>
     <string name="btn_add_description">Adiciona um novo item</string>
-    <string name="waiting_delivery">Aguardando a entrega</string>
+    <string name="waiting_delivery">Pacotes aguardando a entrega</string>
     <string name="box_icon_description">Box Icon</string>
     <string name="track_your_product">Rastreie seu pedido</string>
     <string name="track_number">Código de Rastreio</string>
     <string name="description">Descrição, Ex: Celular novo</string>
     <string name="pray_for_sedex">Pray for Sedex</string>
-    <string name="cancel">Cancelar</string>
+    <string name="cancel">Não, vou manter as políticas de restrição de bateria</string>
     <string name="track">Rastrear</string>
     <string name="track_label">Rastreio</string>
     <string name="history">Histórico</string>
@@ -16,7 +16,10 @@
     <string name="add_code_error_message">Este não é um código de rastreamento válido.</string>
     <string name="add_description_error_code">É preciso digitar uma descrição para o produto.</string>
     <string name="add_product_error_message">Por favor preencha todos os campos corretamente e tente novamente.</string>
-    <string name="empty_list_label2">Não existem rastreios para serem vistos aqui.</string>
+    <string name="empty_list_label">Aguardando a adição de novos rastreios</string>
+    <string name="empty_list_sublabel">Use o botão laranja para rastrear novos itens !</string>
+    <string name="empty_list_label2">Você ainda não possui itens para serem vistos aqui</string>
+    <string name="empty_list_sublabel2">Quando os pacotes são entregues, eles aparecerem aqui :D</string>
     <string name="track_add_success">Rastreamento adicionado com sucesso!</string>
     <string name="track_add_fail">Ocorreu um erro na adição do seu rastreamento. Verifique se o código de rastreamento está correto.</string>
     <string name="code_format">Código %1$s</string>
@@ -58,7 +61,7 @@
         <item>8 Horas</item>
     </string-array>
     <string name="shared_pref_name">dev.keader.keadertracker.prefs</string>
-    <string name="confirm">Confirmar</string>
+    <string name="confirm">Sim, desejo ser redirecionado</string>
     <string name="update_frequency">Intervalo de atualização:</string>
     <string name="copy_success">Código de rastreio copiado com sucesso.</string>
     <string name="icon_config_description">Icone de configuração</string>
@@ -85,6 +88,11 @@
     <string name="settings">Configurações</string>
     <string name="contribute">Para contribuir acesse:</string>
     <string name="repo_link">https://github.com/Keader/KeaderTracker</string>
-    <string name="package_description">Nova descrição do produto</string>
-    <string name="edit_package_description">Editar descrição do produto</string>
+    <string name="package_description">Novo nome do produto</string>
+    <string name="edit_package_description">Editar nome do produto</string>
+    <string name="delivery_forecast_format">Previsão de entrega em %1$s</string>
+    <string name="package_name">Nome do pacote</string>
+    <string name="product_code">Código de Rastreio</string>
+    <string name="alert_title">Caro usuário</string>
+    <string name="alert_content">Detectamos que você utiliza uma marca de aparelho que possui uma política de restrição de bateria muito forte. Essa política pode fazer com que você não receba corretamente novas notificações dos produtos que você está aguardando, fazendo com que as notificações só cheguem se o app estiver aberto.\n Aconselhamos desabilitar a restrição para este aplicativo para que tudo ocorra sem problemas. Podemos te redirecionar a um site que ensina a desabilitar a política em diversas marcas e modelos, deseja ser redirecionado?</string>
 </resources>

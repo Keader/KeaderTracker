@@ -5,10 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.ListItemTrackHeaderBinding
 
 
-class TrackHeaderAdapter : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderViewHolder>() {
+class TrackHeaderAdapter() : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderViewHolder>() {
+
+    companion object {
+        private val animList = listOf(
+            R.raw.area_map,
+            R.raw.delivery_box,
+            R.raw.service_area
+        )
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackHeaderViewHolder {
         return TrackHeaderViewHolder.from(parent)
@@ -27,6 +36,8 @@ class TrackHeaderAdapter : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderVi
                 // Remove animation, in 720p devices :/
                 if (displayMetrics.widthPixels < 800 && displayMetrics.heightPixels < 1300)
                     binding.animDelivery.visibility = View.GONE
+
+                binding.animDelivery.setAnimation(animList.random())
                 return TrackHeaderViewHolder(binding)
             }
         }

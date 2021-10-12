@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="trackItem"
-            type="dev.keader.correiostracker.database.ItemWithTracks" />
+            type="dev.keader.sharedapiobjects.ItemWithTracks" />
 
         <variable
             name="clickListener"
@@ -17,18 +18,21 @@
         android:id="@+id/card_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardElevation="8dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="@{() -> clickListener.onClick(trackItem)}"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="@{() -> clickListener.onClick(trackItem)}">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#1AFF5722"
             android:paddingBottom="4dp">
 
             <ImageView
@@ -36,12 +40,11 @@
                 android:layout_width="86dp"
                 android:layout_height="62dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:contentDescription="@string/box_icon_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:trackImage="@{trackItem}"
-                tools:srcCompat="@drawable/ic_box" />
+                tools:srcCompat="@drawable/ic_arrived" />
 
             <TextView
                 android:id="@+id/label_date"
@@ -49,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/icon_list"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/textGreyColor"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="@+id/icon_list"
                 app:layout_constraintStart_toStartOf="@+id/icon_list"
@@ -64,7 +67,7 @@
                 android:layout_alignStart="@+id/icon_list"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/textGreyColor"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="10sp"
                 app:daysSpend="@{trackItem}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/icon_list"
-                android:textColor="@color/textGreyColor"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="8sp"
                 app:layout_constraintEnd_toEndOf="@+id/label_date"
                 app:layout_constraintStart_toStartOf="@+id/label_date"
@@ -91,7 +94,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@{trackItem.item.name}"
-                android:textColor="@color/primaryColor"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/label_days_spend"
@@ -106,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@{trackItem.item.code}"
-                android:textColor="@color/textGreyColor"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/label_title_track_item"
@@ -115,18 +117,34 @@
                 tools:text="PZ909656782BR" />
 
             <TextView
+                android:id="@+id/label_forecast"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/icon_list"
+                app:layout_constraintTop_toBottomOf="@+id/label_locale"
+                app:deliveryPrediction="@{trackItem}"
+                tools:text="Previsão de entrega em 10/10/21" />
+
+            <TextView
                 android:id="@+id/label_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                app:setType="@{trackItem.item}"
-                android:textColor="@color/textGreyColor"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/secondaryTextColor"
                 android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/label_locale"
-                tools:text="Tipo de Encomenda: Encomenda Pac - Acao social" />
+                app:layout_constraintTop_toBottomOf="@+id/label_forecast"
+                app:setType="@{trackItem.item}"
+                tools:text="Pacote PAC" />
 
             <TextView
                 android:id="@+id/label_status"
@@ -134,7 +152,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/secondaryColor"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -149,7 +166,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/secondaryColor"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -164,8 +180,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/secondaryColor"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/icon_list"
                 app:layout_constraintTop_toBottomOf="@+id/label_observation"

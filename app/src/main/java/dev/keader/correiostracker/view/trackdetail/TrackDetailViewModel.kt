@@ -11,10 +11,10 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.BuildConfig
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.ItemWithTracks
 import dev.keader.correiostracker.databinding.DialogEditItemNameBinding
 import dev.keader.correiostracker.model.toFile
 import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

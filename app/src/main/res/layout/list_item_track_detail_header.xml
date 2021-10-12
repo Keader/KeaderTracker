@@ -10,7 +10,7 @@
 
         <variable
             name="itemWithTracks"
-            type="dev.keader.correiostracker.database.ItemWithTracks" />
+            type="dev.keader.sharedapiobjects.ItemWithTracks" />
 
         <variable
             name="clickListener"
@@ -25,7 +25,7 @@
             android:id="@+id/icon_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="26dp"
             android:contentDescription="@string/back_icon_description"
             android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_BACK)}"
@@ -55,7 +55,7 @@
             android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_COPY)}"
             app:layout_constraintEnd_toStartOf="@+id/icon_delete"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_copy" />
+            app:srcCompat="@drawable/ic_copy_test" />
 
         <ImageView
             android:id="@+id/icon_share"
@@ -90,6 +90,7 @@
             android:text="@string/track_label"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/icon_back"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,24 +98,26 @@
             android:id="@+id/label_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="@string/history"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_purple" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_purple"
-            android:layout_width="333dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="@color/primaryColor"
+            android:layout_marginEnd="32dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/primaryColor"
             app:cardCornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,17 +127,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/texture"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/bg_texture" />
-
                 <TextView
                     android:id="@+id/label_track_title"
                     android:layout_width="0dp"
@@ -142,8 +134,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
+                    android:textColor="@color/primaryColor"
                     android:text="@{itemWithTracks.item.name}"
-                    android:textColor="@color/primaryTextColor"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -157,9 +149,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:alpha="0.5"
+                    android:textColor="@color/secondaryColor"
                     android:text="@{@string/code_format(itemWithTracks.item.code)}"
-                    android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -173,13 +164,12 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
-                    android:textColor="@color/primaryTextColor"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/label_product_code"
-                    app:trackLocale="@{itemWithTracks}"
-                    tools:text="NITEROI, RJ" />
+                    app:deliveryPrediction="@{itemWithTracks}"
+                    tools:text="Previsão de entrega em 23/09/2021 12:20:54" />
 
                 <TextView
                     android:id="@+id/label_posted_at"
@@ -188,9 +178,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
-                    android:alpha="0.5"
                     android:text="@{@string/posted_format(itemWithTracks.item.postedAt)}"
-                    android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -205,9 +193,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
-                    android:alpha="0.5"
                     android:text="@{@string/last_update_format(itemWithTracks.item.updatedAt)}"
-                    android:textColor="@color/primaryTextColor"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

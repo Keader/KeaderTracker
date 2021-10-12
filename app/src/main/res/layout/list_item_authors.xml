@@ -10,83 +10,94 @@
             type="dev.keader.correiostracker.network.GithubAuthor" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_list"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:cardElevation="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingBottom="4dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/icon_list"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/box_icon_description"
+            app:layout_constraintDimensionRatio="V,12:16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setAvatar="@{author.avatarUrl}"
+            tools:srcCompat="@drawable/ic_box" />
+
+
+        <TextView
+            android:id="@+id/label_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{author.login}"
+            android:textColor="@color/primaryColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon_list"
+            tools:text="Keader" />
 
-            <ImageView
-                android:id="@+id/icon_list"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:contentDescription="@string/box_icon_description"
-                app:layout_constraintDimensionRatio="V,9:16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:setAvatar="@{author.avatarUrl}"
-                tools:srcCompat="@drawable/ic_box" />
+        <TextView
+            android:id="@+id/label_contribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:textColor="@color/primaryLightColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintBottom_toTopOf="@+id/label_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_name"
+            app:setContribution="@{author.contributions}"
+            tools:text="Contribuições: 20" />
 
+        <ImageView
+            android:id="@+id/icon_site"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/box_icon_description"
+            android:src="@drawable/ic_github"
+            app:layout_constraintBottom_toBottomOf="@+id/label_profile"
+            app:layout_constraintStart_toStartOf="@+id/label_contribution"
+            app:layout_constraintTop_toTopOf="@+id/label_profile" />
 
-            <TextView
-                android:id="@+id/label_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@{author.login}"
-                android:textColor="@color/primaryColor"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toTopOf="@+id/icon_list"
-                tools:text="Keader" />
+        <TextView
+            android:id="@+id/label_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/secondaryColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/label_contribution"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/icon_site"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:setLink="@{author.link}"
+            tools:text="Github" />
 
-            <TextView
-                android:id="@+id/label_contribution"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/textGreyColor"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/label_name"
-                app:setContribution="@{author.contributions}"
-                tools:text="Contribuições: 20" />
-
-            <TextView
-                android:id="@+id/label_profile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/secondaryColor"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/icon_list"
-                app:layout_constraintTop_toBottomOf="@+id/label_contribution"
-                app:setLink="@{author.link}"
-                tools:text="github.com/Keader" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

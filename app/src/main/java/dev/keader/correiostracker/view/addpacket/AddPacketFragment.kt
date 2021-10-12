@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -25,7 +24,6 @@ import dev.keader.correiostracker.databinding.FragmentAddPacketBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.work.RefreshTracksWorker
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,22 +42,22 @@ class AddPacketFragment : Fragment() {
         binding = FragmentAddPacketBinding.inflate(inflater, container, false)
         binding.addPacketViewModel = addPacketViewModel
 
-        addPacketViewModel.eventCancelButtonNavigation.observe(viewLifecycleOwner, EventObserver {
+        addPacketViewModel.eventBackButtonNavigation.observe(viewLifecycleOwner, EventObserver {
             navController.popBackStack()
         })
 
         // Triggered by OK button
         addPacketViewModel.eventCheckInputs.observe(viewLifecycleOwner, EventObserver {
-            val code = binding.trackEditText.text.toString().uppercase()
-            val observation = binding.descriptionEditText.text.toString()
+            val code = addPacketViewModel.code.value!!
+            val name = addPacketViewModel.name.value!!
 
-            if (validateInputs(code, observation)) {
+            if (validateInputs(code, name)) {
                 val autoMove = preferences.getAutoMove()
-                addPacketViewModel.handleCheckOK(code, observation)
+                addPacketViewModel.handleCheckOK(code, name)
                 binding.progressBar.visibility = View.VISIBLE
 
                 if (autoMove)
-                    addPacketViewModel.handleAutoSave(code)
+                    addPacketViewModel.handleAutoMove(code)
 
                 getSnack(getString(R.string.tracking_product))
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
@@ -94,19 +92,16 @@ class AddPacketFragment : Fragment() {
         })
 
         uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver { qr ->
-            if (Correios.isValidCode(qr))
-                binding.trackEditText.setText(qr)
+            if (Correios.validateCode(qr))
+                addPacketViewModel.code.postValue(qr)
         })
 
         binding.iconBackAdd.setOnClickListener {
             navController.popBackStack()
         }
 
-        if (preferences.getScanIntro()) {
-            addPacketViewModel.viewModelScope.launch {
-                preferences.saveScanIntro(false)
-            }
-            showTutorial()
+        binding.inputCode.setEndIconOnClickListener {
+            addPacketViewModel.handleQRButton()
         }
 
         binding.lifecycleOwner = this
@@ -115,7 +110,7 @@ class AddPacketFragment : Fragment() {
 
     private fun showTutorial() {
         TapTargetView.showFor(requireActivity(),
-            TapTarget.forView(binding.qrView,
+            TapTarget.forView(binding.inputCode,
                 getString(R.string.scan_title),
                 getString(R.string.scan_description))
                 .outerCircleColor(R.color.secondaryColor)
@@ -147,38 +142,38 @@ class AddPacketFragment : Fragment() {
     }
 
 
-    private fun validateInputs(code: String, observation: String): Boolean {
+    private fun validateInputs(code: String, name: String): Boolean {
         var error = false
 
         // Check code
-        if (!Correios.isValidCode(code)) {
-            binding.trackEditText.error = getString(R.string.add_code_error_message)
+        if (!Correios.validateCode(code)) {
+            binding.inputCode.error = getString(R.string.add_code_error_message)
             error = true
         } else
-            binding.trackEditText.error = null
+            binding.inputCode.error = null
 
         // Check product name
-        if (observation.isEmpty()) {
-            binding.descriptionEditText.error = getString(R.string.add_description_error_code)
+        if (name.isEmpty()) {
+            binding.inputName.error = getString(R.string.add_description_error_code)
             error = true
         } else
-            binding.descriptionEditText.error = null
+            binding.inputName.error = null
 
         return !error
     }
 
     override fun onResume() {
         super.onResume()
-        val currentCode = binding.trackEditText.text.toString()
-        if (currentCode.isNotEmpty() && Correios.isValidCode(currentCode))
+        val currentCode = addPacketViewModel.code.value!!
+        if (currentCode.isNotEmpty() && Correios.validateCode(currentCode))
             return
 
         val clipboard = requireActivity().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = clipboard.primaryClip
         clipData?.let {
             val code = clipData.getItemAt(0)?.text?.toString()?.trim() ?: return
-            if (Correios.isValidCode(code))
-                binding.trackEditText.setText(code)
+            if (Correios.validateCode(code))
+                addPacketViewModel.code.postValue(code)
         }
     }
 

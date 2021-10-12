@@ -10,23 +10,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.Item
-import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.Track
 import dev.keader.correiostracker.model.toCapitalize
+import dev.keader.sharedapiobjects.Item
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.Track
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.*
-
-@BindingAdapter("trackImage")
-fun ImageView.setTrackIcon(item: ItemWithTracks) {
-    setImageResource(when (item.item.isDelivered) {
-        true -> R.drawable.ic_box2
-        false -> R.drawable.ic_truck
-    })
-}
+import java.util.Locale
 
 @BindingAdapter("trackDateText")
 fun TextView.setDateText(item: ItemWithTracks) {
@@ -64,6 +56,15 @@ fun TextView.setTrackObservation(item: ItemWithTracks) {
 @BindingAdapter("trackLocale")
 fun TextView.setTrackLocale(item: ItemWithTracks) {
     text = item.tracks.first().locale
+}
+
+@BindingAdapter("deliveryPrediction")
+fun TextView.setDeliveryPrediction(item: ItemWithTracks) {
+    val forecast = item.item.deliveryForecast
+    if (forecast.isEmpty())
+        visibility = View.GONE
+    else
+        text = context.getString(R.string.delivery_forecast_format, forecast)
 }
 
 @BindingAdapter("daysSpend")
@@ -107,7 +108,11 @@ fun TextView.setLink(track: Track) {
 @BindingAdapter("setLink")
 fun TextView.setLink(link: String) {
     val myText = link.replace("https://", "")
-    val clickable = "<a href=\"${link}\">${myText}</a>"
+    var name = if (myText.contains("github"))
+        "Github"
+    else
+        "Linkedin"
+    val clickable = "<a href=\"${link}\">${name}</a>"
     val spannable = HtmlCompat.fromHtml(clickable, 0)
     movementMethod = LinkMovementMethod.getInstance()
     text = spannable
