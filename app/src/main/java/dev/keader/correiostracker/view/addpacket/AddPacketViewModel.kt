@@ -2,11 +2,13 @@ package dev.keader.correiostracker.view.addpacket
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.model.Event
+import dev.keader.correiostracker.repository.TrackingRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,9 +16,9 @@ import javax.inject.Inject
 class AddPacketViewModel @Inject constructor(
     private val repository: TrackingRepository) : ViewModel() {
 
-    private val _eventCancelButtonNavigation = MutableLiveData<Event<Unit>>()
-    val eventCancelButtonNavigation: LiveData<Event<Unit>>
-        get() = _eventCancelButtonNavigation
+    private val _eventBackButtonNavigation = MutableLiveData<Event<Unit>>()
+    val eventBackButtonNavigation: LiveData<Event<Unit>>
+        get() = _eventBackButtonNavigation
 
     private val _eventAddTrack = MutableLiveData<Event<Boolean>>()
     val eventAddTrack: LiveData<Event<Boolean>>
@@ -25,6 +27,16 @@ class AddPacketViewModel @Inject constructor(
     private val _eventCheckInputs = MutableLiveData<Event<Unit>>()
     val eventCheckInputs: LiveData<Event<Unit>>
         get() = _eventCheckInputs
+
+    val code = MutableLiveData("")
+    val codeIsValid = Transformations.map(code) {
+        if (it.isBlank())
+            return@map true
+        return@map Correios.validateCode(it)
+    }
+
+    val name = MutableLiveData("")
+    val nameIsValid = Transformations.map(code) { it.isNotBlank() }
 
     private val _eventQR = MutableLiveData<Event<Unit>>()
     val eventQR: LiveData<Event<Unit>>
@@ -42,7 +54,7 @@ class AddPacketViewModel @Inject constructor(
         getTrackInfo(code, observation)
     }
 
-    fun handleAutoSave(code: String) {
+    fun handleAutoMove(code: String) {
         viewModelScope.launch {
             repository.archiveTrack(code)
         }
@@ -54,7 +66,7 @@ class AddPacketViewModel @Inject constructor(
         }
     }
 
-    fun handleCancelButton() {
-        _eventCancelButtonNavigation.value = Event(Unit)
+    fun handleBackButton() {
+        _eventBackButtonNavigation.value = Event(Unit)
     }
 }

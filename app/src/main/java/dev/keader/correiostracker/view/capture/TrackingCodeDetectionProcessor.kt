@@ -12,6 +12,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import dev.keader.correiosapi.Correios
 import timber.log.Timber
 
 class TrackingCodeDetectionProcessor (
@@ -64,7 +65,7 @@ class TrackingCodeDetectionProcessor (
 
         val result = codes
             .mapNotNull { it.displayValue }
-            .firstOrNull { it.replace(" ", "").matches(TRACK_CODE_PATTERN) }
+            .firstOrNull { Correios.validateCode(it.replace(" ", "")) }
         return if (result == null) {
             null
         } else {
@@ -90,8 +91,9 @@ class TrackingCodeDetectionProcessor (
                 null
             } else {
                 val text = line.text.replace(" ", "")
-                val match = TRACK_CODE_PATTERN.find(text)
-                match?.value
+                val match = Correios.validateCode(text)
+                if (match) text
+                else null
             }
         }
 
@@ -109,9 +111,5 @@ class TrackingCodeDetectionProcessor (
         analyzing = false
         barcodeScanner.close()
         recognizer.close()
-    }
-
-    companion object {
-        val TRACK_CODE_PATTERN = Regex("[A-Za-z]{2}[0-9]{9}[A-Za-z]{2}")
     }
 }

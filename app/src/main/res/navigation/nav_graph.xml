@@ -22,7 +22,7 @@
         android:id="@+id/addPacketFragment"
         android:name="dev.keader.correiostracker.view.addpacket.AddPacketFragment"
         android:label="AddPacketFragment"
-        tools:layout="@layout/fragment_add_packet">
+        tools:layout="@layout/fragment_add_packet_old">
         <action
             android:id="@+id/action_addPacketFragment_to_captureFragment"
             app:destination="@id/captureFragment"

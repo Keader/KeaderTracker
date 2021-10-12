@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -9,317 +9,155 @@
             type="dev.keader.correiostracker.view.addpacket.AddPacketViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/label_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pray_for_sedex"
+            android:textColor="@color/primaryLightColor"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/iv_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_purple"
+        <ImageView
+            android:id="@+id/iv_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="128dp"
+            app:layout_constraintDimensionRatio="H,16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_pray_big" />
+
+        <ImageView
+            android:id="@+id/icon_back_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/back_button_description"
+            android:onClick="@{()-> addPacketViewModel.handleBackButton()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_inputs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_banner">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:cardBackgroundColor="@color/primaryColor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialCardView.Cut">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_code"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/product_code"
+                    app:endIconDrawable="@drawable/ic_qr_scan"
+                    app:endIconMode="custom"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_package">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters"
+                        android:text="@={addPacketViewModel.code}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/package_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_code"
+                    app:startIconDrawable="@drawable/ic_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={addPacketViewModel.name}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/button_add"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:letterSpacing="0.0001"
+                    android:textSize="15sp"
+                    app:strokeWidth = "1dp"
+                    app:strokeColor = "?attr/colorSecondary"
+                    android:onClick="@{() -> addPacketViewModel.handleOKButton()}"
+                    android:text="@string/track"
+                    android:textAllCaps="false"
+                    android:textColor="@color/secondaryColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/input_name" />
 
-                    <ImageView
-                        android:id="@+id/icon_back_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:contentDescription="@string/back_button_description"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_back" />
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:indeterminateOnly="true"
+                    android:scaleY="2"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:visibility="visible" />
 
-                    <ImageView
-                        android:id="@+id/icon_pray_for_sedex"
-                        android:layout_width="241dp"
-                        android:layout_height="193dp"
-                        android:contentDescription="@string/box_icon_description"
-                        android:src="@drawable/ic_receive"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/label_pray_for_sedex" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:id="@+id/label_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:text="@string/track_your_product"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_track"
-                        android:layout_width="350dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="24dp"
-                        app:cardCornerRadius="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/label_title">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/imageView2"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginStart="6dp"
-                                android:contentDescription="@string/box_icon_description"
-                                android:src="@drawable/ic_packet"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <EditText
-                                android:id="@+id/track_edit_text"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:ems="11"
-                                android:hint="@string/track_number"
-                                android:inputType="textCapCharacters"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@id/qr_view"
-                                app:layout_constraintStart_toEndOf="@id/imageView2"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageView
-                                android:id="@+id/qr_view"
-                                android:layout_width="32dp"
-                                android:layout_height="29dp"
-                                android:layout_marginEnd="16dp"
-                                android:contentDescription="@string/qr_code_description"
-                                android:onClick="@{()-> addPacketViewModel.handleQRButton()}"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_scan" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_description"
-                        android:layout_width="350dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="24dp"
-                        app:cardCornerRadius="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.51"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/card_track">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/imageView3"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginStart="7dp"
-                                android:contentDescription="@string/box_icon_description"
-                                android:src="@drawable/ic_packet2"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <EditText
-                                android:id="@+id/description_edit_text"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@android:color/transparent"
-                                android:ems="11"
-                                android:hint="@string/description"
-                                android:inputType="textCapWords"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/imageView3"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:id="@+id/label_pray_for_sedex"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:alpha="0.4"
-                        android:text="@string/pray_for_sedex"
-                        android:textColor="@color/primaryTextColor"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/icon_pray_for_sedex"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/card_description" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_cancel"
-                android:layout_width="128dp"
-                android:layout_height="136dp"
-                android:layout_marginTop="8dp"
-                android:onClick="@{() -> addPacketViewModel.handleCancelButton()}"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_center_horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_purple">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_circle_cancel"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="16dp"
-                        app:cardCornerRadius="60dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/icon_cancel"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/primarySurfaceColor"
-                            android:contentDescription="@string/cancel_button_description"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_cancel2" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:id="@+id/label_cancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/cancel"
-                        android:textColor="@color/secondaryColor"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/card_circle_cancel" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_tracking"
-                android:layout_width="128dp"
-                android:layout_height="136dp"
-                android:layout_marginTop="8dp"
-                android:onClick="@{() -> addPacketViewModel.handleOKButton()}"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline_center_horizontal"
-                app:layout_constraintTop_toBottomOf="@id/card_purple">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_circle_tracking"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginTop="16dp"
-                        app:cardCornerRadius="60dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/icon_tracking"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/primarySurfaceColor"
-                            android:contentDescription="@string/track_button_description"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_track" />
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:id="@+id/label_tracking"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/track"
-                        android:textColor="@color/secondaryColor"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/card_circle_tracking" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:indeterminateOnly="true"
-                android:scaleY="2"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

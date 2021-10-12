@@ -2,9 +2,9 @@ package dev.keader.correiostracker.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import dev.keader.correiostracker.database.Item
-import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.Track
+import dev.keader.sharedapiobjects.Item
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.Track
 
 @Dao
 interface TrackingDatabaseDAO {

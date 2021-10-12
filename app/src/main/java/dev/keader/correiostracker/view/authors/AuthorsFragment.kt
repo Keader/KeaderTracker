@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.FragmentAuthorsBinding
 import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.AuthorsAdapter
-import dev.keader.correiostracker.view.adapters.AuthorsHeaderAdapter
 
 @AndroidEntryPoint
 class AuthorsFragment : Fragment() {
@@ -24,9 +25,12 @@ class AuthorsFragment : Fragment() {
         binding = FragmentAuthorsBinding.inflate(inflater, container, false)
 
         val authorsAdapter = AuthorsAdapter()
-        val concatAdapter = ConcatAdapter(AuthorsHeaderAdapter(), authorsAdapter)
-
+        val concatAdapter = ConcatAdapter(authorsAdapter)
         binding.recyclerViewAuthors.adapter = concatAdapter
+
+        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
+        gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        binding.recyclerViewAuthors.layoutManager = gridLayoutManager
 
         authorsViewModel.authors.distinctUntilChanged().observe(viewLifecycleOwner, {
             handleWithListVisibility(it.isEmpty())

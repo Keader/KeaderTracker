@@ -20,8 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/ic_book_arrow"
-            app:startIconTint="@color/secondaryColor">
+            app:startIconDrawable="@drawable/ic_package">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_text"

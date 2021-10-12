@@ -29,8 +29,8 @@ class AuthorsRepository @Inject constructor(private val githubService: GithubSer
         list.add(GithubAuthor(
             "MimaCobaltini",
             "https://i.imgur.com/DGWRgy0.jpeg",
-            "https://linkedin.com/in/yasmindovale",
-            20
+            "https://linkedin.com/in/mimacobaltini",
+            21
         ))
 
         return list

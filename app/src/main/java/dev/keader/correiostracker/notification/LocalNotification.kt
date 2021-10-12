@@ -11,7 +11,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.ItemWithTracks
+import dev.keader.sharedapiobjects.ItemWithTracks
 
 class LocalNotification {
     companion object {
@@ -39,7 +39,7 @@ class LocalNotification {
                 .setArguments(args)
                 .createPendingIntent()
 
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_delivery_man)
+            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_notification_large)
             val lastTrack = itemTrack.tracks.first()
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -72,7 +72,7 @@ class LocalNotification {
                 .setArguments(args)
                 .createPendingIntent()
 
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_delivery_man)
+            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_notification_large)
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)

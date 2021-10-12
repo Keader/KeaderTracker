@@ -7,7 +7,7 @@
     <data>
         <variable
             name="track"
-            type="dev.keader.correiostracker.database.Track" />
+            type="dev.keader.sharedapiobjects.Track" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
+            app:layout_constraintStart_toEndOf="@+id/track_icon"
             app:layout_constraintTop_toBottomOf="@+id/locale_label"
             app:setLink="@{track}"
             tools:text="Imagine o link aqui"
@@ -34,10 +34,10 @@
             android:id="@+id/arrow_up"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:background="@color/textGreyColor"
-            app:layout_constraintBottom_toTopOf="@+id/card_circle_tracking"
-            app:layout_constraintEnd_toEndOf="@+id/card_circle_tracking"
-            app:layout_constraintStart_toStartOf="@+id/card_circle_tracking"
+            android:background="@color/secondaryColor"
+            app:layout_constraintBottom_toTopOf="@+id/track_icon"
+            app:layout_constraintEnd_toEndOf="@+id/track_icon"
+            app:layout_constraintStart_toStartOf="@+id/track_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
@@ -45,25 +45,25 @@
             android:id="@+id/arrow_down"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:background="@color/textGreyColor"
+            android:background="@color/secondaryColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/card_circle_tracking"
-            app:layout_constraintStart_toStartOf="@+id/card_circle_tracking"
-            app:layout_constraintTop_toBottomOf="@+id/card_circle_tracking" />
+            app:layout_constraintEnd_toEndOf="@+id/track_icon"
+            app:layout_constraintStart_toStartOf="@+id/track_icon"
+            app:layout_constraintTop_toBottomOf="@+id/track_icon" />
 
         <TextView
             android:id="@+id/status_label2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:text="@{track.status}"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/track_icon"
+            app:layout_constraintTop_toBottomOf="@+id/arrow_up"
             tools:text="Objeto em trânsito - por favor aguarde" />
 
         <TextView
@@ -71,25 +71,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="24dp"
-            android:textColor="@color/textGreyColor"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:text="@{track.date}"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/status_label2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/status_label2"
             tools:text="14/10/2020" />
 
         <TextView
             android:id="@+id/time_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="12dp"
-            android:textColor="@color/textGreyColor"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:text="@{track.time}"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/date_label"
+            app:layout_constraintTop_toBottomOf="@+id/date_label"
             tools:text="09:29" />
 
         <TextView
@@ -99,10 +95,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:textColor="@color/textGreyColor"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
+            app:layout_constraintStart_toEndOf="@+id/track_icon"
             app:layout_constraintTop_toBottomOf="@+id/status_label2"
             app:observation="@{track}"
             tools:text="para Salvador - CEASA, SALVADOR/BA" />
@@ -115,35 +110,23 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:text="@{@string/locale_format(track.locale)}"
-            android:textColor="@color/textGreyColor"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/date_label"
-            app:layout_constraintStart_toEndOf="@+id/card_circle_tracking"
+            app:layout_constraintStart_toEndOf="@+id/track_icon"
             app:layout_constraintTop_toBottomOf="@+id/observation_label"
             tools:text="Em de FEIRA DE SANTANA / BA" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_circle_tracking"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+        <ImageView
+            android:id="@+id/track_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
-            app:cardBackgroundColor="@color/textGreyColor"
-            app:cardCornerRadius="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_delivery_in_progress"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-            <ImageView
-                android:id="@+id/track_icon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_delivery_truck" />
-
-        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

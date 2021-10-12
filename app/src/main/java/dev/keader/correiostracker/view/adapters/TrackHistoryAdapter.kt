@@ -3,19 +3,21 @@ package dev.keader.correiostracker.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.R
-import dev.keader.correiostracker.database.ItemWithTracks
-import dev.keader.correiostracker.database.TrackWithStatus
 import dev.keader.correiostracker.databinding.ListItemTrackDetailHeaderBinding
 import dev.keader.correiostracker.databinding.ListItemTrackHistoryBinding
+import dev.keader.sharedapiobjects.DeliveryCompany
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.TrackWithStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
@@ -24,6 +26,7 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
     : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+    private lateinit var itemWithTracks: ItemWithTracks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -44,7 +47,7 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
         when (holder) {
             is TrackDetailItemViewHolder -> {
                 val item = getItem(position) as DataItem.TrackWithStatusItem
-                holder.bind(item.track, position, currentList.size)
+                holder.bind(item.track, itemWithTracks, position, currentList.size)
             }
             is TrackDetailHeaderViewHolder -> {
                 val item = getItem(position) as DataItem.Header
@@ -62,6 +65,7 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
                     )
                 }
             withContext(Dispatchers.Main) {
+                itemWithTracks = item
                 submitList(items)
             }
         }
@@ -86,72 +90,46 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
 
     class TrackDetailItemViewHolder private constructor(val binding: ListItemTrackHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(track: TrackWithStatus, position: Int, size: Int) {
+        fun bind(track: TrackWithStatus, item: ItemWithTracks, position: Int, size: Int) {
             binding.track = track.track
-            val isDelivery = track.track.status.contains(
-                binding.root.context.getString(R.string.delivery_message))
-            handleIconChange(track, position, size, isDelivery)
             binding.executePendingBindings()
+            handleWithStatus(track, item)
+            handleWithArrows(position, size)
         }
 
-        private fun handleIconChange(track: TrackWithStatus, position: Int,
-                                     size: Int, isDelivery: Boolean) {
-            // We only have Header and 1 element
-            if (size == 2) {
-                binding.arrowUp.visibility = View.GONE
-                binding.arrowDown.visibility = View.GONE
-                if (track.isWaitingPost)
-                    binding.trackIcon.setImageResource(R.drawable.ic_waiting)
-                else
-                    binding.trackIcon.setImageResource(R.drawable.ic_posted)
-            } else {
-                // First element
-                if (position == 1) {
+        private fun handleWithArrows(position: Int, size: Int) {
+            when {
+                // Header + 1 element
+                size == 2 -> {
+                    binding.arrowUp.visibility = View.GONE
+                    binding.arrowDown.visibility = View.GONE
+                }
+                position == 1 -> {
                     binding.arrowUp.visibility = View.GONE
                     binding.arrowDown.visibility = View.VISIBLE
-
-                    if (track.delivered) {
-                        binding.trackIcon.setImageResource(R.drawable.ic_delivery_done)
-                        binding.cardCircleTracking.also {
-                            it.setCardBackgroundColor(
-                                getColor(
-                                    it.context,
-                                    R.color.primarySurfaceColor
-                                )
-                            )
-                        }
-                    } else {
-                        binding.trackIcon.setImageResource(R.drawable.ic_delivery_truck)
-                    }
                 }
-
-                val lastPosition: Int
-                if (track.isWaitingPost) {
-                    // if we have waiting post, last element will be waiting post dummy
-                    // so we need get last but one item to add posted icon
-                    lastPosition = size - 1
-                    val lastButOne = size - 2
-
-                    if (position == lastPosition) {
-                        binding.arrowDown.visibility = View.GONE
-                        binding.arrowUp.visibility = View.VISIBLE
-                        binding.trackIcon.setImageResource(R.drawable.ic_waiting)
-                    } else if (position == lastButOne)
-                        binding.trackIcon.setImageResource(R.drawable.ic_posted)
-
-                } else {
-                    lastPosition = size - 1
-                    if (position == lastPosition) {
-                        binding.arrowDown.visibility = View.GONE
-                        binding.arrowUp.visibility = View.VISIBLE
-                        binding.trackIcon.setImageResource(R.drawable.ic_posted)
-                    }
+                position == (size - 1) -> {
+                    binding.arrowDown.visibility = View.GONE
+                    binding.arrowUp.visibility = View.VISIBLE
                 }
-
-                // It should be handled independent of position
-                if (isDelivery)
-                    binding.trackIcon.setImageResource(R.drawable.ic_delivery_progress)
             }
+        }
+
+        private fun handleWithStatus(track: TrackWithStatus, item: ItemWithTracks) {
+            when (val company = item.item.deliveryCompany) {
+                DeliveryCompany.CORREIOS -> handleCorreiosStatus(track)
+                else -> Timber.e("TrackDetailItemViewHolder get a unknown delivery company: $company")
+            }
+        }
+
+        private fun handleCorreiosStatus(itemTrack: TrackWithStatus) {
+            val context = binding.root.context
+            val status = CorreiosResourceStatus.getResourceStatus(itemTrack.track.status)
+            val titleColor = ContextCompat.getColor(context, status.titleColorRes)
+            binding.trackIcon.setImageResource(status.iconRes)
+            binding.statusLabel2.setTextColor(titleColor)
+            val linkColor = ContextCompat.getColor(context, R.color.primaryLightColor)
+            binding.importsLink.setLinkTextColor(linkColor)
         }
 
         companion object {

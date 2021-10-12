@@ -19,18 +19,91 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_authors"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="150dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/anim_authors"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            app:layout_constraintDimensionRatio="V,16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="8"
+            app:lottie_autoPlay="true"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/authors" />
+
+        <TextView
+            android:id="@+id/label_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/pix"
+            android:textAlignment="center"
+            android:textColor="@color/textGreyColor"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/anim_authors" />
+
+        <TextView
+            android:id="@+id/label_contribute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/contribute"
+            android:textAlignment="textStart"
+            android:textColor="@color/textGreyColor"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_info" />
+
+        <TextView
+            android:id="@+id/repo_link"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textStart"
+            tools:text="github.com/keader/KeaderTracker"
+            android:textColor="@color/secondaryColor"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_contribute"
+            app:layout_constraintTop_toBottomOf="@+id/label_info"
+            app:setLink="@{@string/repo_link}" />
+
+        <TextView
+            android:id="@+id/label_authors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/authors"
+            android:textAlignment="textStart"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_contribute" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_authors"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_authors"
+            tools:itemCount="6"
             tools:listitem="@layout/list_item_authors" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

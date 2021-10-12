@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.ListItemAuthorsBinding
 import dev.keader.correiostracker.network.GithubAuthor
 
@@ -25,6 +26,9 @@ class AuthorsAdapter : ListAdapter<GithubAuthor, AuthorsAdapter.AuthorViewHolder
 
         fun bind(author: GithubAuthor) {
             binding.author = author
+            if (author.link.contains("linkedin"))
+                binding.iconSite.setImageResource(R.drawable.ic_linkedin)
+            binding.executePendingBindings()
         }
 
         companion object {
