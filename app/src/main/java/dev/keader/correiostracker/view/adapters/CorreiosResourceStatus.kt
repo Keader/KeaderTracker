@@ -74,6 +74,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_waiting_post,
         codeColorRes = R.color.code_waiting_post,
     ),
+    WAITING_POST_OLD(
+        statusString = "Aguardando postagem pelo remetente.",
+        iconRes = R.drawable.ic_waiting_post,
+        bgColorRes = R.color.bg_waiting_post,
+        titleColorRes = R.color.title_waiting_post,
+        codeColorRes = R.color.code_waiting_post,
+    ),
     DELIVERED(
         statusString = "Objeto entregue ao destinatário",
         iconRes = R.drawable.ic_delivered,

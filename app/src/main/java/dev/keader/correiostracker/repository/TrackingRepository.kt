@@ -7,7 +7,6 @@ import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okio.IOException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -65,8 +64,8 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                     Timber.e(itemWithTracks.item.type)
 
                 return@withContext true
-            } catch (e: IOException) {
-                Timber.e(e.message, e.stackTrace)
+            } catch (e: Exception) {
+                Timber.e(e)
                 return@withContext false
             }
         }
@@ -94,8 +93,8 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                     else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
                         notificationList.add(updatedItem)
 
-                } catch (e: IOException) {
-                    Timber.e(e.message, e.stackTrace)
+                } catch (e: Exception) {
+                    Timber.e(e)
                 }
             }
 
