@@ -12,10 +12,6 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
 # Remove Timber from source code :D
 -assumenosideeffects class timber.log.Timber {
     public static *** v(...);
