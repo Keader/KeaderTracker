@@ -15,7 +15,7 @@ import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
@@ -40,10 +40,9 @@ class ArchivedFragment : Fragment() {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
-                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
                 val list = it.sortedBy { item ->
-                    val localDate = LocalDate.parse(item.item.updatedAt, formatter)
-                    return@sortedBy localDate.until(LocalDate.now(), ChronoUnit.DAYS)
+                    try { parserDate(item.item.updatedAt) }
+                    catch (ex: Exception) { parserDate(item.item.updatedAt, false) }
                 }
                 adapter.submitList(list)
                 showRecyclerView()
@@ -56,6 +55,15 @@ class ArchivedFragment : Fragment() {
 
         binding.lifecycleOwner = this
         return binding.root
+    }
+
+    private fun parserDate(dateTime: String, withSeconds: Boolean = true): Long {
+        val formatter = if (withSeconds)
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        else
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+        val localDateTime = LocalDateTime.parse(dateTime, formatter)
+        return localDateTime.until(LocalDateTime.now(), ChronoUnit.DAYS)
     }
 
     private fun personalizeEmptyList() {

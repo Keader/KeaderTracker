@@ -12,6 +12,7 @@ import dev.keader.sharedapiobjects.fromJson
 import dev.keader.sharedapiobjects.toCapitalize
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okio.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -47,10 +48,15 @@ object Correios : DeliveryService {
             .url(BASE_URL + productCode)
             .build()
 
-        val response = client.newCall(request).executeSuspend()
-        if (!response.isSuccessful) {
-            response.close()
-            throw IOException("Response: ${response.code} for code: $code")
+        var response: Response
+        try {
+            response = client.newCall(request).executeSuspend()
+            if (!response.isSuccessful) {
+                response.close()
+                throw IOException("Response: ${response.code} for code: $code")
+            }
+        } catch (ex: Exception) {
+            return handleWithNotPosted(productCode)
         }
 
         val json = response.body!!.string()
