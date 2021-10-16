@@ -4,8 +4,9 @@ import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import dev.keader.correiostracker.firebase.CrashlyticsTree
 import dev.keader.correiostracker.model.PreferencesManager
+import dev.keader.correiostracker.model.tree.CorreiosTrackerDebugTree
+import dev.keader.correiostracker.model.tree.CrashlyticsTree
 import dev.keader.correiostracker.notification.LocalNotification
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.work.RefreshTracksWorker
@@ -30,7 +31,7 @@ class CorreiosTracker : Application(), Configuration.Provider {
         super.onCreate()
 
         if (BuildConfig.DEBUG)
-            Timber.plant(Timber.DebugTree())
+            Timber.plant(CorreiosTrackerDebugTree())
         else
             Timber.plant(CrashlyticsTree())
 
