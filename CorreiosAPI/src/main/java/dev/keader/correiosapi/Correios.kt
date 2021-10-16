@@ -12,9 +12,7 @@ import dev.keader.sharedapiobjects.fromJson
 import dev.keader.sharedapiobjects.toCapitalize
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import okio.IOException
-import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
@@ -43,22 +41,16 @@ object Correios : DeliveryService {
 
     override suspend fun getProduct(code: String): ItemWithTracks {
         val productCode = code.uppercase()
-        if (!validateCode(productCode)) throw IOException("Invalid Code: $code")
+        if (!validateCode(productCode)) throw IOException("Código $code está inválido.")
 
         val request = Request.Builder()
             .url(BASE_URL + productCode)
             .build()
 
-        var response: Response
-        try {
-            response = client.newCall(request).executeSuspend()
-            if (!response.isSuccessful) {
-                response.close()
-                throw IOException("Response: ${response.code} for code: $code")
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            return handleWithNotPosted(productCode)
+        val response = client.newCall(request).executeSuspend()
+        if (!response.isSuccessful) {
+            response.close()
+            throw IOException("Servidor dos correios retornou erro: ${response.code} para o código: $code. Tente novamente mais tarde.")
         }
 
         val json = response.body!!.string()

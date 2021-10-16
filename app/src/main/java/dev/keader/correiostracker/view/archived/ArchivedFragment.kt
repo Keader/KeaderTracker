@@ -15,9 +15,6 @@ import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 @AndroidEntryPoint
 class ArchivedFragment : Fragment() {
@@ -26,10 +23,14 @@ class ArchivedFragment : Fragment() {
     private val navController
         get() = findNavController()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentArchivedBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val adapter = TrackAdapter(ListItemListener { code ->
             archivedViewModel.onItemTrackClicked(code)
@@ -41,8 +42,8 @@ class ArchivedFragment : Fragment() {
                 showEmptyList()
             } else {
                 val list = it.sortedBy { item ->
-                    try { parserDate(item.item.updatedAt) }
-                    catch (ex: Exception) { parserDate(item.item.updatedAt, false) }
+                    try { archivedViewModel.parseDate(item.item.updatedAt) }
+                    catch (ex: Exception) {archivedViewModel.parseDate(item.item.updatedAt, false) }
                 }
                 adapter.submitList(list)
                 showRecyclerView()
@@ -52,18 +53,6 @@ class ArchivedFragment : Fragment() {
         archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             navController.navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
         })
-
-        binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    private fun parserDate(dateTime: String, withSeconds: Boolean = true): Long {
-        val formatter = if (withSeconds)
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
-        else
-            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-        val localDateTime = LocalDateTime.parse(dateTime, formatter)
-        return localDateTime.until(LocalDateTime.now(), ChronoUnit.DAYS)
     }
 
     private fun personalizeEmptyList() {

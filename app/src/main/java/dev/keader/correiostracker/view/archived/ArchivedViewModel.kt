@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.model.Event
+import dev.keader.correiostracker.repository.TrackingRepository
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,5 +22,15 @@ class ArchivedViewModel @Inject constructor(repository: TrackingRepository) : Vi
 
     fun onItemTrackClicked(code: String) {
         _eventNavigateToTrackDetail.value = Event(code)
+    }
+
+    @Throws(Exception::class)
+    fun parseDate(dateTime: String, withSeconds: Boolean = true): Long {
+        val formatter = if (withSeconds)
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        else
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+        val localDateTime = LocalDateTime.parse(dateTime, formatter)
+        return localDateTime.until(LocalDateTime.now(), ChronoUnit.DAYS)
     }
 }

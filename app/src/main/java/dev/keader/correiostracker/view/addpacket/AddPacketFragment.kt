@@ -37,10 +37,15 @@ class AddPacketFragment : Fragment() {
     lateinit var preferences : PreferencesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
-        uiViewModel.setBottomNavVisibility(View.GONE)
         binding = FragmentAddPacketBinding.inflate(inflater, container, false)
+        uiViewModel.setBottomNavVisibility(View.GONE)
         binding.addPacketViewModel = addPacketViewModel
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         addPacketViewModel.eventBackButtonNavigation.observe(viewLifecycleOwner, EventObserver {
             navController.popBackStack()
@@ -70,9 +75,9 @@ class AddPacketFragment : Fragment() {
         })
 
         // Return of API
-        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, EventObserver { success ->
+        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, EventObserver { message ->
             binding.progressBar.visibility = View.GONE
-            if (success) {
+            if (message == null) {
                 getSnack(getString(R.string.track_add_success))
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
                     ?.show()
@@ -80,7 +85,8 @@ class AddPacketFragment : Fragment() {
                 RefreshTracksWorker.startWorker(requireNotNull(activity).application, preferences)
                 navController.popBackStack()
             } else {
-                getSnack(getString(R.string.track_add_fail))
+                val warning = if (message.isNotEmpty()) message else getString(R.string.track_add_fail)
+                getSnack(warning)
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
                     ?.show()
             }
@@ -103,9 +109,6 @@ class AddPacketFragment : Fragment() {
         binding.inputCode.setEndIconOnClickListener {
             addPacketViewModel.handleQRButton()
         }
-
-        binding.lifecycleOwner = this
-        return binding.root
     }
 
     private fun showTutorial() {

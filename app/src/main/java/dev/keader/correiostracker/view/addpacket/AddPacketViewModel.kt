@@ -20,8 +20,8 @@ class AddPacketViewModel @Inject constructor(
     val eventBackButtonNavigation: LiveData<Event<Unit>>
         get() = _eventBackButtonNavigation
 
-    private val _eventAddTrack = MutableLiveData<Event<Boolean>>()
-    val eventAddTrack: LiveData<Event<Boolean>>
+    private val _eventAddTrack = MutableLiveData<Event<String?>>()
+    val eventAddTrack: LiveData<Event<String?>>
         get() = _eventAddTrack
 
     private val _eventCheckInputs = MutableLiveData<Event<Unit>>()

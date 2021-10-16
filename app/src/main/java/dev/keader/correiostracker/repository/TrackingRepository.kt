@@ -51,7 +51,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         return database.getAllArchivedItemsWithTracks()
     }
 
-    suspend fun getTrackInfoFromAPI(code: String, observation: String): Boolean {
+    suspend fun getTrackInfoFromAPI(code: String, observation: String): String? {
         return withContext(Dispatchers.IO) {
             try {
                 val itemWithTracks = Correios.getProduct(code)
@@ -63,10 +63,10 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                 if (itemWithTracks.item.type.contains(UNKNOWN_TYPE))
                     Timber.e(itemWithTracks.item.type)
 
-                return@withContext true
+                return@withContext null
             } catch (e: Exception) {
                 Timber.e(e)
-                return@withContext false
+                return@withContext e.message
             }
         }
     }

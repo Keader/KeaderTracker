@@ -48,14 +48,17 @@ class TrackDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTrackDetailBinding.inflate(inflater, container,false)
-        val myContext = requireContext()
-
+        binding.trackDetailViewModel = trackDetailViewModel
         uiViewModel.setBottomNavVisibility(View.GONE)
-
         val args by navArgs<TrackDetailFragmentArgs>()
         trackDetailViewModel.setTrackCode(args.trackCode)
+        binding.lifecycleOwner = this
+        return binding.root
+    }
 
-        binding.trackDetailViewModel = trackDetailViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val myContext = requireContext()
 
         val adapter = TrackHistoryAdapter(TrackHistoryButtonListener { itemWithTracks, buttonId ->
             when (buttonId) {
@@ -119,9 +122,6 @@ class TrackDetailFragment : Fragment() {
                 trackDetailViewModel.onFloatButtonComplete()
             }
         })
-
-        binding.lifecycleOwner = this
-        return binding.root
     }
 
     private fun copyTrackCodeAndShowSnack(itemWithTracks: ItemWithTracks) {

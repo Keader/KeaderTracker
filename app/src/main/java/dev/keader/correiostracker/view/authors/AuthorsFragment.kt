@@ -21,13 +21,17 @@ class AuthorsFragment : Fragment() {
     private val authorsViewModel: AuthorsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         binding = FragmentAuthorsBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val authorsAdapter = AuthorsAdapter()
         val concatAdapter = ConcatAdapter(authorsAdapter)
-        binding.recyclerViewAuthors.adapter = concatAdapter
 
+        binding.recyclerViewAuthors.adapter = concatAdapter
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewAuthors.layoutManager = gridLayoutManager
@@ -37,9 +41,6 @@ class AuthorsFragment : Fragment() {
             if (it.isNotEmpty())
                 authorsAdapter.submitList(it)
         })
-
-        binding.lifecycleOwner = this
-        return binding.root
     }
 
     private fun handleWithListVisibility(empty: Boolean) {
