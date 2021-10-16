@@ -92,7 +92,6 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                     // object posted, yay
                     else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
                         notificationList.add(updatedItem)
-
                 } catch (e: Exception) {
                     Timber.e(e)
                 }

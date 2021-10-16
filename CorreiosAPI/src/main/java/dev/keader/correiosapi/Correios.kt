@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okio.IOException
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
@@ -56,6 +57,7 @@ object Correios : DeliveryService {
                 throw IOException("Response: ${response.code} for code: $code")
             }
         } catch (ex: Exception) {
+            Timber.e(ex)
             return handleWithNotPosted(productCode)
         }
 
@@ -85,10 +87,21 @@ object Correios : DeliveryService {
             tracks.add(track)
         }
 
+        val foreCast = if (correiosItem.dtPrevista.isNotBlank()) {
+            val split = correiosItem.dtPrevista.split(" ")
+            if (split.isNotEmpty())
+                split[0]
+            else
+                correiosItem.dtPrevista
+        } else {
+            correiosItem.dtPrevista
+        }
+
         val updateDate = tracks.first().date
         val updateTime = tracks.first().time
         val postDate = tracks.last().date
         val postTime = tracks.last().time
+         correiosItem.dtPrevista.split(" ")[0]
         val item = Item(
             code = productCode,
             name = "",
@@ -99,7 +112,7 @@ object Correios : DeliveryService {
             isArchived = false,
             isWaitingPost = false,
             deliveryCompany = deliveryCompany,
-            deliveryForecast = correiosItem.dtPrevista
+            deliveryForecast = foreCast
         )
 
         return ItemWithTracks(item, tracks)
