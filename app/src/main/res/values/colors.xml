@@ -57,7 +57,7 @@
   <color name="title_delivered">#BAA919</color>
   <color name="code_delivered">#80751C</color>
 
-  <color name="bg_unk">#1AB6B6B6</color>
+  <color name="bg_unk">#4DB6B6B6</color>
   <color name="title_unk">#B6B6B6</color>
   <color name="code_unk">#686868</color>
 </resources>

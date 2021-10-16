@@ -3,7 +3,7 @@
   <color name="primaryColor">#6f74dd</color>
   <color name="primarySurfaceColor">#5334B8</color>
   <color name="primaryLightColor">#9A9DFF</color>
-  <color name="primaryDarkColor">#3B0998</color>
+  <color name="primaryDarkColor">#020202</color>
   <color name="secondaryColor">#FF7043</color>
   <color name="secondaryLightColor">#ffc267</color>
   <color name="secondaryDarkColor">#c66200</color>
@@ -15,4 +15,39 @@
   <color name="sucessColor">#06C32F</color>
   <color name="primaryColorSpecial">#302E2E</color>
   <color name="lightOrange">#F9A68A</color>
+
+  <color name="bg_posted">#4D4D37B3</color>
+  <color name="title_posted">#A795FF</color>
+  <color name="code_posted">#6F60B3</color>
+
+  <color name="bg_moving">#4D2196F3</color>
+
+  <color name="bg_arrived">#4DFFC107</color>
+  <color name="title_arrived">#F6C123</color>
+
+  <color name="bg_inspection">#4DFF1100</color>
+  <color name="code_inspection">#B14038</color>
+
+  <color name="bg_waiting_payment">#4DFF1100</color>
+  <color name="code_waiting_payment">#9F4F4A</color>
+
+  <color name="bg_payment">#4D4CAF50</color>
+  <color name="code_payment">#478F4B</color>
+
+  <color name="bg_inspection_ok">#4DFF5722</color>
+  <color name="code_inspection_ok">#BD664A</color>
+
+  <color name="bg_delivery_in_progress">#4D9C27B0</color>
+  <color name="title_delivery_in_progress">#C636DF</color>
+  <color name="code_delivery_in_progress">#BC70CA</color>
+
+  <color name="bg_waiting_post">#4D00BCD4</color>
+  <color name="code_waiting_post">#5AB1BC</color>
+
+  <color name="bg_delivered">#4DCDDC39</color>
+  <color name="code_delivered">#D1C566</color>
+
+  <color name="bg_unk">#4DB6B6B6</color>
+  <color name="title_unk">#B6B6B6</color>
+  <color name="code_unk">#8A8888</color>
 </resources>
