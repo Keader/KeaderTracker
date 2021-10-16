@@ -95,4 +95,9 @@
     <string name="product_code">Código de Rastreio</string>
     <string name="alert_title">Caro usuário</string>
     <string name="alert_content">Detectamos que você utiliza uma marca de aparelho que possui uma política de restrição de bateria muito forte. Essa política pode fazer com que você não receba corretamente novas notificações dos produtos que você está aguardando, fazendo com que as notificações só cheguem se o app estiver aberto.\n Aconselhamos desabilitar a restrição para este aplicativo para que tudo ocorra sem problemas. Podemos te redirecionar a um site que ensina a desabilitar a política em diversas marcas e modelos, deseja ser redirecionado?</string>
+    <string name="delete_title">Você tem certeza que deseja deletar este item?</string>
+    <string name="delete_message">Após deletado, você não receberá mais nenhuma notificação a respeito deste pacote</string>
+    <string name="no">Não</string>
+    <string name="yes">Sim</string>
+    <string name="cancel_2">Cancelar</string>
 </resources>

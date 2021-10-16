@@ -55,7 +55,7 @@
             android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_COPY)}"
             app:layout_constraintEnd_toStartOf="@+id/icon_delete"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_copy_test" />
+            app:srcCompat="@drawable/ic_copy" />
 
         <ImageView
             android:id="@+id/icon_share"

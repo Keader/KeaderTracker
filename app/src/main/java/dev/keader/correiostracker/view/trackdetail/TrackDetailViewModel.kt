@@ -7,7 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.view.drawToBitmap
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.BuildConfig
 import dev.keader.correiostracker.R
@@ -52,8 +57,18 @@ class TrackDetailViewModel @Inject constructor(
     val eventDeleteButton: LiveData<Boolean>
         get() = _eventDeleteButton
 
-    fun onDeleteButtonClicked(itemWithTracks: ItemWithTracks) {
-        handleDeleteItem(itemWithTracks)
+    fun onDeleteButtonClicked(itemWithTracks: ItemWithTracks, context: Context) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(context.getString(R.string.delete_title))
+            .setMessage(context.getString(R.string.delete_message))
+            .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(context.getString(R.string.yes)) { dialog, _ ->
+                handleDeleteItem(itemWithTracks)
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun handleDeleteItem(itemWithTracks: ItemWithTracks) {
@@ -113,7 +128,7 @@ class TrackDetailViewModel @Inject constructor(
                 }
                 dialog.dismiss()
             }
-            .setNegativeButton(activity.getString(R.string.cancel)) { dialog, _ -> dialog.cancel() }
+            .setNegativeButton(activity.getString(R.string.cancel_2)) { dialog, _ -> dialog.cancel() }
             .show()
     }
 

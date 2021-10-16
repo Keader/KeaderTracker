@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 const val BASE_URL = "https://rastreamento.correios.com.br/app/resultado.php?objeto="
 const val CODE_VALIDATION_REGEX = "[A-Za-z]{2}[0-9]{9}[A-Za-z]{2}"
 const val UNKNOWN_LOCATION = "LIMBO, DESCONHECIDO"
-const val UNKNOWN_TYPE = "Desconhecido - "
+const val UNKNOWN_TYPE = "Desconhecido"
 const val STATUS_WAITING = "Aguardando postagem pelo remetente"
 const val WAITING_PAYMENT = "Aguardando pagamento"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"

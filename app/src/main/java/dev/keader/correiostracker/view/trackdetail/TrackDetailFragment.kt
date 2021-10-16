@@ -23,7 +23,11 @@ import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 import dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener
-import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.*
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_BACK
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_COPY
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_DELETE
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_EDIT
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_SHARE
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import dev.keader.sharedapiobjects.ItemWithTracks
 import javax.inject.Inject
@@ -57,7 +61,7 @@ class TrackDetailFragment : Fragment() {
             when (buttonId) {
                 BUTTON_BACK   -> navController.popBackStack()
                 BUTTON_COPY   -> copyTrackCodeAndShowSnack(itemWithTracks)
-                BUTTON_DELETE -> trackDetailViewModel.onDeleteButtonClicked(itemWithTracks)
+                BUTTON_DELETE -> trackDetailViewModel.onDeleteButtonClicked(itemWithTracks, requireContext())
                 BUTTON_SHARE  -> trackDetailViewModel.onShareButtonClicked(myContext, requireView())
                 BUTTON_EDIT   -> trackDetailViewModel.onEditButtonClicked(requireActivity())
             }
