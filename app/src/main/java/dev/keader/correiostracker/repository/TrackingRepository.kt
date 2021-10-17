@@ -2,7 +2,6 @@ package dev.keader.correiostracker.repository
 
 import androidx.lifecycle.LiveData
 import dev.keader.correiosapi.Correios
-import dev.keader.correiosapi.UNKNOWN_TYPE
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.Dispatchers
@@ -58,11 +57,6 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                 itemWithTracks.item.name = observation
                 database.insertItemWithTracks(itemWithTracks)
                 Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
-
-                // Log Unknown Codes
-                if (itemWithTracks.item.type.contains(UNKNOWN_TYPE))
-                    Timber.e(itemWithTracks.item.type)
-
                 return@withContext null
             } catch (e: Exception) {
                 Timber.e(e)
