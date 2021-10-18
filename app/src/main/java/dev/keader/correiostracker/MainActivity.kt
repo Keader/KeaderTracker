@@ -14,6 +14,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.model.PreferencesManager
@@ -32,8 +35,15 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var preferences: PreferencesManager
 
+    companion object {
+        const val UPDATE_CODE = 584785
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null)
+            checkAppUpdate()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -62,6 +72,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.root.doOnLayout {
             NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
+        }
+    }
+
+    private fun checkAppUpdate() {
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    UPDATE_CODE)
+            }
         }
     }
 
