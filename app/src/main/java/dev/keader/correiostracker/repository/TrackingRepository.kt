@@ -50,17 +50,17 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         return database.getAllArchivedItemsWithTracks()
     }
 
-    suspend fun getTrackInfoFromAPI(code: String, observation: String): String? {
+    suspend fun getTrackInfoFromAPI(code: String, observation: String): String {
         return withContext(Dispatchers.IO) {
             try {
                 val itemWithTracks = Correios.getProduct(code)
                 itemWithTracks.item.name = observation
                 database.insertItemWithTracks(itemWithTracks)
                 Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
-                return@withContext null
+                return@withContext ""
             } catch (e: Exception) {
                 Timber.e(e)
-                return@withContext e.message
+                return@withContext e.message ?: ""
             }
         }
     }
@@ -81,11 +81,10 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                 try {
                     val updatedItem = Correios.getProduct(oldItem.item.code)
                     updatedItem.item.name = oldItem.item.name
-                    if (updatedItem.tracks.size != oldItem.tracks.size)
+                    if (updatedItem.tracks.size > oldItem.tracks.size)
                         notificationList.add(updatedItem)
-                    // object posted, yay
                     else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
-                        notificationList.add(updatedItem)
+                        notificationList.add(updatedItem) // Posted
                 } catch (e: Exception) {
                     Timber.e(e)
                 }

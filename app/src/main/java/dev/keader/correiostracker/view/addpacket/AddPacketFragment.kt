@@ -75,9 +75,9 @@ class AddPacketFragment : Fragment() {
         })
 
         // Return of API
-        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, EventObserver { message ->
+        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, { message ->
             binding.progressBar.visibility = View.GONE
-            if (message == null) {
+            if (message.isEmpty()) {
                 getSnack(getString(R.string.track_add_success))
                     ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
                     ?.show()

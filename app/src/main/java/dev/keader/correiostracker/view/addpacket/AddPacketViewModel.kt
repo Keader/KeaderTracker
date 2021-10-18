@@ -20,8 +20,8 @@ class AddPacketViewModel @Inject constructor(
     val eventBackButtonNavigation: LiveData<Event<Unit>>
         get() = _eventBackButtonNavigation
 
-    private val _eventAddTrack = MutableLiveData<Event<String?>>()
-    val eventAddTrack: LiveData<Event<String?>>
+    private val _eventAddTrack = MutableLiveData<String>()
+    val eventAddTrack: LiveData<String>
         get() = _eventAddTrack
 
     private val _eventCheckInputs = MutableLiveData<Event<Unit>>()
@@ -62,7 +62,7 @@ class AddPacketViewModel @Inject constructor(
 
     private fun getTrackInfo(code: String, observation: String) {
         viewModelScope.launch {
-            _eventAddTrack.value = Event(repository.getTrackInfoFromAPI(code, observation))
+            _eventAddTrack.value = repository.getTrackInfoFromAPI(code, observation)
         }
     }
 
