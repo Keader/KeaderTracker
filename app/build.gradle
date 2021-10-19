@@ -13,7 +13,7 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        def commitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+        def commitCount = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())+50
         def last_tag_commit = "git rev-list --tags --max-count=1".execute([], project.rootDir).text.trim()
         def last_tag = "git describe --tags ${last_tag_commit}".execute([], project.rootDir).text.trim().replace("_", " ")
         applicationId "dev.keader.correiostracker"
