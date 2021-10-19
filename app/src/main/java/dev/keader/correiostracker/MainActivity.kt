@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val uiViewModel: UIViewModel by viewModels()
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var preferences: PreferencesManager
 
     companion object {
-        const val UPDATE_CODE = 584785
+        const val UPDATE_CODE = 584
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +80,14 @@ class MainActivity : AppCompatActivity() {
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-                appUpdateManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.IMMEDIATE,
-                    this,
-                    UPDATE_CODE)
+                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE,
+                        this, UPDATE_CODE)
+                }
+                else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE,
+                        this, UPDATE_CODE)
+                }
             }
         }
     }
