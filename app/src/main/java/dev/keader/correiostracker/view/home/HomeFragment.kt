@@ -47,7 +47,10 @@ class HomeFragment : Fragment() {
             } else {
                 val list = it.sortedBy { item ->
                     try { homeViewModel.parseDate(item.item.updatedAt) }
-                    catch (ex: Exception) { homeViewModel.parseDate(item.item.updatedAt, false) }
+                    catch (ex: Exception) {
+                        try { homeViewModel.parseDate(item.item.updatedAt, false) }
+                        catch (e: Exception) { homeViewModel.parseDate(item.item.updatedAt, false, true) }
+                    }
                 }
                 trackAdapter.submitList(list)
                 showRecyclerView()

@@ -33,7 +33,13 @@ fun TextView.setTimeText(item: ItemWithTracks) {
 @BindingAdapter("trackStatus")
 fun TextView.setTrackStatus(item: ItemWithTracks) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val lastUpdate = LocalDate.parse(item.tracks.first().date, formatter)
+    val alternativeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    var lastUpdate: LocalDate
+    try {
+        lastUpdate = LocalDate.parse(item.tracks.first().date, formatter)
+    } catch (e: Exception) {
+        lastUpdate = LocalDate.parse(item.tracks.first().date, alternativeFormatter)
+    }
     val today = LocalDateTime.now()
     val difference = lastUpdate.until(today, ChronoUnit.DAYS)
 
@@ -70,12 +76,23 @@ fun TextView.setDeliveryPrediction(item: ItemWithTracks) {
 @BindingAdapter("daysSpend")
 fun TextView.setDaysSpend(item: ItemWithTracks) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val startDate = LocalDate.parse(item.tracks.last().date, formatter)
+    val alternativeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    var startDate: LocalDate
+    try {
+        startDate = LocalDate.parse(item.tracks.last().date, formatter)
+    } catch(e: Exception) {
+        startDate = LocalDate.parse(item.tracks.last().date, alternativeFormatter)
+    }
     val endDate = LocalDateTime.now()
     var difference = startDate.until(endDate, ChronoUnit.DAYS)
 
     if (item.item.isDelivered) {
-        val deliveryDate = LocalDate.parse(item.tracks.first().date, formatter)
+        var deliveryDate: LocalDate
+        try {
+            deliveryDate = LocalDate.parse(item.tracks.first().date, formatter)
+        }catch (e: Exception) {
+            deliveryDate = LocalDate.parse(item.tracks.first().date, alternativeFormatter)
+        }
         difference = startDate.until(deliveryDate, ChronoUnit.DAYS)
     }
 

@@ -41,8 +41,8 @@ object Correios : DeliveryService {
         .cookieJar(MemoryCookieJar())
         .build()
 
-    val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-    val foreCastFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+    val foreCastFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     override suspend fun getProduct(code: String): ItemWithTracks {
         val productCode = code.uppercase()

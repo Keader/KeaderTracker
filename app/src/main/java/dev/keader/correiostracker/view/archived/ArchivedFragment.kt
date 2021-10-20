@@ -43,7 +43,10 @@ class ArchivedFragment : Fragment() {
             } else {
                 val list = it.sortedBy { item ->
                     try { archivedViewModel.parseDate(item.item.updatedAt) }
-                    catch (ex: Exception) {archivedViewModel.parseDate(item.item.updatedAt, false) }
+                    catch (ex: Exception) {
+                        try { archivedViewModel.parseDate(item.item.updatedAt, false) }
+                        catch (e: Exception) { archivedViewModel.parseDate(item.item.updatedAt, false, true) }
+                    }
                 }
                 adapter.submitList(list)
                 showRecyclerView()
