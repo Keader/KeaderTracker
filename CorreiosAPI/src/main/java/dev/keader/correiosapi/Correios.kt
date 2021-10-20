@@ -3,6 +3,7 @@ package dev.keader.correiosapi
 import dev.keader.correiosapi.data.CorreiosEvento
 import dev.keader.correiosapi.data.CorreiosItem
 import dev.keader.correiosapi.data.CorreiosUnidade
+import dev.keader.correiosapi.data.ObjetosCorreio
 import dev.keader.sharedapiobjects.DeliveryCompany
 import dev.keader.sharedapiobjects.DeliveryService
 import dev.keader.sharedapiobjects.Item
@@ -13,18 +14,19 @@ import dev.keader.sharedapiobjects.toCapitalize
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-const val BASE_URL = "https://rastreamento.correios.com.br/app/resultado.php?objeto="
+const val BASE_URL = "https://proxyapp.correios.com.br/v1/sro-rastro/"
 const val CODE_VALIDATION_REGEX = "[A-Za-z]{2}[0-9]{9}[A-Za-z]{2}"
 const val UNKNOWN_LOCATION = "LIMBO, DESCONHECIDO"
 const val UNKNOWN_TYPE = "Desconhecido"
 const val STATUS_WAITING = "Aguardando postagem pelo remetente"
 const val WAITING_PAYMENT = "Aguardando pagamento"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
-const val DELIVERY_STATUS = "E"
+const val DELIVERY_CODE = "BDE"
 const val COUNTRY = "País"
 const val ERRO = "erro"
 
@@ -38,6 +40,9 @@ object Correios : DeliveryService {
         .writeTimeout(1, TimeUnit.MINUTES)
         .cookieJar(MemoryCookieJar())
         .build()
+
+    val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+    val foreCastFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
     override suspend fun getProduct(code: String): ItemWithTracks {
         val productCode = code.uppercase()
@@ -57,11 +62,32 @@ object Correios : DeliveryService {
         if (json.contains(ERRO))
             return handleWithNotPosted(productCode)
 
-        val correiosItem = fromJson<CorreiosItem>(json)
+        val objetosCorreio: ObjetosCorreio
+        val correiosItem: CorreiosItem
+        try {
+            objetosCorreio = fromJson(json)
+            correiosItem = objetosCorreio.objetos.first()
+        }catch (e: Exception) {
+            Timber.e(e)
+            throw IOException("Erro ao obter dados dos correios. Tente novamente mais tarde(1).")
+        }
+
+        // New api returns: "mensagem": "SRO-020: Objeto não encontrado na base de dados dos Correios."
+        if (correiosItem.mensagem != null)
+            return handleWithNotPosted(productCode)
 
         val tracks = mutableListOf<Track>()
         correiosItem.eventos.forEach { event ->
-            val dateTime = event.dtHrCriado.split(" ")
+            val localDateTime: LocalDateTime
+            val localDateTimeString: String
+            try {
+                localDateTime = LocalDateTime.parse(event.dtHrCriado)
+                localDateTimeString = localDateTime.format(dateFormatter)
+            } catch (e: Exception) {
+                Timber.e(e)
+                throw IOException("Erro ao obter dados dos correios. Tente novamente mais tarde(2).")
+            }
+            val dateTime = localDateTimeString.split(" ")
             val locale = handleEventAddress(event.unidade)
             val observation = handleObservation(event)
             val link = handleLink(event)
@@ -71,7 +97,7 @@ object Correios : DeliveryService {
                 locale = locale,
                 status = event.descricao,
                 observation = observation,
-                trackedAt = event.dtHrCriado,
+                trackedAt = localDateTimeString,
                 date = dateTime[0],
                 time = dateTime[1],
                 link = link
@@ -79,26 +105,25 @@ object Correios : DeliveryService {
             tracks.add(track)
         }
 
-        val foreCast = if (correiosItem.dtPrevista.isNotBlank()) {
-            val split = correiosItem.dtPrevista.split(" ")
-            if (split.isNotEmpty())
-                split[0]
-            else
-                correiosItem.dtPrevista
-        } else {
-            correiosItem.dtPrevista
+        var foreCast = ""
+        try {
+            if (correiosItem.dtPrevista != null && correiosItem.dtPrevista.isNotEmpty()) {
+                val localDateTime = LocalDateTime.parse(correiosItem.dtPrevista)
+                foreCast = localDateTime.format(foreCastFormatter)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
         }
 
         val updateDate = tracks.first().date
         val updateTime = tracks.first().time
         val postDate = tracks.last().date
         val postTime = tracks.last().time
-         correiosItem.dtPrevista.split(" ")[0]
         val item = Item(
             code = productCode,
             name = "",
             type = correiosItem.tipoPostal.descricao,
-            isDelivered = correiosItem.situacao == DELIVERY_STATUS,
+            isDelivered = correiosItem.eventos.first().descricao.contains("entregue"),
             postedAt = "$postDate $postTime",
             updatedAt = "$updateDate $updateTime",
             isArchived = false,
@@ -127,27 +152,27 @@ object Correios : DeliveryService {
 
     private fun handleObservationAddress(correiosUnit: CorreiosUnidade): String {
         if (correiosUnit.tipo == COUNTRY)
-            return correiosUnit.nome
+            return correiosUnit.nome ?: ""
 
         val address = correiosUnit.endereco
         var locale = ""
-        address.cidade?.let { locale += it.toCapitalize() }
-        address.uf?.let { locale += "/$it" }
-        address.siglaPais?.let { locale += " ($it)" }
+        address?.cidade?.let { locale += it.toCapitalize() }
+        address?.uf?.let { locale += "/$it" }
+        address?.siglaPais?.let { locale += " ($it)" }
         return locale
     }
 
     private fun handleEventAddress(correiosUnit: CorreiosUnidade): String {
-        var locale = correiosUnit.nome
+        var locale = correiosUnit.nome ?: ""
         val address = correiosUnit.endereco
-        address.cidade?.let {
+        address?.cidade?.let {
             locale += if (locale.isNotEmpty())
                 (", $it")
             else
                 it
         }
-        address.uf?.let { locale += " - $it" }
-        address.siglaPais?.let { locale += " ($it)" }
+        address?.uf?.let { locale += " - $it" }
+        address?.siglaPais?.let { locale += " ($it)" }
         return locale
     }
 
@@ -158,7 +183,7 @@ object Correios : DeliveryService {
     override fun codeHasMultipleParams() = false
 
     private fun handleWithNotPosted(code: String): ItemWithTracks {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
         val dateTime = formatter.format(LocalDateTime.now())
         val splitDateTime = dateTime.split(" ")
         val date = splitDateTime[0]
