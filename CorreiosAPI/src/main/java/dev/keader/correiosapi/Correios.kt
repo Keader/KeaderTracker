@@ -25,6 +25,7 @@ const val UNKNOWN_LOCATION = "LIMBO, DESCONHECIDO"
 const val UNKNOWN_TYPE = "Desconhecido"
 const val STATUS_WAITING = "Aguardando postagem pelo remetente"
 const val WAITING_PAYMENT = "Aguardando pagamento"
+const val ACTION_NEEDED = "Faltam informações. Sua ação é necessária"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
 const val DELIVERY_CODE = "BDE"
 const val COUNTRY = "País"
@@ -34,6 +35,7 @@ object Correios : DeliveryService {
     override val deliveryCompany = DeliveryCompany.CORREIOS
     private val codeValidation = Regex(CODE_VALIDATION_REGEX)
     private val client = OkHttpClient.Builder()
+        .retryOnConnectionFailure(false)
         .followRedirects(true)
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
@@ -50,6 +52,7 @@ object Correios : DeliveryService {
 
         val request = Request.Builder()
             .url(BASE_URL + productCode)
+            .header("Connection", "close")
             .build()
 
         val response = client.newCall(request).executeSuspend()
@@ -136,7 +139,7 @@ object Correios : DeliveryService {
     }
 
     private fun handleLink(event: CorreiosEvento): String {
-        if (event.descricao == WAITING_PAYMENT)
+        if (event.descricao == WAITING_PAYMENT || event.descricao == ACTION_NEEDED)
             return MY_IMPORTS_URL
         return ""
     }

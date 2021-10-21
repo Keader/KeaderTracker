@@ -5,6 +5,7 @@ import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -85,6 +86,8 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                         notificationList.add(updatedItem)
                     else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
                         notificationList.add(updatedItem) // Posted
+
+                    delay(10000L)
                 } catch (e: Exception) {
                     Timber.e(e)
                 }
