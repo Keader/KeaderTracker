@@ -74,6 +74,20 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_waiting_payment,
         codeColorRes = R.color.code_waiting_payment
     ),
+    PAYMENT_OVER(
+        statusString = " Prazo de pagamento encerrado",
+        iconRes = R.drawable.ic_block,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    PAYMENT_REVISION(
+        statusString = "Revisão de tributos solicitada pelo cliente",
+        iconRes = R.drawable.ic_block,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
     PAYMENT(
         statusString = "Pagamento confirmado",
         iconRes = R.drawable.ic_pay,
@@ -130,6 +144,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_waiting_payment,
         codeColorRes = R.color.code_waiting_payment
     ),
+    CRASH(
+        statusString = "Objeto e/ou conteúdo avariado por acidente com veículo",
+        iconRes = R.drawable.ic_broken,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
     POSTED_DELAYED(
         statusString = "Objeto postado após o horário limite da unidade",
         iconRes = R.drawable.ic_h_post,
@@ -160,6 +181,13 @@ enum class CorreiosResourceStatus(
     ),
     NOT_DELIVERED_3(
         statusString = "Carteiro não atendido - Entrega não realizada",
+        iconRes = R.drawable.ic_blocked,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    NOT_MOVING(
+        statusString = "Objeto mal encaminhado",
         iconRes = R.drawable.ic_blocked,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
@@ -228,6 +256,20 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_waiting_payment,
         codeColorRes = R.color.code_waiting_payment
     ),
+    EXPIRED(
+        statusString = "Prazo de retirada pelo destinatário encerrado",
+        iconRes = R.drawable.ic_waiting_user,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    WAITING_BOX(
+        statusString = "Objeto disponível para retirada em Caixa Postal",
+        iconRes = R.drawable.ic_waiting_user,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
     NOT_UNIT(
         statusString = "Objeto ainda não chegou à unidade",
         iconRes = R.drawable.ic_moving,
@@ -249,6 +291,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_waiting_payment,
         codeColorRes = R.color.code_waiting_payment
     ),
+    SUSPENSION(
+        statusString = "Solicitação de suspensão de entrega recebida",
+        iconRes = R.drawable.ic_blocked,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
     RETURN_CORREIOS(
         statusString = "Objeto devolvido aos Correios",
         iconRes = R.drawable.ic_return,
@@ -265,6 +314,20 @@ enum class CorreiosResourceStatus(
     ),
     RETURN(
         statusString = "Devolução autorizada pela Receita Federal",
+        iconRes = R.drawable.ic_return,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    RETURN_2(
+        statusString = "Objeto em devolução",
+        iconRes = R.drawable.ic_return,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    REFUSED(
+        statusString = "Destinatário recusou o objeto",
         iconRes = R.drawable.ic_return,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
