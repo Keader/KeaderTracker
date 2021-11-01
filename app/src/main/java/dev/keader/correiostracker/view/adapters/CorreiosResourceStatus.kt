@@ -75,7 +75,7 @@ enum class CorreiosResourceStatus(
         codeColorRes = R.color.code_waiting_payment
     ),
     PAYMENT_OVER(
-        statusString = " Prazo de pagamento encerrado",
+        statusString = "Prazo de pagamento encerrado",
         iconRes = R.drawable.ic_block,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
