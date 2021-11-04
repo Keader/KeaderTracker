@@ -88,7 +88,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                         notificationList.add(updatedItem) // Posted
 
                     // Added a delay, because correios starts complain about it
-                    delay(10000L)
+                    delay(1500L)
                 } catch (e: Exception) {
                     Timber.e(e)
                 }
