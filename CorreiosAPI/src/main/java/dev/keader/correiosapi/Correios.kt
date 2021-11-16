@@ -168,13 +168,8 @@ object Correios : DeliveryService {
     private fun handleEventAddress(correiosUnit: CorreiosUnidade): String {
         var locale = correiosUnit.nome ?: ""
         val address = correiosUnit.endereco
-        address?.cidade?.let {
-            locale += if (locale.isNotEmpty())
-                (", $it")
-            else
-                it
-        }
-        address?.uf?.let { locale += " - $it" }
+        address?.cidade?.let { locale += if (locale.isNotEmpty()) (", $it") else it }
+        address?.uf?.let { locale += if (locale.isBlank()) it else " - $it" }
         address?.siglaPais?.let { locale += " ($it)" }
         return locale
     }

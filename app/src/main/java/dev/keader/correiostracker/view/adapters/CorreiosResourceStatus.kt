@@ -60,6 +60,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_inspection,
         codeColorRes = R.color.code_inspection
     ),
+    REVIEW_TAXES(
+        statusString = "Solicitação de revisão do tributo",
+        iconRes = R.drawable.ic_inspection,
+        bgColorRes = R.color.bg_inspection,
+        titleColorRes = R.color.title_inspection,
+        codeColorRes = R.color.code_inspection
+    ),
     WAITING_PAYMENT(
         statusString = "Aguardando pagamento",
         iconRes = R.drawable.ic_block,
@@ -181,6 +188,13 @@ enum class CorreiosResourceStatus(
     ),
     NOT_DELIVERED_3(
         statusString = "Carteiro não atendido - Entrega não realizada",
+        iconRes = R.drawable.ic_blocked,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    NOT_DELIVERED_4(
+        statusString = "Objeto não entregue - cliente desconhecido no local",
         iconRes = R.drawable.ic_blocked,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
@@ -321,6 +335,13 @@ enum class CorreiosResourceStatus(
     ),
     RETURN_2(
         statusString = "Objeto em devolução",
+        iconRes = R.drawable.ic_return,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    RETURN_3(
+        statusString = "Direcionado para entrega interna a pedido do cliente",
         iconRes = R.drawable.ic_return,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
