@@ -123,6 +123,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_delivery_in_progress,
         codeColorRes = R.color.code_delivery_in_progress
     ),
+    DELIVERY_IN_PROGRESS_2(
+        statusString = "Objeto saiu para entrega ao remetente",
+        iconRes = R.drawable.ic_delivery_in_progress,
+        bgColorRes = R.color.bg_delivery_in_progress,
+        titleColorRes = R.color.title_delivery_in_progress,
+        codeColorRes = R.color.code_delivery_in_progress
+    ),
     WAITING_POST(
         statusString = "Aguardando postagem pelo remetente",
         iconRes = R.drawable.ic_waiting_post,
@@ -195,6 +202,13 @@ enum class CorreiosResourceStatus(
     ),
     NOT_DELIVERED_4(
         statusString = "Objeto não entregue - cliente desconhecido no local",
+        iconRes = R.drawable.ic_blocked,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    NOT_DELIVERED_5(
+        statusString = "A entrega não pode ser efetuada",
         iconRes = R.drawable.ic_blocked,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
@@ -342,6 +356,13 @@ enum class CorreiosResourceStatus(
     ),
     RETURN_3(
         statusString = "Direcionado para entrega interna a pedido do cliente",
+        iconRes = R.drawable.ic_return,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
+    ),
+    RETURN_4(
+        statusString = "Objeto será devolvido por solicitação do contratante/remetente",
         iconRes = R.drawable.ic_return,
         bgColorRes = R.color.bg_waiting_payment,
         titleColorRes = R.color.title_waiting_payment,
