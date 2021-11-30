@@ -48,7 +48,7 @@ class ArchivedFragment : Fragment() {
                         catch (e: Exception) { archivedViewModel.parseDate(item.item.updatedAt, false, true) }
                     }
                 }
-                adapter.submitList(list)
+                //adapter.submitList(list)
                 showRecyclerView()
             }
         })

@@ -3,6 +3,7 @@ package dev.keader.correiostracker.view.home
 import android.content.Context
 import android.os.Build
 import androidx.lifecycle.*
+import androidx.paging.*
 import androidx.work.WorkInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -11,6 +12,7 @@ import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.model.combineWith
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.work.RefreshTracksWorker
+import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,6 +24,16 @@ class HomeViewModel @Inject constructor(
     private val repository: TrackingRepository,
     private val preferences: PreferencesManager,
     @ApplicationContext context: Context) : ViewModel() {
+
+    val tracksPaged: LiveData<PagingData<ItemWithTracks>> = Pager(
+        config = PagingConfig(
+            pageSize = 3,
+            enablePlaceholders = true,
+            maxSize = 200
+        )
+    ) {
+        repository.getAllItemsWithTracks()
+    }.liveData.cachedIn(viewModelScope)
 
     val tracks = repository.getAllItemsWithTracks()
 

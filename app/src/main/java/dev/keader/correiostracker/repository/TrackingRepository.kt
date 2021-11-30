@@ -1,11 +1,11 @@
 package dev.keader.correiostracker.repository
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -43,7 +43,7 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
     }
 
     // Only the items not archived
-    fun getAllItemsWithTracks(): LiveData<List<ItemWithTracks>> {
+    fun getAllItemsWithTracks(): PagingSource<Int, ItemWithTracks> {
         return database.getAllItemsWithTracks()
     }
 
@@ -86,9 +86,6 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
                         notificationList.add(updatedItem)
                     else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
                         notificationList.add(updatedItem) // Posted
-
-                    // Added a delay, because correios starts complain about it
-                    delay(1500L)
                 } catch (e: Exception) {
                     Timber.e(e)
                 }

@@ -100,8 +100,10 @@ dependencies {
     // Room Database
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'com.google.android.play:core-ktx:1.8.1'
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0'
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation("androidx.room:room-paging:2.4.0-beta02")
 
     // Timber Logs
     implementation "com.jakewharton.timber:timber:$timber_version"

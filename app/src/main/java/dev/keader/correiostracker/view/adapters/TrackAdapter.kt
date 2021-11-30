@@ -3,8 +3,8 @@ package dev.keader.correiostracker.view.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
 import dev.keader.sharedapiobjects.DeliveryCompany
@@ -12,7 +12,7 @@ import dev.keader.sharedapiobjects.ItemWithTracks
 import timber.log.Timber
 
 class TrackAdapter(private val itemClickListener: ListItemListener) :
-    ListAdapter<ItemWithTracks, TrackAdapter.TrackViewHolder>(TrackAdapter) {
+    PagingDataAdapter<ItemWithTracks, TrackAdapter.TrackViewHolder>(TrackAdapter) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         return TrackViewHolder.from(parent)
@@ -20,7 +20,9 @@ class TrackAdapter(private val itemClickListener: ListItemListener) :
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(itemClickListener, item)
+        item?.let {
+            holder.bind(itemClickListener, it)
+        }
     }
 
     class TrackViewHolder private constructor(val binding: ListItemTrackBinding):

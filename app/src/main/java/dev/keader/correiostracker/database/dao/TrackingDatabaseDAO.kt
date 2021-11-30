@@ -1,6 +1,7 @@
 package dev.keader.correiostracker.database.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 import dev.keader.sharedapiobjects.Item
 import dev.keader.sharedapiobjects.ItemWithTracks
@@ -55,8 +56,8 @@ interface TrackingDatabaseDAO {
     fun getItemWithTracks(code: String): LiveData<ItemWithTracks>
 
     @Transaction
-    @Query("SELECT * FROM Item WHERE isArchived = 0")
-    fun getAllItemsWithTracks(): LiveData<List<ItemWithTracks>>
+    @Query("SELECT * FROM Item WHERE isArchived = 0 ORDER BY updatedAt DESC")
+    fun getAllItemsWithTracks(): PagingSource<Int, ItemWithTracks>
 
     @Transaction
     @Query("SELECT * FROM Item WHERE isArchived = 0 AND isDelivered = 0")

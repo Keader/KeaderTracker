@@ -6,16 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.model.EventObserver
-import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.TrackHeaderAdapter
 import dev.keader.correiostracker.view.dontkill.DontKillFragment
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -26,7 +29,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -41,21 +44,36 @@ class HomeFragment : Fragment() {
 
         binding.recyclerViewDelivery.adapter = concatAdapter
 
-        homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
-            if (it.isEmpty()) {
-                showEmptyList()
-            } else {
-                val list = it.sortedBy { item ->
-                    try { homeViewModel.parseDate(item.item.updatedAt) }
-                    catch (ex: Exception) {
-                        try { homeViewModel.parseDate(item.item.updatedAt, false) }
-                        catch (e: Exception) { homeViewModel.parseDate(item.item.updatedAt, false, true) }
+        homeViewModel.tracksPaged.observe(viewLifecycleOwner, {
+            lifecycleScope.launch {
+                trackAdapter.submitData(it)
+                trackAdapter.loadStateFlow.collect {
+                    if (it.source.refresh is LoadState.NotLoading &&
+                        it.source.append.endOfPaginationReached &&
+                        trackAdapter.itemCount == 0
+                    ) {
+                        showEmptyList()
+                    } else {
+                        showRecyclerView()
                     }
                 }
-                trackAdapter.submitList(list)
-                showRecyclerView()
             }
         })
+//        homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
+//            if (it.isEmpty()) {
+//                showEmptyList()
+//            } else {
+//                val list = it.sortedBy { item ->
+//                    try { homeViewModel.parseDate(item.item.updatedAt) }
+//                    catch (ex: Exception) {
+//                        try { homeViewModel.parseDate(item.item.updatedAt, false) }
+//                        catch (e: Exception) { homeViewModel.parseDate(item.item.updatedAt, false, true) }
+//                    }
+//                }
+//                trackAdapter.submitList(list)
+//                showRecyclerView()
+//            }
+//        })
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
