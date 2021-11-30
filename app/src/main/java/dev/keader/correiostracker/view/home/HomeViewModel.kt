@@ -12,9 +12,6 @@ import dev.keader.correiostracker.model.combineWith
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,17 +65,6 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             preferences.saveDontKillAlert(false)
         }
-    }
-
-    @Throws(Exception::class)
-    fun parseDate(dateTime: String, withSeconds: Boolean = true, withoutBar: Boolean = false): Long {
-        val formatter = when {
-            withSeconds -> DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
-            withoutBar -> DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-            else -> DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-        }
-        val localDateTime = LocalDateTime.parse(dateTime, formatter)
-        return localDateTime.until(LocalDateTime.now(), ChronoUnit.DAYS)
     }
 
     private companion object {

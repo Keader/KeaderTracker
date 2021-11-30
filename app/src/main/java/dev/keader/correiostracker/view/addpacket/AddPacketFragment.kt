@@ -40,7 +40,7 @@ class AddPacketFragment : Fragment() {
         binding = FragmentAddPacketBinding.inflate(inflater, container, false)
         uiViewModel.setBottomNavVisibility(View.GONE)
         binding.addPacketViewModel = addPacketViewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 

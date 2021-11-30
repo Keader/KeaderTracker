@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -45,14 +45,7 @@ class HomeFragment : Fragment() {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
-                val list = it.sortedBy { item ->
-                    try { homeViewModel.parseDate(item.item.updatedAt) }
-                    catch (ex: Exception) {
-                        try { homeViewModel.parseDate(item.item.updatedAt, false) }
-                        catch (e: Exception) { homeViewModel.parseDate(item.item.updatedAt, false, true) }
-                    }
-                }
-                trackAdapter.submitList(list)
+                trackAdapter.submitList(it)
                 showRecyclerView()
             }
         })

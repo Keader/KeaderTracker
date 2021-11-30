@@ -53,6 +53,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_inspection,
         codeColorRes = R.color.code_inspection
     ),
+    INSPECTION_ANVISA(
+        statusString = "Objeto encaminhado para fiscalização - ANVISA",
+        iconRes = R.drawable.ic_inspection,
+        bgColorRes = R.color.bg_inspection,
+        titleColorRes = R.color.title_inspection,
+        codeColorRes = R.color.code_inspection
+    ),
     INSPECTION_EXP(
         statusString = "Objeto encaminhado para fiscalização aduaneira de exportação",
         iconRes = R.drawable.ic_inspection,
@@ -137,6 +144,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_waiting_post,
         codeColorRes = R.color.code_waiting_post
     ),
+    WAITING_CORREIOS(
+        statusString = "Carteiro saiu para coleta do objeto",
+        iconRes = R.drawable.ic_waiting_post,
+        bgColorRes = R.color.bg_waiting_post,
+        titleColorRes = R.color.title_waiting_post,
+        codeColorRes = R.color.code_waiting_post
+    ),
     WAITING_POST_OLD(
         statusString = "Aguardando postagem pelo remetente.",
         iconRes = R.drawable.ic_waiting_post,
@@ -178,6 +192,13 @@ enum class CorreiosResourceStatus(
         bgColorRes = R.color.bg_delivery_in_progress,
         titleColorRes = R.color.title_delivery_in_progress,
         codeColorRes = R.color.code_delivery_in_progress
+    ),
+    NOT_PAID(
+        statusString = "Pagamento não confirmado pela operadora",
+        iconRes = R.drawable.ic_blocked,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
     ),
     NOT_DELIVERED(
         statusString = "Objeto não entregue - carteiro não atendido",

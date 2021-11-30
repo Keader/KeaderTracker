@@ -4,13 +4,7 @@ import dev.keader.correiosapi.data.CorreiosEvento
 import dev.keader.correiosapi.data.CorreiosItem
 import dev.keader.correiosapi.data.CorreiosUnidade
 import dev.keader.correiosapi.data.ObjetosCorreio
-import dev.keader.sharedapiobjects.DeliveryCompany
-import dev.keader.sharedapiobjects.DeliveryService
-import dev.keader.sharedapiobjects.Item
-import dev.keader.sharedapiobjects.ItemWithTracks
-import dev.keader.sharedapiobjects.Track
-import dev.keader.sharedapiobjects.fromJson
-import dev.keader.sharedapiobjects.toCapitalize
+import dev.keader.sharedapiobjects.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
@@ -35,7 +29,7 @@ object Correios : DeliveryService {
     override val deliveryCompany = DeliveryCompany.CORREIOS
     private val codeValidation = Regex(CODE_VALIDATION_REGEX)
     private val client = OkHttpClient.Builder()
-        .retryOnConnectionFailure(false)
+        .retryOnConnectionFailure(true)
         .followRedirects(true)
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
@@ -71,7 +65,7 @@ object Correios : DeliveryService {
             objetosCorreio = fromJson(json)
             correiosItem = objetosCorreio.objetos.first()
         }catch (e: Exception) {
-            Timber.e(e)
+            Timber.e(e, json)
             throw IOException("Erro ao obter dados dos correios. Tente novamente mais tarde(1).")
         }
 

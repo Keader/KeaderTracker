@@ -25,7 +25,7 @@ class ArchivedFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentArchivedBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -41,14 +41,7 @@ class ArchivedFragment : Fragment() {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
-                val list = it.sortedBy { item ->
-                    try { archivedViewModel.parseDate(item.item.updatedAt) }
-                    catch (ex: Exception) {
-                        try { archivedViewModel.parseDate(item.item.updatedAt, false) }
-                        catch (e: Exception) { archivedViewModel.parseDate(item.item.updatedAt, false, true) }
-                    }
-                }
-                adapter.submitList(list)
+                adapter.submitList(it)
                 showRecyclerView()
             }
         })

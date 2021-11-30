@@ -23,11 +23,7 @@ import dev.keader.correiostracker.databinding.FragmentTrackDetailBinding
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.view.adapters.TrackHistoryAdapter
 import dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener
-import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_BACK
-import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_COPY
-import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_DELETE
-import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_EDIT
-import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.BUTTON_SHARE
+import dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes.*
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import dev.keader.sharedapiobjects.ItemWithTracks
 import javax.inject.Inject
@@ -52,7 +48,7 @@ class TrackDetailFragment : Fragment() {
         uiViewModel.setBottomNavVisibility(View.GONE)
         val args by navArgs<TrackDetailFragmentArgs>()
         trackDetailViewModel.setTrackCode(args.trackCode)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
