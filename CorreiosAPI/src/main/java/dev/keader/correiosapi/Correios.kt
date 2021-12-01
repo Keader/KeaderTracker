@@ -4,6 +4,8 @@ import dev.keader.correiosapi.data.CorreiosEvento
 import dev.keader.correiosapi.data.CorreiosItem
 import dev.keader.correiosapi.data.CorreiosUnidade
 import dev.keader.correiosapi.data.ObjetosCorreio
+import dev.keader.correiosapi.util.MemoryCookieJar
+import dev.keader.correiosapi.util.executeSuspend
 import dev.keader.sharedapiobjects.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -21,9 +23,7 @@ const val STATUS_WAITING = "Aguardando postagem pelo remetente"
 const val WAITING_PAYMENT = "Aguardando pagamento"
 const val ACTION_NEEDED = "Faltam informações. Sua ação é necessária"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
-const val DELIVERY_CODE = "BDE"
 const val COUNTRY = "País"
-const val ERRO = "erro"
 
 object Correios : DeliveryService {
     override val deliveryCompany = DeliveryCompany.CORREIOS
@@ -38,7 +38,7 @@ object Correios : DeliveryService {
         .build()
 
     val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-    val foreCastFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    private val foreCastFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     override suspend fun getProduct(code: String): ItemWithTracks {
         val productCode = code.uppercase()
@@ -50,22 +50,13 @@ object Correios : DeliveryService {
             .build()
 
         val response = client.newCall(request).executeSuspend()
-        if (!response.isSuccessful) {
-            response.close()
-            throw IOException("Servidor dos correios retornou erro: ${response.code} para o código: $code. Tente novamente mais tarde.")
-        }
-
-        val json = response.body!!.string()
-        if (json.contains(ERRO))
-            return handleWithNotPosted(productCode)
-
         val objetosCorreio: ObjetosCorreio
         val correiosItem: CorreiosItem
         try {
-            objetosCorreio = fromJson(json)
+            objetosCorreio = fromJson(response.charStream())
             correiosItem = objetosCorreio.objetos.first()
         }catch (e: Exception) {
-            Timber.e(e, json)
+            Timber.e(e)
             throw IOException("Erro ao obter dados dos correios. Tente novamente mais tarde(1).")
         }
 

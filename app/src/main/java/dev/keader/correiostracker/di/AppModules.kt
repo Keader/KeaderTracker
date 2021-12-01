@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.keader.correiosapi.MemoryCookieJar
+import dev.keader.correiosapi.util.MemoryCookieJar
 import dev.keader.correiostracker.network.GithubService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
