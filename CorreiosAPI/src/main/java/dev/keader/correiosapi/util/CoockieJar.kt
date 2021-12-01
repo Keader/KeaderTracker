@@ -1,4 +1,4 @@
-package dev.keader.correiosapi
+package dev.keader.correiosapi.util
 
 import okhttp3.Cookie
 import okhttp3.CookieJar

@@ -4,7 +4,15 @@ import dev.keader.correiosapi.data.CorreiosEvento
 import dev.keader.correiosapi.data.CorreiosItem
 import dev.keader.correiosapi.data.CorreiosUnidade
 import dev.keader.correiosapi.data.ObjetosCorreio
-import dev.keader.sharedapiobjects.*
+import dev.keader.correiosapi.util.MemoryCookieJar
+import dev.keader.correiosapi.util.executeSuspend
+import dev.keader.sharedapiobjects.DeliveryCompany
+import dev.keader.sharedapiobjects.DeliveryService
+import dev.keader.sharedapiobjects.Item
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.Track
+import dev.keader.sharedapiobjects.fromJson
+import dev.keader.sharedapiobjects.toCapitalize
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
@@ -50,12 +58,7 @@ object Correios : DeliveryService {
             .build()
 
         val response = client.newCall(request).executeSuspend()
-        if (!response.isSuccessful) {
-            response.close()
-            throw IOException("Servidor dos correios retornou erro: ${response.code} para o código: $code. Tente novamente mais tarde.")
-        }
-
-        val json = response.body!!.string()
+        val json = response.string()
         if (json.contains(ERRO))
             return handleWithNotPosted(productCode)
 
