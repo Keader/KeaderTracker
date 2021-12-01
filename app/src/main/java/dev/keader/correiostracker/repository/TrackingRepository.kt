@@ -4,41 +4,29 @@ import androidx.lifecycle.LiveData
 import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.sharedapiobjects.ItemWithTracks
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
 class TrackingRepository @Inject constructor(private val database: TrackingDatabaseDAO) {
 
     suspend fun archiveTrack(trackCode: String) {
-        withContext(Dispatchers.IO) {
             database.archiveTrack(trackCode)
-        }
     }
 
     suspend fun unArchiveTrack(trackCode: String) {
-        withContext(Dispatchers.IO) {
             database.unArchiveTrack(trackCode)
-        }
     }
 
     suspend fun archiveAllDeliveredItems() {
-        withContext(Dispatchers.IO) {
             database.archiveAllDeliveredItems()
-        }
     }
 
     suspend fun deleteTrack(itemWithTracks: ItemWithTracks) {
-        withContext(Dispatchers.IO) {
             database.deleteItemWithTracks(itemWithTracks)
-        }
     }
 
     suspend fun updateItemName(code: String, newName: String) {
-        withContext(Dispatchers.IO) {
             database.updateItemName(code, newName)
-        }
     }
 
     // Only the items not archived
@@ -51,18 +39,16 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
     }
 
     suspend fun getTrackInfoFromAPI(code: String, observation: String): String {
-        return withContext(Dispatchers.IO) {
             try {
                 val itemWithTracks = Correios.getProduct(code)
                 itemWithTracks.item.name = observation
                 database.insertItemWithTracks(itemWithTracks)
                 Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
-                return@withContext ""
+                return ""
             } catch (e: Exception) {
                 Timber.e(e)
-                return@withContext e.message ?: ""
+                return e.message ?: ""
             }
-        }
     }
 
     fun getItemWithTracks(itemCode: String): LiveData<ItemWithTracks> {
@@ -70,11 +56,10 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
     }
 
     suspend fun refreshTracks(): UpdateItem {
-        return withContext(Dispatchers.IO) {
             val notificationList = mutableListOf<ItemWithTracks>()
             val items = database.getAllItemsToRefresh()
             if (items.isEmpty())
-                return@withContext UpdateItem(false, notificationList)
+                return UpdateItem(false, notificationList)
 
             // Fetch Info from API
             items.forEach { oldItem ->
@@ -92,9 +77,8 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
 
             // Update items in Database. It run in a single transaction
             database.insertItemWithTracks(notificationList)
-            return@withContext UpdateItem(true, notificationList)
+            return UpdateItem(true, notificationList)
         }
-    }
 }
 
 data class UpdateItem(
