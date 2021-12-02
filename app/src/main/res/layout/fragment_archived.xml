@@ -18,7 +18,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:paddingEndSystemWindowInsets="@{true}"
+            app:paddingStartSystemWindowInsets="@{true}"
+            app:paddingTopSystemWindowInsets="@{true}" />
 
         <include
             android:id="@+id/recyclerView_empty_delivered"

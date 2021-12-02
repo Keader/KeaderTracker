@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="settingsViewModel"
             type="dev.keader.correiostracker.view.settings.SettingsViewModel" />
@@ -30,7 +31,10 @@
                 app:lottie_autoPlay="true"
                 app:lottie_enableMergePathsForKitKatAndAbove="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/settings" />
+                app:lottie_rawRes="@raw/settings"
+                app:paddingEndSystemWindowInsets="@{true}"
+                app:paddingStartSystemWindowInsets="@{true}"
+                app:paddingTopSystemWindowInsets="@{true}" />
 
             <TextView
                 android:id="@+id/label_settings"

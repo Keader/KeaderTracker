@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="trackDetailViewModel"
             type="dev.keader.correiostracker.view.trackdetail.TrackDetailViewModel" />
@@ -24,6 +25,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:paddingTopSystemWindowInsets="@{true}"
+            app:paddingEndSystemWindowInsets="@{true}"
+            app:paddingStartSystemWindowInsets="@{true}"
             tools:listitem="@layout/list_item_track_history" />
 
 
@@ -31,11 +35,14 @@
             android:id="@+id/floatButton_archive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
+            android:importantForAccessibility="no"
+            android:onClick="@{(view) -> trackDetailViewModel.onFloatButtonClicked(view)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/recyclerView_history"
-            android:onClick="@{(view) -> trackDetailViewModel.onFloatButtonClicked(view)}"
+            app:marginBottomSystemWindowInsets="@{true}"
+            app:marginEndSystemWindowInsets="@{true}"
             app:srcCompat="@drawable/ic_delivered_outline" />
 
 

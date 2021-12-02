@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.core.view.WindowCompat
 import androidx.core.view.doOnLayout
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -20,6 +21,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.model.PreferencesManager
+import dev.keader.correiostracker.model.windowInsetsControllerCompat
 import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import javax.inject.Inject
@@ -71,8 +73,11 @@ class MainActivity: AppCompatActivity() {
         })
 
         binding.root.doOnLayout {
+            it.windowInsetsControllerCompat?.isAppearanceLightStatusBars = true
             NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         }
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
     private fun checkAppUpdate() {

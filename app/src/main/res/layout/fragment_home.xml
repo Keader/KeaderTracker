@@ -35,6 +35,9 @@
                 android:clipToPadding="false"
                 android:paddingBottom="150dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:paddingEndSystemWindowInsets="@{true}"
+                app:paddingStartSystemWindowInsets="@{true}"
+                app:paddingTopSystemWindowInsets="@{true}"
                 tools:itemCount="8"
                 tools:listitem="@layout/list_item_track" />
 
