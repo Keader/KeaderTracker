@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,9 +28,8 @@ class AuthorsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val authorsAdapter = AuthorsAdapter()
-        val concatAdapter = ConcatAdapter(authorsAdapter)
 
-        binding.recyclerViewAuthors.adapter = concatAdapter
+        binding.recyclerViewAuthors.adapter = authorsAdapter
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewAuthors.layoutManager = gridLayoutManager

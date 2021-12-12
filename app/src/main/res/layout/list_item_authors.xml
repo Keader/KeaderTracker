@@ -11,15 +11,14 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:paddingBottom="4dp">
 
         <ImageView
             android:id="@+id/icon_list"
             android:layout_width="0dp"
             android:layout_height="80dp"
-            android:layout_marginTop="8dp"
             android:contentDescription="@string/box_icon_description"
             app:layout_constraintDimensionRatio="V,12:16"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,14 +54,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:textColor="@color/primaryLightColor"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintBottom_toTopOf="@+id/label_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/label_name"
@@ -85,8 +82,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/secondaryColor"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -94,8 +94,8 @@
             app:layout_constraintEnd_toEndOf="@+id/label_contribution"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/icon_site"
-            android:ellipsize="end"
-            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@+id/label_contribution"
+            app:layout_constraintVertical_bias="0.0"
             app:setLink="@{author.link}"
             tools:text="Github" />
 
