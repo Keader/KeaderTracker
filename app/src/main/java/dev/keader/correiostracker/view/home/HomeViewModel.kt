@@ -50,6 +50,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun archiveItem(trackCode: String) {
+        viewModelScope.launch {
+            repository.archiveTrack(trackCode)
+        }
+    }
+
     fun shouldShowDontKillAlert(): Boolean {
         if (!preferences.shouldShowDontKillAlert())
             return false

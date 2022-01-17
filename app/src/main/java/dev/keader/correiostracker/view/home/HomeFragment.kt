@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.ItemTouchHelper
 import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
 import dev.keader.correiostracker.view.adapters.ListItemListener
+import dev.keader.correiostracker.view.adapters.SwipeDeleteHandler
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.TrackHeaderAdapter
 import dev.keader.correiostracker.view.dontkill.DontKillFragment
@@ -66,6 +68,20 @@ class HomeFragment : Fragment() {
             homeViewModel.saveDontKillAlert()
             DontKillFragment().show(parentFragmentManager, "DontKill")
         }
+
+        val helper = ItemTouchHelper(
+            SwipeDeleteHandler(
+                requireContext(),
+                {
+                    val trackItem = (it as? TrackAdapter.TrackViewHolder)?.binding?.trackItem
+                    trackItem?.let {
+                        homeViewModel.archiveItem(trackItem.item.code)
+                    }
+                },
+                ignored = listOf(TrackHeaderAdapter.TrackHeaderViewHolder::class.java)
+            )
+        )
+        helper.attachToRecyclerView(binding.recyclerViewDelivery)
     }
 
     private fun showEmptyList() {
