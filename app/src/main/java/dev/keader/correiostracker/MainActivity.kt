@@ -1,8 +1,6 @@
 package dev.keader.correiostracker
 
-import android.app.ActionBar
 import android.os.Bundle
-import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -99,10 +97,7 @@ class MainActivity: AppCompatActivity() {
 
     fun getSnackInstance(string: String, duration: Int): Snackbar {
         val snackBar = Snackbar.make(binding.root, string, duration)
-        val layoutParams = ActionBar.LayoutParams(snackBar.view.layoutParams)
-        layoutParams.gravity = Gravity.TOP
-        snackBar.view.setPadding(0, 10, 0, 0)
-        snackBar.view.layoutParams = layoutParams
+        snackBar.anchorView = binding.floatingActionButton
         snackBar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_FADE
         return snackBar
     }
