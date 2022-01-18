@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -36,22 +37,16 @@ class SwipeDeleteHandler(
         if (viewHolder.bindingAdapterPosition < 0) return
         val view = viewHolder.itemView // the view being swiped
 
-        background.apply {
-            setBounds(view.right + dX.toInt(), view.top, view.right, view.bottom)
-            draw(c)
-        }
+        val context = view.context
+        val inflated = LayoutInflater.from(context).inflate(R.layout.item_track_swipe_bg, null)
+        inflated.invalidate()
+        inflated.measure(view.width, view.height)
+        inflated.layout(view.right + dX.toInt(), view.top, view.right, view.bottom)
+        c.save()
+        c.translate(inflated.right + dX, (viewHolder.absoluteAdapterPosition * view.height).toFloat())
+        inflated.draw(c)
+        c.restore()
 
-        // draw the symbol
-        xMark?.apply {
-            val xt = view.top + (view.bottom - view.top - xMark.intrinsicHeight) / 2
-            setBounds(
-                view.right - xMarkMargin - xMark.intrinsicWidth,
-                xt,
-                view.right - xMarkMargin,
-                xt + xMark.intrinsicHeight
-            )
-            draw(c)
-        }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 }
