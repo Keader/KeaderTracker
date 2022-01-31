@@ -24,6 +24,8 @@ const val WAITING_PAYMENT = "Aguardando pagamento"
 const val ACTION_NEEDED = "Faltam informações. Sua ação é necessária"
 const val MY_IMPORTS_URL = "https://cas.correios.com.br/login?service=https%3A%2F%2Fapps.correios.com.br%2Fportalimportador%2Fpages%2FpesquisarRemessaImportador%2FpesquisarRemessaImportador.jsf"
 const val COUNTRY = "País"
+const val DELIVERED = "entregue"
+const val NOT = "não"
 
 object Correios : DeliveryService {
     override val deliveryCompany = DeliveryCompany.CORREIOS
@@ -111,7 +113,7 @@ object Correios : DeliveryService {
             code = productCode,
             name = "",
             type = correiosItem.tipoPostal.descricao,
-            isDelivered = correiosItem.eventos.first().descricao.contains("entregue"),
+            isDelivered = isDelivered(correiosItem.eventos.first().descricao),
             postedAt = "$postDate $postTime",
             updatedAt = "$updateDate $updateTime",
             isArchived = false,
@@ -121,6 +123,10 @@ object Correios : DeliveryService {
         )
 
         return ItemWithTracks(item, tracks)
+    }
+
+    private fun isDelivered(description: String) : Boolean {
+        return description.contains(DELIVERED) && !description.contains(NOT)
     }
 
     private fun handleLink(event: CorreiosEvento): String {
