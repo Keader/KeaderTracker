@@ -30,6 +30,15 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        CardFlipAnimator.animate(
+            requireContext(),
+            binding.cardFront,
+            binding.cardBack
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -69,12 +78,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun showEmptyList() {
-        binding.recyclerViewDelivery.visibility = View.GONE
-        binding.recylerViewEmpty.root.visibility = View.VISIBLE
+//        binding.recyclerViewDelivery.visibility = View.GONE
+//        binding.recylerViewEmpty.root.visibility = View.VISIBLE
     }
 
     private fun showRecyclerView() {
-        binding.recyclerViewDelivery.visibility = View.VISIBLE
-        binding.recylerViewEmpty.root.visibility = View.GONE
+//        binding.recyclerViewDelivery.visibility = View.VISIBLE
+//        binding.recylerViewEmpty.root.visibility = View.GONE
     }
 }
