@@ -36,11 +36,11 @@ class AuthorsFragment : Fragment() {
         gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewAuthors.layoutManager = gridLayoutManager
 
-        authorsViewModel.authors.distinctUntilChanged().observe(viewLifecycleOwner, {
+        authorsViewModel.authors.distinctUntilChanged().observe(viewLifecycleOwner) {
             handleWithListVisibility(it.isEmpty())
             if (it.isNotEmpty())
                 authorsAdapter.submitList(it)
-        })
+        }
     }
 
     private fun handleWithListVisibility(empty: Boolean) {

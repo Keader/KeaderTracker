@@ -51,24 +51,24 @@ class MainActivity: AppCompatActivity() {
             navController.navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
         }
 
-        uiViewModel.bottomNavVisibility.observe(this, { visibility ->
+        uiViewModel.bottomNavVisibility.observe(this) { visibility ->
             binding.bottomNavigation.visibility = visibility
             binding.floatingActionButton.visibility = visibility
-        })
+        }
 
-        uiViewModel.frequency.observe(this, {
+        uiViewModel.frequency.observe(this) {
             RefreshTracksWorker.stopWorker(this)
             RefreshTracksWorker.startWorker(this, preferences)
-        })
+        }
 
-        uiViewModel.darkTheme.observe(this, { darkTheme ->
+        uiViewModel.darkTheme.observe(this) { darkTheme ->
             AppCompatDelegate.setDefaultNightMode(
                 if (darkTheme)
                     MODE_NIGHT_YES
                 else
                     MODE_NIGHT_NO
             )
-        })
+        }
 
         binding.root.doOnLayout {
             it.windowInsetsControllerCompat?.isAppearanceLightStatusBars = true

@@ -37,14 +37,14 @@ class ArchivedFragment : Fragment() {
         })
 
         binding.recyclerViewDelivered.adapter = adapter
-        archivedViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
+        archivedViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
                 adapter.submitList(it)
                 showRecyclerView()
             }
-        })
+        }
 
         archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             navController.navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))

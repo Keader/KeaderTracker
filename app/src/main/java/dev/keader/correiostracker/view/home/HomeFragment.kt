@@ -41,14 +41,14 @@ class HomeFragment : Fragment() {
 
         binding.recyclerViewDelivery.adapter = concatAdapter
 
-        homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner, {
+        homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 showEmptyList()
             } else {
                 trackAdapter.submitList(it)
                 showRecyclerView()
             }
-        })
+        }
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
@@ -58,9 +58,9 @@ class HomeFragment : Fragment() {
             homeViewModel.onRefreshCalled()
         }
 
-        homeViewModel.eventRefreshRunning.observe(viewLifecycleOwner, { running ->
+        homeViewModel.eventRefreshRunning.observe(viewLifecycleOwner) { running ->
             binding.swipeRefresh.isRefreshing = running
-        })
+        }
 
         if (homeViewModel.shouldShowDontKillAlert()) {
             homeViewModel.saveDontKillAlert()

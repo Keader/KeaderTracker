@@ -75,22 +75,33 @@ class AddPacketFragment : Fragment() {
         })
 
         // Return of API
-        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner, { message ->
+        addPacketViewModel.eventAddTrack.observe(viewLifecycleOwner) { message ->
             binding.progressBar.visibility = View.GONE
             if (message.isEmpty()) {
                 getSnack(getString(R.string.track_add_success))
-                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.sucessColor))
+                    ?.setBackgroundTint(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.sucessColor
+                        )
+                    )
                     ?.show()
 
                 RefreshTracksWorker.startWorker(requireNotNull(activity).application, preferences)
                 navController.popBackStack()
             } else {
-                val warning = if (message.isNotEmpty()) message else getString(R.string.track_add_fail)
+                val warning =
+                    if (message.isNotEmpty()) message else getString(R.string.track_add_fail)
                 getSnack(warning)
-                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.errorColor))
+                    ?.setBackgroundTint(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.errorColor
+                        )
+                    )
                     ?.show()
             }
-        })
+        }
 
         addPacketViewModel.eventQR.observe(viewLifecycleOwner, EventObserver {
             val directions = AddPacketFragmentDirections.actionAddPacketFragmentToCaptureFragment()
