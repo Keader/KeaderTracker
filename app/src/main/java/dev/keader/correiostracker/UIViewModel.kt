@@ -29,8 +29,15 @@ class UIViewModel @Inject constructor(
     private val _onQrCodeDetected = MutableLiveData<Event<Unit>>()
     val onQrCodeDetected: LiveData<Event<Unit>> = _onQrCodeDetected
 
+    private val _fabExtendFormat = MutableLiveData(true)
+    val fabExtendFormat: LiveData<Boolean> = _fabExtendFormat
+
     fun setBottomNavVisibility(visibility: Int) {
         _bottomNavVisibility.value = visibility
+    }
+
+    fun setFabExtend(extend: Boolean) {
+        _fabExtendFormat.value = extend
     }
 
     override fun onCodeDetected(code: String, source: Int) {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="close"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <path
+                android:name="top"
+                android:fillColor="#FFFFFF"
+                android:pathData="M 16.457 3.666 L 18.589 5.645 L 7.703 17.39 L 5.571 15.414 Z"
+                android:strokeWidth="0.1" />
+            <path
+                android:name="middle"
+                android:fillColor="#FFFFFF"
+                android:pathData="M 11.947 12 L 11.947 9.039 L 11.947 9.039 L 11.947 12 Z"
+                android:strokeWidth="0.1" />
+            <path
+                android:name="bottom"
+                android:fillColor="#FFFFFF"
+                android:pathData="M 5.548 5.672 L 7.674 3.687 L 18.612 15.384 L 16.489 17.369 Z"
+                android:strokeWidth="0.1" />
+        </vector>
+    </aapt:attr>
+    <target android:name="top">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="700"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 16.457 3.666 L 18.589 5.645 L 7.703 17.39 L 5.571 15.414 Z"
+                android:valueTo="M 4.07 6.979 L 4.07 4.071 L 20.087 4.071 L 20.087 6.979 Z"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+    <target android:name="middle">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="700"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 11.947 12 L 11.947 9.039 L 11.947 9.039 L 11.947 12 Z"
+                android:valueTo="M 4.018 12 L 4.018 9.039 L 19.983 9.039 L 19.983 12 Z"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+    <target android:name="bottom">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="700"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="pathData"
+                android:valueFrom="M 5.548 5.672 L 7.674 3.687 L 18.612 15.384 L 16.489 17.369 Z"
+                android:valueTo="M 3.996 16.958 L 3.988 14.05 L 20.001 13.991 L 20.012 16.897 Z"
+                android:valueType="pathType" />
+        </aapt:attr>
+    </target>
+</animated-vector>

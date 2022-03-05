@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_graph" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floating_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,10 @@
             android:contentDescription="@string/btn_add_description"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add" />
+            app:icon="@drawable/avd_drawer_open"
+            android:text="Menu"
+            android:backgroundTint="#FF000000"
+            />
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

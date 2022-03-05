@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import dev.keader.correiostracker.UIViewModel
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
@@ -20,6 +23,7 @@ import dev.keader.correiostracker.view.dontkill.DontKillFragment
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
+    private val uiViewModel: UIViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
     private val navController
         get() = findNavController()
@@ -49,6 +53,15 @@ class HomeFragment : Fragment() {
                 showRecyclerView()
             }
         }
+
+        binding.recyclerViewDelivery.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0)
+                    uiViewModel.setFabExtend(false)
+                else if (dy < 0)
+                    uiViewModel.setFabExtend(true)
+            }
+        })
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
             navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))

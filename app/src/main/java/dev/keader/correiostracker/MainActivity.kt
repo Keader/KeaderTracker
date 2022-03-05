@@ -1,5 +1,6 @@
 package dev.keader.correiostracker
 
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.ActivityMainBinding
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.model.windowInsetsControllerCompat
-import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import javax.inject.Inject
 
@@ -48,7 +48,20 @@ class MainActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.floatingActionButton.setOnClickListener {
-            navController.navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
+            //navController.navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
+            binding.floatingActionButton.apply {
+                if (isExtended) {
+                    setIconResource(R.drawable.avd_drawer_open)
+                    val closeAnim = icon as AnimatedVectorDrawable
+                    closeAnim.start()
+                    shrink()
+                } else {
+                    setIconResource(R.drawable.avd_drawer_close)
+                    val openAnim = icon as AnimatedVectorDrawable
+                    openAnim.start()
+                    extend()
+                }
+            }
         }
 
         uiViewModel.bottomNavVisibility.observe(this) { visibility ->
@@ -59,6 +72,11 @@ class MainActivity: AppCompatActivity() {
         uiViewModel.frequency.observe(this) {
             RefreshTracksWorker.stopWorker(this)
             RefreshTracksWorker.startWorker(this, preferences)
+        }
+
+        uiViewModel.fabExtendFormat.observe(this) { extend ->
+            if (extend) binding.floatingActionButton.extend()
+            else binding.floatingActionButton.shrink()
         }
 
         uiViewModel.darkTheme.observe(this) { darkTheme ->
