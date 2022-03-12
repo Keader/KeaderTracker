@@ -1,13 +1,20 @@
 package dev.keader.correiostracker.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
+import dev.keader.correiostracker.work.RefreshTracksWorker
 import dev.keader.sharedapiobjects.ItemWithTracks
 import timber.log.Timber
 import javax.inject.Inject
 
-class TrackingRepository @Inject constructor(private val database: TrackingDatabaseDAO) {
+class TrackingRepository @Inject constructor(
+    private val database: TrackingDatabaseDAO,
+    private val workManager: WorkManager
+) {
 
     suspend fun archiveTrack(trackCode: String) {
         database.archiveTrack(trackCode)
@@ -78,6 +85,12 @@ class TrackingRepository @Inject constructor(private val database: TrackingDatab
         // Update items in Database. It run in a single transaction
         database.insertItemWithTracks(notificationList)
         return UpdateItem(true, notificationList)
+    }
+
+    fun getRefreshWorkInfo(): LiveData<Boolean> {
+        return workManager.getWorkInfosForUniqueWorkLiveData(RefreshTracksWorker.WORK_NAME).map {
+            it.firstOrNull()?.state == WorkInfo.State.RUNNING
+        }
     }
 }
 
