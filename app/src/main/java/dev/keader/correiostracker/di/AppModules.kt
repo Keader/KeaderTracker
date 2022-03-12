@@ -1,10 +1,13 @@
 package dev.keader.correiostracker.di
 
+import android.content.Context
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.keader.correiosapi.util.MemoryCookieJar
 import dev.keader.correiostracker.network.GithubService
@@ -49,5 +52,11 @@ object AppModules {
             .writeTimeout(1, TimeUnit.MINUTES)
             .cookieJar(MemoryCookieJar())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+        return WorkManager.getInstance(context)
     }
 }
