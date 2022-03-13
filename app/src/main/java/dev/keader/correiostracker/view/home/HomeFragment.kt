@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.keader.correiostracker.databinding.FragmentHomeBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
-import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 import dev.keader.correiostracker.view.adapters.TrackHeaderAdapter
 import dev.keader.correiostracker.view.dontkill.DontKillFragment
@@ -21,6 +21,7 @@ import dev.keader.correiostracker.view.dontkill.DontKillFragment
 class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var trackAdapter: TrackAdapter
     private val navController
         get() = findNavController()
 
@@ -32,22 +33,22 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        trackAdapter = TrackAdapter(homeViewModel)
         val headerAdapter = TrackHeaderAdapter()
-        val trackAdapter = TrackAdapter(ListItemListener { code ->
-            homeViewModel.onItemTrackClicked(code)
-        })
         val concatAdapter = ConcatAdapter(headerAdapter, trackAdapter)
-
         binding.recyclerViewDelivery.adapter = concatAdapter
+        homeViewModel.checkDontKillAlert()
+        setupObservers()
+    }
 
+    private fun setupObservers() {
         homeViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                showEmptyList()
-            } else {
-                trackAdapter.submitList(it)
-                showRecyclerView()
-            }
+            trackAdapter.submitList(it)
+            binding.recyclerViewDelivery.isVisible = it.isNotEmpty()
+        }
+
+        homeViewModel.showEmptyTrack.distinctUntilChanged().observe(viewLifecycleOwner) {
+            binding.recylerViewEmpty.root.isVisible = it
         }
 
         homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
@@ -62,19 +63,8 @@ class HomeFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = running
         }
 
-        if (homeViewModel.shouldShowDontKillAlert()) {
-            homeViewModel.saveDontKillAlert()
+        homeViewModel.eventShowDontKillAlert.observe(viewLifecycleOwner, EventObserver {
             DontKillFragment().show(parentFragmentManager, "DontKill")
-        }
-    }
-
-    private fun showEmptyList() {
-        binding.recyclerViewDelivery.visibility = View.GONE
-        binding.recylerViewEmpty.root.visibility = View.VISIBLE
-    }
-
-    private fun showRecyclerView() {
-        binding.recyclerViewDelivery.visibility = View.VISIBLE
-        binding.recylerViewEmpty.root.visibility = View.GONE
+        })
     }
 }

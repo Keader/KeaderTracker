@@ -9,7 +9,7 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.ListItemTrackHeaderBinding
 
 
-class TrackHeaderAdapter() : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderViewHolder>() {
+class TrackHeaderAdapter : RecyclerView.Adapter<TrackHeaderAdapter.TrackHeaderViewHolder>() {
 
     companion object {
         private val animList = listOf(

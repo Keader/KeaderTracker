@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,13 +14,13 @@ import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentArchivedBinding
 import dev.keader.correiostracker.model.EventObserver
 import dev.keader.correiostracker.model.distinctUntilChanged
-import dev.keader.correiostracker.view.adapters.ListItemListener
 import dev.keader.correiostracker.view.adapters.TrackAdapter
 
 @AndroidEntryPoint
 class ArchivedFragment : Fragment() {
     private val archivedViewModel: ArchivedViewModel by viewModels()
     private lateinit var binding: FragmentArchivedBinding
+    private lateinit var trackAdapter: TrackAdapter
     private val navController
         get() = findNavController()
 
@@ -31,19 +32,20 @@ class ArchivedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        trackAdapter = TrackAdapter(archivedViewModel)
+        binding.recyclerViewDelivered.adapter = trackAdapter
+        setupObservers()
+    }
 
-        val adapter = TrackAdapter(ListItemListener { code ->
-            archivedViewModel.onItemTrackClicked(code)
-        })
-
-        binding.recyclerViewDelivered.adapter = adapter
+    private fun setupObservers() {
         archivedViewModel.tracks.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                showEmptyList()
-            } else {
-                adapter.submitList(it)
-                showRecyclerView()
-            }
+            trackAdapter.submitList(it)
+            binding.recyclerViewDelivered.isVisible = it.isNotEmpty()
+        }
+
+        archivedViewModel.showEmptyTrack.distinctUntilChanged().observe(viewLifecycleOwner) {
+            binding.recyclerViewEmptyDelivered.root.isVisible = it
+            personalizeEmptyList()
         }
 
         archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
@@ -57,16 +59,5 @@ class ArchivedFragment : Fragment() {
         binding.recyclerViewEmptyDelivered.emptyListAnim.playAnimation()
         binding.recyclerViewEmptyDelivered.emptyListLabel2.text = getText(R.string.empty_list_label2)
         binding.recyclerViewEmptyDelivered.emptyListLabel3.text = getText(R.string.empty_list_sublabel2)
-    }
-
-    private fun showEmptyList() {
-        binding.recyclerViewEmptyDelivered.root.visibility = View.VISIBLE
-        binding.recyclerViewDelivered.visibility = View.GONE
-        personalizeEmptyList()
-    }
-
-    private fun showRecyclerView() {
-        binding.recyclerViewEmptyDelivered.root.visibility = View.GONE
-        binding.recyclerViewDelivered.visibility = View.VISIBLE
     }
 }

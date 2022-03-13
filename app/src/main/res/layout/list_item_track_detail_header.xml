@@ -6,7 +6,7 @@
     <data>
 
         <import type="dev.keader.correiostracker.view.adapters.TrackHistoryAdapterKt" />
-        <import type="dev.keader.correiostracker.view.adapters.TrackHistoryButtonTypes" />
+        <import type="dev.keader.correiostracker.view.interfaces.TrackHistoryButtonTypes" />
 
         <variable
             name="itemWithTracks"
@@ -14,7 +14,7 @@
 
         <variable
             name="clickListener"
-            type="dev.keader.correiostracker.view.adapters.TrackHistoryButtonListener" />
+            type="dev.keader.correiostracker.view.interfaces.TrackHistoryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="26dp"
             android:contentDescription="@string/back_icon_description"
-            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_BACK)}"
+            android:onClick="@{() -> clickListener.onItemClicked(itemWithTracks, TrackHistoryButtonTypes.BUTTON_BACK)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back" />
@@ -40,7 +40,7 @@
             android:layout_marginTop="26dp"
             android:layout_marginEnd="24dp"
             android:contentDescription="@string/delete_icon_description"
-            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_DELETE)}"
+            android:onClick="@{() -> clickListener.onItemClicked(itemWithTracks, TrackHistoryButtonTypes.BUTTON_DELETE)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_delete" />
@@ -52,7 +52,7 @@
             android:layout_marginTop="26dp"
             android:layout_marginEnd="24dp"
             android:contentDescription="@string/copy_icon_description"
-            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_COPY)}"
+            android:onClick="@{() -> clickListener.onItemClicked(itemWithTracks, TrackHistoryButtonTypes.BUTTON_COPY)}"
             app:layout_constraintEnd_toStartOf="@+id/icon_delete"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_copy" />
@@ -64,7 +64,7 @@
             android:layout_marginTop="26dp"
             android:layout_marginEnd="24dp"
             android:contentDescription="@string/copy_icon_description"
-            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_SHARE)}"
+            android:onClick="@{() -> clickListener.onItemClicked(itemWithTracks, TrackHistoryButtonTypes.BUTTON_SHARE)}"
             app:layout_constraintEnd_toStartOf="@+id/icon_copy"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_share" />
@@ -76,7 +76,7 @@
             android:layout_marginTop="26dp"
             android:layout_marginEnd="24dp"
             android:contentDescription="@string/copy_icon_description"
-            android:onClick="@{() -> clickListener.onClick(itemWithTracks, TrackHistoryButtonTypes.BUTTON_EDIT)}"
+            android:onClick="@{() -> clickListener.onItemClicked(itemWithTracks, TrackHistoryButtonTypes.BUTTON_EDIT)}"
             app:layout_constraintEnd_toStartOf="@+id/icon_share"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_edit" />

@@ -8,9 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dev.keader.correiostracker.MainActivity
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.FragmentSettingsBinding
 import dev.keader.correiostracker.model.PreferencesManager
@@ -68,12 +66,5 @@ class SettingsFragment : Fragment() {
                 parent?.setSelection(savedPosition)
             }
         }
-    }
-
-    private fun getSnack(string: String, duration: Int = Snackbar.LENGTH_SHORT): Snackbar? {
-        val activity = activity
-        if (activity is MainActivity)
-            return activity.getSnackInstance(string, duration)
-        return null
     }
 }

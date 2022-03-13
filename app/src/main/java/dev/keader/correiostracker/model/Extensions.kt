@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -45,6 +46,10 @@ fun <T, K, R> LiveData<T>.combineWith(
         result.value = block(this.value, liveData.value)
     }
     return result
+}
+
+fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
+    if (this.value != newValue) value = newValue
 }
 
 fun String.toCapitalize(): String {

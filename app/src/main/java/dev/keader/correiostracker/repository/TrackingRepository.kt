@@ -16,6 +16,10 @@ class TrackingRepository @Inject constructor(
     private val workManager: WorkManager
 ) {
 
+    private companion object {
+        const val DEFAULT_ERROR = "Ocorreu um erro na adição do seu rastreamento. Verifique se o código de rastreamento está correto."
+    }
+
     suspend fun archiveTrack(trackCode: String) {
         database.archiveTrack(trackCode)
     }
@@ -45,16 +49,16 @@ class TrackingRepository @Inject constructor(
         return database.getAllArchivedItemsWithTracks()
     }
 
-    suspend fun getTrackInfoFromAPI(code: String, observation: String): String {
+    suspend fun getTrackInfoFromAPI(code: String, observation: String): APIResponse {
         try {
             val itemWithTracks = Correios.getProduct(code)
             itemWithTracks.item.name = observation
             database.insertItemWithTracks(itemWithTracks)
             Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
-            return ""
+            return APIResponse(itemWithTracks, "")
         } catch (e: Exception) {
             Timber.e(e)
-            return e.message ?: ""
+            return APIResponse(null, e.message ?: DEFAULT_ERROR)
         }
     }
 
@@ -82,7 +86,7 @@ class TrackingRepository @Inject constructor(
             }
         }
 
-        // Update items in Database. It run in a single transaction
+        // Update items in Database.
         database.insertItemWithTracks(notificationList)
         return UpdateItem(true, notificationList)
     }
@@ -93,6 +97,11 @@ class TrackingRepository @Inject constructor(
         }
     }
 }
+
+data class APIResponse(
+    val item: ItemWithTracks?,
+    val response: String
+)
 
 data class UpdateItem(
     val hasItemsInDBToUpdate: Boolean,

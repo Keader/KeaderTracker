@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.databinding.ListItemTrackBinding
+import dev.keader.correiostracker.view.interfaces.TrackItemListener
 import dev.keader.sharedapiobjects.DeliveryCompany
 import dev.keader.sharedapiobjects.ItemWithTracks
 import timber.log.Timber
 
-class TrackAdapter(private val itemClickListener: ListItemListener) :
+class TrackAdapter(private val trackListener: TrackItemListener) :
     ListAdapter<ItemWithTracks, TrackAdapter.TrackViewHolder>(TrackAdapter) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -20,15 +21,15 @@ class TrackAdapter(private val itemClickListener: ListItemListener) :
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(itemClickListener, item)
+        holder.bind(trackListener, item)
     }
 
     class TrackViewHolder private constructor(val binding: ListItemTrackBinding):
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(clickListener: ListItemListener, item: ItemWithTracks) {
+        fun bind(clickListener: TrackItemListener, item: ItemWithTracks) {
             binding.trackItem = item
-            binding.clickListener = clickListener
+            binding.trackListener = clickListener
             binding.executePendingBindings()
             handleWithStatus(item)
         }
@@ -75,8 +76,4 @@ class TrackAdapter(private val itemClickListener: ListItemListener) :
             return oldItem == newItem
         }
     }
-}
-
-class ListItemListener(val clickListener: (trackCode: String) -> Unit) {
-    fun onClick(item: ItemWithTracks) = clickListener(item.item.code)
 }

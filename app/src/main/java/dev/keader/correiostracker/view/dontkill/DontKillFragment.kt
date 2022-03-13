@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DontKillFragment: BottomSheetDialogFragment() {
-
     private lateinit var binding: FragmentDontKillBinding
     @Inject
     lateinit var preferences: PreferencesManager

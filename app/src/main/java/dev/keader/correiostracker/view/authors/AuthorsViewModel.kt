@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthorsViewModel @Inject constructor(private val repository: AuthorsRepository) : ViewModel() {
+class AuthorsViewModel @Inject constructor(
+    private val repository: AuthorsRepository
+    ) : ViewModel() {
 
     private val _authors = MutableLiveData<List<GithubAuthor>>(emptyList())
     val authors: LiveData<List<GithubAuthor>>

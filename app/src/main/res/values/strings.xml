@@ -21,7 +21,6 @@
     <string name="empty_list_label2">Você ainda não possui itens para serem vistos aqui</string>
     <string name="empty_list_sublabel2">Quando os pacotes são entregues, eles aparecerem aqui :D</string>
     <string name="track_add_success">Rastreamento adicionado com sucesso!</string>
-    <string name="track_add_fail">Ocorreu um erro na adição do seu rastreamento. Verifique se o código de rastreamento está correto.</string>
     <string name="code_format">Código %1$s</string>
     <string name="posted_format">Postado em %1$s</string>
     <string name="last_update_format">Última atualização em %1$s</string>

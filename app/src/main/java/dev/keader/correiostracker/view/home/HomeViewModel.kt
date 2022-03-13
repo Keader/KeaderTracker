@@ -1,15 +1,13 @@
 package dev.keader.correiostracker.view.home
 
 import android.os.Build
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.model.Event
 import dev.keader.correiostracker.model.PreferencesManager
 import dev.keader.correiostracker.model.combineWith
 import dev.keader.correiostracker.repository.TrackingRepository
+import dev.keader.correiostracker.view.interfaces.TrackItemListener
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,13 +15,18 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: TrackingRepository,
     private val preferences: PreferencesManager,
-) : ViewModel() {
+) : ViewModel(), TrackItemListener {
 
     val tracks = repository.getAllItemsWithTracks()
+    val showEmptyTrack = tracks.map { it.isEmpty() }
 
     private val _eventNavigateToTrackDetail = MutableLiveData<Event<String>>()
     val eventNavigateToTrackDetail: LiveData<Event<String>>
         get() = _eventNavigateToTrackDetail
+
+    private val _eventShowDontKillAlert = MutableLiveData<Event<Unit>>()
+    val eventShowDontKillAlert: LiveData<Event<Unit>>
+        get() = _eventShowDontKillAlert
 
     private val _eventSwipeRefreshRunning = MutableLiveData(false)
 
@@ -33,7 +36,7 @@ class HomeViewModel @Inject constructor(
         return@combineWith a == true || b == true
     }
 
-    fun onItemTrackClicked(code: String) {
+    override fun onItemTrackClicked(code: String) {
         _eventNavigateToTrackDetail.value = Event(code)
     }
 
@@ -45,7 +48,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun shouldShowDontKillAlert(): Boolean {
+    fun checkDontKillAlert() {
+        if (shouldShowDontKillAlert()) {
+            _eventShowDontKillAlert.value = Event(Unit)
+            saveDontKillAlert()
+        }
+    }
+
+    private fun shouldShowDontKillAlert(): Boolean {
         if (!preferences.shouldShowDontKillAlert())
             return false
 
@@ -56,7 +66,7 @@ class HomeViewModel @Inject constructor(
         return manufacturer in badPhones
     }
 
-    fun saveDontKillAlert() {
+    private fun saveDontKillAlert() {
         viewModelScope.launch {
             preferences.saveDontKillAlert(false)
         }

@@ -1,6 +1,5 @@
 package dev.keader.correiostracker
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,8 +19,8 @@ class UIViewModel @Inject constructor(
     val darkTheme = preferences.darkThemeFlow.asLiveData()
     val frequency = preferences.frequencyFlow.asLiveData()
 
-    private val _bottomNavVisibility = MutableLiveData(View.VISIBLE)
-    val bottomNavVisibility: LiveData<Int> = _bottomNavVisibility
+    private val _bottomNavVisibility = MutableLiveData(true)
+    val bottomNavVisibility: LiveData<Boolean> = _bottomNavVisibility
 
     private val _qrCodeResult = MutableLiveData<Event<String>>()
     val qrCodeResult: LiveData<Event<String>> = _qrCodeResult
@@ -29,8 +28,8 @@ class UIViewModel @Inject constructor(
     private val _onQrCodeDetected = MutableLiveData<Event<Unit>>()
     val onQrCodeDetected: LiveData<Event<Unit>> = _onQrCodeDetected
 
-    fun setBottomNavVisibility(visibility: Int) {
-        _bottomNavVisibility.value = visibility
+    fun setBottomNavVisibility(visible: Boolean) {
+        _bottomNavVisibility.value = visible
     }
 
     override fun onCodeDetected(code: String, source: Int) {

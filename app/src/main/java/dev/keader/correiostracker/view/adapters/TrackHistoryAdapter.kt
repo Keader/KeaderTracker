@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.databinding.ListItemTrackDetailHeaderBinding
 import dev.keader.correiostracker.databinding.ListItemTrackHistoryBinding
+import dev.keader.correiostracker.view.interfaces.TrackHistoryListener
 import dev.keader.sharedapiobjects.DeliveryCompany
 import dev.keader.sharedapiobjects.ItemWithTracks
 import dev.keader.sharedapiobjects.TrackWithStatus
@@ -22,7 +23,7 @@ import timber.log.Timber
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonListener)
+class TrackHistoryAdapter(private val itemClickListener: TrackHistoryListener)
     : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
@@ -51,7 +52,7 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
             }
             is TrackDetailHeaderViewHolder -> {
                 val item = getItem(position) as DataItem.Header
-                holder.bind(item.itemWithTracks, deleteClickListener)
+                holder.bind(item.itemWithTracks, itemClickListener)
             }
         }
     }
@@ -73,7 +74,7 @@ class TrackHistoryAdapter(private val deleteClickListener: TrackHistoryButtonLis
 
     class TrackDetailHeaderViewHolder private constructor(val binding: ListItemTrackDetailHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemWithTracks, clickListener: TrackHistoryButtonListener) {
+        fun bind(item: ItemWithTracks, clickListener: TrackHistoryListener) {
             binding.itemWithTracks = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -164,14 +165,4 @@ sealed class DataItem {
     abstract val id: Long
 }
 
-class TrackHistoryButtonListener(val clickListener: (itemTrack: ItemWithTracks, id: TrackHistoryButtonTypes) -> Unit) {
-    fun onClick(item: ItemWithTracks, id: TrackHistoryButtonTypes) = clickListener(item, id)
-}
 
-enum class TrackHistoryButtonTypes {
-    BUTTON_BACK,
-    BUTTON_COPY,
-    BUTTON_DELETE,
-    BUTTON_SHARE,
-    BUTTON_EDIT
-}

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.view.WindowCompat
 import androidx.core.view.doOnLayout
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -51,9 +52,9 @@ class MainActivity: AppCompatActivity() {
             navController.navigate(HomeFragmentDirections.actionGlobalAddPacketFragment())
         }
 
-        uiViewModel.bottomNavVisibility.observe(this) { visibility ->
-            binding.bottomNavigation.visibility = visibility
-            binding.floatingActionButton.visibility = visibility
+        uiViewModel.bottomNavVisibility.observe(this) { visible ->
+            binding.bottomNavigation.isVisible = visible
+            binding.floatingActionButton.isVisible = visible
         }
 
         uiViewModel.frequency.observe(this) {

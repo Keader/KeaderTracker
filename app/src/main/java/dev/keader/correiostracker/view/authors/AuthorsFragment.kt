@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,9 +16,9 @@ import dev.keader.correiostracker.view.adapters.AuthorsAdapter
 
 @AndroidEntryPoint
 class AuthorsFragment : Fragment() {
-
     private lateinit var binding: FragmentAuthorsBinding
     private val authorsViewModel: AuthorsViewModel by viewModels()
+    private val authorsAdapter = AuthorsAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAuthorsBinding.inflate(inflater, container, false)
@@ -28,29 +28,18 @@ class AuthorsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val authorsAdapter = AuthorsAdapter()
-        val concatAdapter = ConcatAdapter(authorsAdapter)
-
-        binding.recyclerViewAuthors.adapter = concatAdapter
+        binding.recyclerViewAuthors.adapter = authorsAdapter
         val gridLayoutManager = GridLayoutManager(requireContext(), 3)
         gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.recyclerViewAuthors.layoutManager = gridLayoutManager
-
-        authorsViewModel.authors.distinctUntilChanged().observe(viewLifecycleOwner) {
-            handleWithListVisibility(it.isEmpty())
-            if (it.isNotEmpty())
-                authorsAdapter.submitList(it)
-        }
+        setupObservers()
     }
 
-    private fun handleWithListVisibility(empty: Boolean) {
-        if (empty) {
-            binding.recyclerViewAuthors.visibility = View.GONE
-            binding.progressAutors.visibility = View.VISIBLE
-        }
-        else {
-            binding.recyclerViewAuthors.visibility = View.VISIBLE
-            binding.progressAutors.visibility = View.GONE
+    private fun setupObservers() {
+        authorsViewModel.authors.distinctUntilChanged().observe(viewLifecycleOwner) {
+            authorsAdapter.submitList(it)
+            binding.recyclerViewAuthors.isVisible = it.isNotEmpty()
+            binding.progressAutors.isVisible = it.isEmpty()
         }
     }
 }
