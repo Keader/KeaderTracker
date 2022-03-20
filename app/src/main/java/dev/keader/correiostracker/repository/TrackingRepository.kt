@@ -96,8 +96,8 @@ class TrackingRepository @Inject constructor(
     }
 
     private suspend fun getProductWithRetry(code: String): ItemWithTracks {
-        // Correios sometimes return Unexpected End of Stream exception
-        // It's a serverside error and we cant do nothing about it
+        // Correios sometimes return a Unexpected End of Stream Exception
+        // It's a server side error and has nothing that we can do about it
         // So... time to do some retries :(
         return try {
             Correios.getProduct(code)
