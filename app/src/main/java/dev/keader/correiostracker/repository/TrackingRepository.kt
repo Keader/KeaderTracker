@@ -8,6 +8,7 @@ import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.database.dao.TrackingDatabaseDAO
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import dev.keader.sharedapiobjects.ItemWithTracks
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ class TrackingRepository @Inject constructor(
 
     private companion object {
         const val DEFAULT_ERROR = "Ocorreu um erro na adição do seu rastreamento. Verifique se o código de rastreamento está correto."
+        var retryCount = 0
     }
 
     suspend fun archiveTrack(trackCode: String) {
@@ -50,15 +52,16 @@ class TrackingRepository @Inject constructor(
     }
 
     suspend fun getTrackInfoFromAPI(code: String, observation: String): APIResponse {
-        try {
-            val itemWithTracks = Correios.getProduct(code)
+        return try {
+            retryCount = 0
+            val itemWithTracks = getProductWithRetry(code)
             itemWithTracks.item.name = observation
             database.insertItemWithTracks(itemWithTracks)
             Timber.i("Track ${itemWithTracks.item.name} added with code: ${itemWithTracks.item.code}")
-            return APIResponse(itemWithTracks, "")
+            APIResponse(itemWithTracks, "")
         } catch (e: Exception) {
             Timber.e(e)
-            return APIResponse(null, e.message ?: DEFAULT_ERROR)
+            APIResponse(null, e.message ?: DEFAULT_ERROR)
         }
     }
 
@@ -75,7 +78,8 @@ class TrackingRepository @Inject constructor(
         // Fetch Info from API
         items.forEach { oldItem ->
             try {
-                val updatedItem = Correios.getProduct(oldItem.item.code)
+                retryCount = 0
+                val updatedItem = getProductWithRetry(oldItem.item.code)
                 updatedItem.item.name = oldItem.item.name
                 if (updatedItem.tracks.size > oldItem.tracks.size)
                     notificationList.add(updatedItem)
@@ -89,6 +93,22 @@ class TrackingRepository @Inject constructor(
         // Update items in Database.
         database.insertItemWithTracks(notificationList)
         return UpdateItem(true, notificationList)
+    }
+
+    private suspend fun getProductWithRetry(code: String): ItemWithTracks {
+        // Correios sometimes return Unexpected End of Stream exception
+        // It's a serverside error and we cant do nothing about it
+        // So... time to do some retries :(
+        return try {
+            Correios.getProduct(code)
+        } catch (e: Exception) {
+            if (retryCount >= 5)
+                throw e
+
+            ++retryCount
+            delay(1000L)
+            getProductWithRetry(code)
+        }
     }
 
     fun getRefreshWorkInfo(): LiveData<Boolean> {
