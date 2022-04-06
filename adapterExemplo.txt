@@ -1,0 +1,57 @@
+class LoungeAdapter : RecyclerView.Adapter<LoungeAdapter.ViewHolder>() {
+    private val differ = AsyncListDiffer(this, DiffCallback)
+    var lounges: List<Lounge> = emptyList()
+        set(value) {
+            field = value
+            buildMergedList()
+        }
+
+    var selectedItems = emptyList<String>()
+        set(value) {
+            field = value
+            buildMergedList()
+        }
+
+    var specialIds = listOf("A", "B")
+        set(value) {
+            field = value
+            buildMergedList()
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        TODO("")
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//        val item = getItem(position)
+        TODO()
+    }
+
+    private fun buildMergedList() {
+        val specialEnabled = selectedItems.containsAll(specialIds)
+        val merged = lounges.map {
+            LoungeComplete(
+                it,
+                specialEnabled,
+                selectedItems.contains(it.id),
+            )
+        }
+        differ.submitList(merged)
+    }
+
+    override fun getItemCount() = differ.currentList.size
+
+    private fun getItem(position: Int) = differ.currentList[position]
+
+    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view)
+
+    private data class LoungeComplete(val lounge: Lounge, val special: Boolean, val selected: Boolean)
+
+    private object DiffCallback : DiffUtil.ItemCallback<LoungeComplete>() {
+        override fun areItemsTheSame(oldItem: LoungeComplete, newItem: LoungeComplete) =
+            oldItem.lounge.id == newItem.lounge.id
+
+        override fun areContentsTheSame(oldItem: LoungeComplete, newItem: LoungeComplete) =
+            oldItem == newItem
+    }
+}
