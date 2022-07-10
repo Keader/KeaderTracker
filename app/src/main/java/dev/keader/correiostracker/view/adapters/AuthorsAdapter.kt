@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
@@ -24,12 +25,11 @@ class AuthorsAdapter(private val itemTouchHelper: ItemTouchHelper) : ListAdapter
         holder.bind(author, itemTouchHelper)
     }
 
-    class AuthorViewHolder private constructor(val binding: ListItemAuthorsBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class AuthorViewHolder private constructor(val binding: ListItemAuthorsBinding) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("ClickableViewAccessibility")
         fun bind(author: GithubAuthor, itemTouchHelper: ItemTouchHelper) {
-
+            val context = binding.root.context
             binding.root.setOnTouchListener { _, event ->
                 if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                     itemTouchHelper.startDrag(this)
@@ -37,6 +37,7 @@ class AuthorsAdapter(private val itemTouchHelper: ItemTouchHelper) : ListAdapter
                 false
             }
 
+            binding.iconList.animation = AnimationUtils.loadAnimation(context, R.anim.shake_animation)
             binding.author = author
             if (author.link.contains("linkedin"))
                 binding.iconSite.setImageResource(R.drawable.ic_linkedin)

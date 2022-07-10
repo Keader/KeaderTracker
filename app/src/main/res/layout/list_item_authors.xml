@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginTop="8dp"
+            android:antialias="true"
             android:contentDescription="@string/box_icon_description"
             app:layout_constraintDimensionRatio="V,12:16"
             app:layout_constraintEnd_toEndOf="parent"
