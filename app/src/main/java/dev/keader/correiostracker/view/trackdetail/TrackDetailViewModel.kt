@@ -27,7 +27,7 @@ class TrackDetailViewModel @Inject constructor(
 
     val trackCode = MutableLiveData<String>()
     val trackItem = trackCode.switchMap { repository.getItemWithTracks(it) }
-    val isArchived = trackItem.switchMap { mapFabStatus(it.item.isArchived) }
+    val isArchived = trackItem.switchMap { mapFabStatus(it?.item?.isArchived == true) }
 
     private val _eventNavigateAfterDelete = MutableLiveData<Event<Unit>>()
     val eventNavigateAfterDelete: LiveData<Event<Unit>>

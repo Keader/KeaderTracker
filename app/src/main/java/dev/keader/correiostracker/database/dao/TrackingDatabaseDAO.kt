@@ -52,7 +52,7 @@ interface TrackingDatabaseDAO {
 
     @Transaction
     @Query("SELECT * FROM Item WHERE code = :code")
-    fun getItemWithTracks(code: String): LiveData<ItemWithTracks>
+    fun getItemWithTracks(code: String): LiveData<ItemWithTracks?>
 
     @Transaction
     @Query("SELECT * FROM Item WHERE isArchived = 0 ORDER BY updatedAt DESC")

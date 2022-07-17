@@ -65,9 +65,7 @@ class TrackingRepository @Inject constructor(
         }
     }
 
-    fun getItemWithTracks(itemCode: String): LiveData<ItemWithTracks> {
-        return database.getItemWithTracks(itemCode)
-    }
+    fun getItemWithTracks(itemCode: String) = database.getItemWithTracks(itemCode)
 
     suspend fun refreshTracks(): UpdateItem {
         val notificationList = mutableListOf<ItemWithTracks>()
