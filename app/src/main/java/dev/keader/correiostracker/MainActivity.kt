@@ -63,16 +63,11 @@ class MainActivity: AppCompatActivity() {
         }
 
         uiViewModel.darkTheme.observe(this) { darkTheme ->
-            AppCompatDelegate.setDefaultNightMode(
-                if (darkTheme)
-                    MODE_NIGHT_YES
-                else
-                    MODE_NIGHT_NO
-            )
+            AppCompatDelegate.setDefaultNightMode(if (darkTheme) MODE_NIGHT_YES else MODE_NIGHT_NO)
+            binding.root.windowInsetsControllerCompat?.isAppearanceLightStatusBars = !darkTheme
         }
 
         binding.root.doOnLayout {
-            it.windowInsetsControllerCompat?.isAppearanceLightStatusBars = true
             NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         }
 
