@@ -63,7 +63,7 @@ interface TrackingDatabaseDAO {
     suspend fun getAllItemsToRefresh(): List<ItemWithTracks>
 
     @Transaction
-    @Query("SELECT * FROM Item WHERE isArchived = 1")
+    @Query("SELECT * FROM Item WHERE isArchived = 1 ORDER BY updatedAt DESC")
     fun getAllArchivedItemsWithTracks(): LiveData<List<ItemWithTracks>>
 
     @Query("DELETE FROM Item")
