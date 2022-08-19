@@ -55,7 +55,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.spinnerFrequency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // Ignore first call, it's caused by default value
                 if (position != savedPosition)
