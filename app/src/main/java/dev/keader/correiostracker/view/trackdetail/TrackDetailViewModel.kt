@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.model.Event
+import dev.keader.correiostracker.model.combineWith
 import dev.keader.correiostracker.model.setValueIfNew
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.interfaces.TrackHistoryButtonTypes
@@ -61,6 +62,14 @@ class TrackDetailViewModel @Inject constructor(
     val eventItemUnArchived: LiveData<Event<Unit>>
         get() = _eventItemUnArchived
 
+    private val _eventSwipeRefreshRunning = MutableLiveData(false)
+
+    private val _isRefreshWorkRunning = repository.getRefreshWorkInfo()
+
+    val eventRefreshRunning = _isRefreshWorkRunning.combineWith(_eventSwipeRefreshRunning) { a, b ->
+        return@combineWith a == true || b == true
+    }
+
     fun setTrackCode(code: String) {
         trackCode.setValueIfNew(code)
     }
@@ -87,6 +96,14 @@ class TrackDetailViewModel @Inject constructor(
         viewModelScope.launch {
             repository.deleteTrack(itemWithTracks)
             _eventNavigateAfterDelete.value = Event(Unit)
+        }
+    }
+
+    fun onRefreshCalled() {
+        _eventSwipeRefreshRunning.value = true
+        viewModelScope.launch {
+            repository.refreshTrack(trackItem.value)
+            _eventSwipeRefreshRunning.value = false
         }
     }
 

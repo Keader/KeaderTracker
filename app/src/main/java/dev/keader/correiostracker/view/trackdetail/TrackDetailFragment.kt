@@ -118,6 +118,10 @@ class TrackDetailFragment : Fragment() {
         trackDetailViewModel.eventEditButton.observe(viewLifecycleOwner, EventObserver {
             onEditButtonClicked()
         })
+
+        trackDetailViewModel.eventRefreshRunning.observe(viewLifecycleOwner) { running ->
+            binding.swipeRefresh.isRefreshing = running
+        }
     }
 
     private fun onDeleteButtonClicked(itemWithTracks: ItemWithTracks) {

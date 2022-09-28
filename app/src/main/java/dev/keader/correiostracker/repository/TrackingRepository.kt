@@ -69,6 +69,15 @@ class TrackingRepository @Inject constructor(
         return database.getItemWithTracks(itemCode)
     }
 
+    suspend fun refreshTrack(trackCode: ItemWithTracks?) {
+        if (trackCode != null) {
+            val newItem = fetchItemWithTracks(trackCode)
+            if (newItem != null) {
+                database.insertItemWithTracks(newItem)
+            }
+        }
+    }
+
     suspend fun refreshTracks(): UpdateItem {
         val notificationList = mutableListOf<ItemWithTracks>()
         val items = database.getAllItemsToRefresh()
@@ -77,22 +86,34 @@ class TrackingRepository @Inject constructor(
 
         // Fetch Info from API
         items.forEach { oldItem ->
-            try {
-                retryCount = 0
-                val updatedItem = getProductWithRetry(oldItem.item.code)
-                updatedItem.item.name = oldItem.item.name
-                if (updatedItem.tracks.size > oldItem.tracks.size)
-                    notificationList.add(updatedItem)
-                else if (oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost)
-                    notificationList.add(updatedItem) // Posted
-            } catch (e: Exception) {
-                Timber.e(e)
+            val newItem: ItemWithTracks? = fetchItemWithTracks(oldItem)
+            if (newItem != null) {
+                notificationList.add(newItem)
             }
         }
 
         // Update items in Database.
         database.insertItemWithTracks(notificationList)
         return UpdateItem(true, notificationList)
+    }
+
+    private suspend fun fetchItemWithTracks(
+        oldItem: ItemWithTracks
+    ): ItemWithTracks? {
+        val newItem: ItemWithTracks? = try {
+            retryCount = 0
+            val updatedItem = getProductWithRetry(oldItem.item.code)
+            updatedItem.item.name = oldItem.item.name
+            if (updatedItem.tracks.size > oldItem.tracks.size ||
+                oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost
+            )// Posted
+                updatedItem
+            else null
+        } catch (e: Exception) {
+            Timber.e(e)
+            null
+        }
+        return newItem
     }
 
     private suspend fun getProductWithRetry(code: String): ItemWithTracks {
