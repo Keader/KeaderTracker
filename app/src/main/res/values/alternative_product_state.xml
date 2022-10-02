@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="alternative_product_state_stagnant">
+        <item>Entregadores estão jogando sinuca com seu produto!</item>
+        <item>Calma, uma hora chega</item>
+        <item>Então… acho que o correios ta te dando um gelo</item>
+        <item>Tirando uma soneca no deposito</item>
+        <item>Estamos testando sua paciencia, uma hora seu produto chega</item>
+        <item>PRODUTO ESTRAVIADO!!! Calma, só estou brincando, o produto só ta parado mesmo</item>
+    </string-array>
+</resources>

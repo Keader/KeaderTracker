@@ -34,17 +34,17 @@ fun TextView.setTimeText(item: ItemWithTracks) {
 fun TextView.setTrackStatus(item: ItemWithTracks) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     val alternativeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-    var lastUpdate: LocalDate
-    try {
-        lastUpdate = LocalDate.parse(item.tracks.first().date, formatter)
+    val lastUpdate: LocalDate = try {
+        LocalDate.parse(item.tracks.first().date, formatter)
     } catch (e: Exception) {
-        lastUpdate = LocalDate.parse(item.tracks.first().date, alternativeFormatter)
+        LocalDate.parse(item.tracks.first().date, alternativeFormatter)
     }
     val today = LocalDateTime.now()
     val difference = lastUpdate.until(today, ChronoUnit.DAYS)
 
     text = if (difference >= 7 && !item.item.isDelivered) {
-        context.getString(R.string.produto_estagnado)
+        val jokes = resources.getStringArray(R.array.alternative_product_state_stagnant).toList()
+        jokes.random()
     } else {
         item.tracks.first().status
     }
