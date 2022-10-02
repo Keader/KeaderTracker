@@ -7,9 +7,8 @@ O aplicativo oficial pode ser encontrado na [PlayStore](https://play.google.com/
 
 ### Por que?
 
-Sempre usei muitos aplicativos para rastrear pedidos. Porém os disponíveis na google play, me enchiam de propagandas, o que me causava bastante incomodo.
-Decidi então criar um aplicativo próprio, objetivando concretizar os aprendizados sobre android nativo, enquanto criava uma ferramenta que resolvesse o meu problema
-de ser floodado de propagandas pelos apps atuais de mesma função.
+Sempre usei muitos aplicativos para rastrear pedidos. Porém os disponíveis na google play me enchiam de propagandas, o que me causava bastante incomodo.
+Decidi então criar um aplicativo próprio objetivando concretizar os aprendizados sobre android nativo, enquanto criava uma ferramenta que resolvesse o meu problema de ser floodado de propagandas pelos apps atuais de mesma função.
 
 ### Qual a função do aplicativo?
 
