@@ -440,11 +440,14 @@ enum class CorreiosResourceStatus(
     );
 
     companion object {
+        private const val DELIVERY_MESSAGE = "Objeto entregue ao destinatário"
         private val map = values().associateBy(CorreiosResourceStatus::statusString)
         fun getResourceStatus(status: String): CorreiosResourceStatus {
             val obj = map[status]
             if (obj != null) {
                 return obj
+            } else if (status.contains(DELIVERY_MESSAGE)) {
+                return DELIVERED
             }
 
             Timber.e("Unknown Status: $status")
