@@ -3,7 +3,14 @@ package dev.keader.correiostracker.work
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.lifecycle.LiveData
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dev.keader.correiostracker.model.PreferencesManager
@@ -18,30 +25,32 @@ class RefreshTracksWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     val preferences: PreferencesManager,
-    val repository: TrackingRepository) : CoroutineWorker(context, params) {
+    val repository: TrackingRepository
+) : CoroutineWorker(context, params) {
 
     companion object {
         const val WORK_NAME = "RefreshTracksWorker"
 
         fun startWorker(context: Context, preferences: PreferencesManager) {
             val constraints = Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
             val frequency = preferences.getFrequency()
 
             val repeating = PeriodicWorkRequestBuilder<RefreshTracksWorker>(frequency, TimeUnit.MINUTES)
-                    .setConstraints(constraints)
-                    .build()
+                .setConstraints(constraints)
+                .build()
 
             Timber.i("Worker starting service.")
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                    WORK_NAME,
-                    ExistingPeriodicWorkPolicy.REPLACE,
-                    repeating)
+                WORK_NAME,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                repeating
+            )
         }
 
-        fun getWorkInfoLiveData(context: Context) : LiveData<List<WorkInfo>> {
+        fun getWorkInfoLiveData(context: Context): LiveData<List<WorkInfo>> {
             return WorkManager.getInstance(context).getWorkInfosForUniqueWorkLiveData(WORK_NAME)
         }
 
@@ -67,9 +76,9 @@ class RefreshTracksWorker @AssistedInject constructor(
         val result = repository.refreshTracks()
         val autoMove = preferences.getAutoMove()
         // if dont have items in DB to update, stop worker
-        if (!result.hasItemsInDBToUpdate)
+        if (!result.hasItemsInDBToUpdate) {
             stopWorker(applicationContext)
-        else if (result.updateList.isNotEmpty()) {
+        } else if (result.updateList.isNotEmpty()) {
             sendNotifications(result.updateList, applicationContext)
             if (autoMove) archiveItems(result.updateList, repository)
         }

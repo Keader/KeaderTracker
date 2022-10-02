@@ -24,7 +24,7 @@ class TrackAdapter(private val trackListener: TrackItemListener) :
         holder.bind(trackListener, item)
     }
 
-    class TrackViewHolder private constructor(val binding: ListItemTrackBinding):
+    class TrackViewHolder private constructor(val binding: ListItemTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clickListener: TrackItemListener, item: ItemWithTracks) {

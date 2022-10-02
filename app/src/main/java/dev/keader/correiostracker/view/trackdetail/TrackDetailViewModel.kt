@@ -1,8 +1,11 @@
 package dev.keader.correiostracker.view.trackdetail
 
-
 import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.R
 import dev.keader.correiostracker.model.Event
@@ -10,7 +13,6 @@ import dev.keader.correiostracker.model.combineWith
 import dev.keader.correiostracker.model.setValueIfNew
 import dev.keader.correiostracker.repository.TrackingRepository
 import dev.keader.correiostracker.view.interfaces.TrackHistoryButtonTypes
-import dev.keader.correiostracker.view.interfaces.TrackHistoryButtonTypes.*
 import dev.keader.correiostracker.view.interfaces.TrackHistoryListener
 import dev.keader.sharedapiobjects.ItemWithTracks
 import kotlinx.coroutines.launch
@@ -133,8 +135,9 @@ class TrackDetailViewModel @Inject constructor(
     }
 
     fun handleWithUpdateName(newName: String) {
-        if (newName.isEmpty() || newName.isBlank())
+        if (newName.isEmpty() || newName.isBlank()) {
             return
+        }
 
         viewModelScope.launch {
             trackCode.value?.let {
@@ -145,11 +148,11 @@ class TrackDetailViewModel @Inject constructor(
 
     override fun onItemClicked(item: ItemWithTracks, id: TrackHistoryButtonTypes) {
         when (id) {
-            BUTTON_BACK -> _eventNavigateBack.value = Event(Unit)
-            BUTTON_COPY -> _eventCopyButton.value = Event(item)
-            BUTTON_DELETE -> _eventDeleteButton.value = Event(item)
-            BUTTON_SHARE -> _eventShareButton.value = Event(Unit)
-            BUTTON_EDIT -> _eventEditButton.value = Event(Unit)
+            TrackHistoryButtonTypes.BUTTON_BACK -> _eventNavigateBack.value = Event(Unit)
+            TrackHistoryButtonTypes.BUTTON_COPY -> _eventCopyButton.value = Event(item)
+            TrackHistoryButtonTypes.BUTTON_DELETE -> _eventDeleteButton.value = Event(item)
+            TrackHistoryButtonTypes.BUTTON_SHARE -> _eventShareButton.value = Event(Unit)
+            TrackHistoryButtonTypes.BUTTON_EDIT -> _eventEditButton.value = Event(Unit)
         }
     }
 

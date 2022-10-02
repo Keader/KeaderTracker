@@ -44,11 +44,12 @@ class TrackDetailFragment : Fragment() {
     private lateinit var trackHistoryAdapter: TrackHistoryAdapter
     private val navController
         get() = findNavController()
+
     @Inject
     lateinit var preferences: PreferencesManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentTrackDetailBinding.inflate(inflater, container,false)
+        binding = FragmentTrackDetailBinding.inflate(inflater, container, false)
         binding.trackDetailViewModel = trackDetailViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -77,47 +78,71 @@ class TrackDetailFragment : Fragment() {
             )
         }
 
-        trackDetailViewModel.eventNavigateAfterDelete.observe(viewLifecycleOwner, EventObserver {
-            navController.popBackStack()
-            getSnack(getString(R.string.track_deleted))
-                ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                ?.show()
-        })
+        trackDetailViewModel.eventNavigateAfterDelete.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navController.popBackStack()
+                getSnack(getString(R.string.track_deleted))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                    ?.show()
+            }
+        )
 
-        trackDetailViewModel.eventItemArchived.observe(viewLifecycleOwner, EventObserver {
-            getSnack(getString(R.string.archived_success))
-                ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                ?.show()
-            navController.popBackStack()
-        })
+        trackDetailViewModel.eventItemArchived.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                getSnack(getString(R.string.archived_success))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                    ?.show()
+                navController.popBackStack()
+            }
+        )
 
-        trackDetailViewModel.eventItemUnArchived.observe(viewLifecycleOwner, EventObserver {
-            getSnack(getString(R.string.unarchive_success))
-                ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
-                ?.show()
-            RefreshTracksWorker.startWorker(requireActivity().application, preferences)
-            navController.popBackStack()
-        })
+        trackDetailViewModel.eventItemUnArchived.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                getSnack(getString(R.string.unarchive_success))
+                    ?.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                    ?.show()
+                RefreshTracksWorker.startWorker(requireActivity().application, preferences)
+                navController.popBackStack()
+            }
+        )
 
-        trackDetailViewModel.eventNavigateBack.observe(viewLifecycleOwner, EventObserver {
-            navController.popBackStack()
-        })
+        trackDetailViewModel.eventNavigateBack.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navController.popBackStack()
+            }
+        )
 
-        trackDetailViewModel.eventCopyButton.observe(viewLifecycleOwner, EventObserver {
-            copyTrackCodeAndShowSnack(it)
-        })
+        trackDetailViewModel.eventCopyButton.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                copyTrackCodeAndShowSnack(it)
+            }
+        )
 
-        trackDetailViewModel.eventDeleteButton.observe(viewLifecycleOwner, EventObserver {
-            onDeleteButtonClicked(it)
-        })
+        trackDetailViewModel.eventDeleteButton.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                onDeleteButtonClicked(it)
+            }
+        )
 
-        trackDetailViewModel.eventShareButton.observe(viewLifecycleOwner, EventObserver {
-            onShareButtonClicked()
-        })
+        trackDetailViewModel.eventShareButton.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                onShareButtonClicked()
+            }
+        )
 
-        trackDetailViewModel.eventEditButton.observe(viewLifecycleOwner, EventObserver {
-            onEditButtonClicked()
-        })
+        trackDetailViewModel.eventEditButton.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                onEditButtonClicked()
+            }
+        )
 
         trackDetailViewModel.eventRefreshRunning.observe(viewLifecycleOwner) { running ->
             binding.swipeRefresh.isRefreshing = running

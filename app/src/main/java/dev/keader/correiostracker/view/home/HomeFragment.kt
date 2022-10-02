@@ -51,9 +51,12 @@ class HomeFragment : Fragment() {
             binding.recylerViewEmpty.root.isVisible = it
         }
 
-        homeViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
-            navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
-        })
+        homeViewModel.eventNavigateToTrackDetail.observe(
+            viewLifecycleOwner,
+            EventObserver { code ->
+                navController.navigate(HomeFragmentDirections.actionGlobalTrackDetailFragment(code))
+            }
+        )
 
         binding.swipeRefresh.setOnRefreshListener {
             homeViewModel.onRefreshCalled()
@@ -63,8 +66,11 @@ class HomeFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = running
         }
 
-        homeViewModel.eventShowDontKillAlert.observe(viewLifecycleOwner, EventObserver {
-            DontKillFragment().show(parentFragmentManager, "DontKill")
-        })
+        homeViewModel.eventShowDontKillAlert.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                DontKillFragment().show(parentFragmentManager, "DontKill")
+            }
+        )
     }
 }

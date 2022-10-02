@@ -23,8 +23,8 @@ import timber.log.Timber
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
-class TrackHistoryAdapter(private val itemClickListener: TrackHistoryListener)
-    : ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
+class TrackHistoryAdapter(private val itemClickListener: TrackHistoryListener) :
+    ListAdapter<DataItem, RecyclerView.ViewHolder>(TrackDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
     private lateinit var itemWithTracks: ItemWithTracks
@@ -164,5 +164,3 @@ sealed class DataItem {
     }
     abstract val id: Long
 }
-
-

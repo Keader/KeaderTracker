@@ -1,7 +1,11 @@
 package dev.keader.correiostracker.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import dev.keader.sharedapiobjects.Item
 import dev.keader.sharedapiobjects.ItemWithTracks
 import dev.keader.sharedapiobjects.Track
@@ -47,7 +51,7 @@ interface TrackingDatabaseDAO {
     @Query("UPDATE Item SET isArchived = 0 WHERE code = :code")
     suspend fun unArchiveTrack(code: String)
 
-    @Query("UPDATE Item SET isArchived = 1 WHERE isDelivered = 1" )
+    @Query("UPDATE Item SET isArchived = 1 WHERE isDelivered = 1")
     suspend fun archiveAllDeliveredItems()
 
     @Transaction

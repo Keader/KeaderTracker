@@ -53,10 +53,11 @@ fun TextView.setTrackStatus(item: ItemWithTracks) {
 @BindingAdapter("trackObservation")
 fun TextView.setTrackObservation(item: ItemWithTracks) {
     val observation = item.tracks.first().observation
-    if (observation.isNotEmpty())
+    if (observation.isNotEmpty()) {
         text = observation
-    else
+    } else {
         visibility = View.GONE
+    }
 }
 
 @BindingAdapter("trackLocale")
@@ -67,10 +68,11 @@ fun TextView.setTrackLocale(item: ItemWithTracks) {
 @BindingAdapter("deliveryPrediction")
 fun TextView.setDeliveryPrediction(item: ItemWithTracks) {
     val forecast = item.item.deliveryForecast
-    if (forecast.isEmpty())
+    if (forecast.isEmpty()) {
         visibility = View.GONE
-    else
+    } else {
         text = context.getString(R.string.delivery_forecast_format, forecast)
+    }
 }
 
 @BindingAdapter("daysSpend")
@@ -80,7 +82,7 @@ fun TextView.setDaysSpend(item: ItemWithTracks) {
     var startDate: LocalDate
     try {
         startDate = LocalDate.parse(item.tracks.last().date, formatter)
-    } catch(e: Exception) {
+    } catch (e: Exception) {
         startDate = LocalDate.parse(item.tracks.last().date, alternativeFormatter)
     }
     val endDate = LocalDateTime.now()
@@ -90,7 +92,7 @@ fun TextView.setDaysSpend(item: ItemWithTracks) {
         var deliveryDate: LocalDate
         try {
             deliveryDate = LocalDate.parse(item.tracks.first().date, formatter)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             deliveryDate = LocalDate.parse(item.tracks.first().date, alternativeFormatter)
         }
         difference = startDate.until(deliveryDate, ChronoUnit.DAYS)
@@ -101,21 +103,23 @@ fun TextView.setDaysSpend(item: ItemWithTracks) {
 
 @BindingAdapter("observation")
 fun TextView.setObservation(track: Track) {
-    if (track.observation.isEmpty())
+    if (track.observation.isEmpty()) {
         visibility = View.GONE
-    else
+    } else {
         text = track.observation
+    }
 }
 
 @BindingAdapter("setLink")
 fun TextView.setLink(track: Track) {
     if (track.link.isNotEmpty()) {
-        val string = if (track.link.contains("prazo"))
+        val string = if (track.link.contains("prazo")) {
             context.getString(R.string.deadlines)
-        else
+        } else {
             context.getString(R.string.imports)
-        val link = "<a href=\"${track.link}\">${string}</a>"
-        val spannable = HtmlCompat.fromHtml(link,0)
+        }
+        val link = "<a href=\"${track.link}\">$string</a>"
+        val spannable = HtmlCompat.fromHtml(link, 0)
         movementMethod = LinkMovementMethod.getInstance()
         text = spannable
         visibility = View.VISIBLE
@@ -125,11 +129,12 @@ fun TextView.setLink(track: Track) {
 @BindingAdapter("setLink")
 fun TextView.setLink(link: String) {
     val myText = link.replace("https://", "")
-    var name = if (myText.contains("github"))
+    var name = if (myText.contains("github")) {
         "Github"
-    else
+    } else {
         "Linkedin"
-    val clickable = "<a href=\"${link}\">${name}</a>"
+    }
+    val clickable = "<a href=\"${link}\">$name</a>"
     val spannable = HtmlCompat.fromHtml(clickable, 0)
     movementMethod = LinkMovementMethod.getInstance()
     text = spannable

@@ -79,8 +79,9 @@ class TrackingRepository @Inject constructor(
     suspend fun refreshTracks(): UpdateItem {
         val notificationList = mutableListOf<ItemWithTracks>()
         val items = database.getAllItemsToRefresh()
-        if (items.isEmpty())
+        if (items.isEmpty()) {
             return UpdateItem(false, notificationList)
+        }
 
         // Fetch Info from API
         items.forEach { oldItem ->
@@ -104,9 +105,12 @@ class TrackingRepository @Inject constructor(
             updatedItem.item.name = oldItem.item.name
             if (updatedItem.tracks.size > oldItem.tracks.size ||
                 oldItem.item.isWaitingPost && !updatedItem.item.isWaitingPost
-            )// Posted
+            ) {
+                // Posted
                 updatedItem
-            else null
+            } else {
+                null
+            }
         } catch (e: Exception) {
             Timber.e(e)
             null
@@ -121,8 +125,9 @@ class TrackingRepository @Inject constructor(
         return try {
             Correios.getProduct(code)
         } catch (e: Exception) {
-            if (retryCount >= 5)
+            if (retryCount >= 5) {
                 throw e
+            }
 
             ++retryCount
             delay(1000L)

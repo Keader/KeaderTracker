@@ -415,8 +415,9 @@ enum class CorreiosResourceStatus(
         private val map = values().associateBy(CorreiosResourceStatus::statusString)
         fun getResourceStatus(status: String): CorreiosResourceStatus {
             val obj = map[status]
-            if (obj != null)
+            if (obj != null) {
                 return obj
+            }
 
             Timber.e("Unknown Status: $status")
             return UNKNOWN

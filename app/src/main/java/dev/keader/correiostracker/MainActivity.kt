@@ -25,14 +25,14 @@ import dev.keader.correiostracker.view.home.HomeFragmentDirections
 import dev.keader.correiostracker.work.RefreshTracksWorker
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val uiViewModel: UIViewModel by viewModels()
     private val navController
         get() = findNavController(R.id.nav_host_fragment)
+
     @Inject
     lateinit var preferences: PreferencesManager
 
@@ -43,8 +43,9 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             checkAppUpdate()
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -80,12 +81,19 @@ class MainActivity: AppCompatActivity() {
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                 if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE,
-                        this, UPDATE_CODE)
-                }
-                else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                    appUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.FLEXIBLE,
-                        this, UPDATE_CODE)
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        UPDATE_CODE
+                    )
+                } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.FLEXIBLE,
+                        this,
+                        UPDATE_CODE
+                    )
                 }
             }
         }

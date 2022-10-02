@@ -16,7 +16,7 @@ class CrashlyticsTree : Timber.DebugTree() {
         tag?.also { crashlytics.setCustomKey(CRASHLYTICS_KEY_TAG, it) }
         crashlytics.setCustomKey(CRASHLYTICS_KEY_MESSAGE, message)
 
-        t?.let{
+        t?.let {
             crashlytics.recordException(it)
         } ?: handleWithMessage(message)
     }
@@ -31,7 +31,7 @@ class CrashlyticsTree : Timber.DebugTree() {
     }
 
     override fun createStackElementTag(element: StackTraceElement): String? {
-        val stackElement = Exception().stackTrace.first {  it.className !in ignoreList }
+        val stackElement = Exception().stackTrace.first { it.className !in ignoreList }
         return "${super.createStackElementTag(stackElement)}:${stackElement.methodName}(${stackElement.lineNumber})"
     }
 

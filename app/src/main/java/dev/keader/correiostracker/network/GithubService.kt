@@ -4,5 +4,5 @@ import retrofit2.http.GET
 
 interface GithubService {
     @GET("repos/keader/KeaderTracker/contributors")
-    suspend fun getContributors() : List<GithubAuthor>
+    suspend fun getContributors(): List<GithubAuthor>
 }

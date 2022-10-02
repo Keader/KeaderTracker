@@ -6,5 +6,5 @@ data class CorreiosEvento(
     val descricao: String,
     val unidade: CorreiosUnidade,
     val unidadeDestino: CorreiosUnidade?,
-    val finalizador: String?,
+    val finalizador: String?
 )
