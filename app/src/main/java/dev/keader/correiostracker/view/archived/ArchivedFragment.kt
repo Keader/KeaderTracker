@@ -48,9 +48,12 @@ class ArchivedFragment : Fragment() {
             personalizeEmptyList()
         }
 
-        archivedViewModel.eventNavigateToTrackDetail.observe(viewLifecycleOwner, EventObserver { code ->
-            navController.navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
-        })
+        archivedViewModel.eventNavigateToTrackDetail.observe(
+            viewLifecycleOwner,
+            EventObserver { code ->
+                navController.navigate(ArchivedFragmentDirections.actionGlobalTrackDetailFragment(code))
+            }
+        )
     }
 
     private fun personalizeEmptyList() {

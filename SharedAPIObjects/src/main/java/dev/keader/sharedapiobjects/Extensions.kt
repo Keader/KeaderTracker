@@ -3,7 +3,7 @@ package dev.keader.sharedapiobjects
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.Reader
-import java.util.*
+import java.util.Locale
 
 inline fun <reified T> fromJson(src: String, gson: Gson = Gson()): T {
     val type = object : TypeToken<T>() { }.type
@@ -16,9 +16,10 @@ inline fun <reified T> fromJson(reader: Reader, gson: Gson = Gson()): T {
 
 fun String.toCapitalize(): String {
     return replaceFirstChar {
-        if (it.isLowerCase())
+        if (it.isLowerCase()) {
             it.titlecase(Locale.getDefault())
-        else
+        } else {
             it.toString()
+        }
     }
 }

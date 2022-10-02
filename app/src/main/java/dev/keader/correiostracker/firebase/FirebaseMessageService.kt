@@ -42,9 +42,11 @@ class FirebaseMessageService : FirebaseMessagingService() {
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId,
+            val channel = NotificationChannel(
+                channelId,
                 "Firebase Channel",
-                NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
             notificationManager.createNotificationChannel(channel)
         }
 

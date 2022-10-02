@@ -33,7 +33,7 @@ object AppModules {
 
     @Provides
     @Singleton
-    fun provideGithubService(client: OkHttpClient, gson: Gson) : GithubService {
+    fun provideGithubService(client: OkHttpClient, gson: Gson): GithubService {
         return Retrofit.Builder()
             .baseUrl(GITHUB_CONTRIBUTORS)
             .addConverterFactory(GsonConverterFactory.create(gson))

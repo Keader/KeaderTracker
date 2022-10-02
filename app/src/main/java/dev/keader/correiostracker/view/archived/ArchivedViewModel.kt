@@ -11,8 +11,8 @@ import dev.keader.correiostracker.view.interfaces.TrackItemListener
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchivedViewModel @Inject constructor(repository: TrackingRepository)
-    : ViewModel(), TrackItemListener {
+class ArchivedViewModel @Inject constructor(repository: TrackingRepository) :
+    ViewModel(), TrackItemListener {
 
     val tracks = repository.getAllArchivedItemsWithTracks()
     val showEmptyTrack = tracks.map { it.isEmpty() }

@@ -51,10 +51,10 @@ class WrappedCookie private constructor(val cookie: Cookie) {
 
         other.cookie.run {
             return name == cookie.name &&
-                    domain == cookie.domain &&
-                    path == cookie.path &&
-                    secure == cookie.secure &&
-                    hostOnly == cookie.hostOnly
+                domain == cookie.domain &&
+                path == cookie.path &&
+                secure == cookie.secure &&
+                hostOnly == cookie.hostOnly
         }
     }
 

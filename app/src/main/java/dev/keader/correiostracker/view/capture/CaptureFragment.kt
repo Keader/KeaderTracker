@@ -29,7 +29,6 @@ import dev.keader.correiostracker.model.EventObserver
 import timber.log.Timber
 import java.util.concurrent.Executors
 
-
 @AndroidEntryPoint
 class CaptureFragment : Fragment() {
     private var dialog: AlertDialog? = null
@@ -40,8 +39,11 @@ class CaptureFragment : Fragment() {
         get() = findNavController()
 
     private val requestInitialPermissions = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) initializeCamera()
-        else onPermissionsDenied()
+        if (granted) {
+            initializeCamera()
+        } else {
+            onPermissionsDenied()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -52,12 +54,15 @@ class CaptureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        uiViewModel.onQrCodeDetected.observe(viewLifecycleOwner, EventObserver {
-            val player = MediaPlayer.create(requireContext(), R.raw.scan_complete)
-            player.setVolume(0.35f, 0.35f)
-            player.start()
-            navController.popBackStack()
-        })
+        uiViewModel.onQrCodeDetected.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val player = MediaPlayer.create(requireContext(), R.raw.scan_complete)
+                player.setVolume(0.35f, 0.35f)
+                player.start()
+                navController.popBackStack()
+            }
+        )
     }
 
     override fun onStart() {
@@ -158,5 +163,4 @@ class CaptureFragment : Fragment() {
         codeDetector.stop()
         dialog?.dismiss()
     }
-
 }

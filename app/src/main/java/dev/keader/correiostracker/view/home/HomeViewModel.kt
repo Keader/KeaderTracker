@@ -1,7 +1,11 @@
 package dev.keader.correiostracker.view.home
 
 import android.os.Build
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiostracker.model.Event
 import dev.keader.correiostracker.model.PreferencesManager
@@ -14,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: TrackingRepository,
-    private val preferences: PreferencesManager,
+    private val preferences: PreferencesManager
 ) : ViewModel(), TrackItemListener {
 
     val tracks = repository.getAllItemsWithTracks()
@@ -56,12 +60,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun shouldShowDontKillAlert(): Boolean {
-        if (!preferences.shouldShowDontKillAlert())
+        if (!preferences.shouldShowDontKillAlert()) {
             return false
+        }
 
         val manufacturer = Build.MANUFACTURER.lowercase()
-        if (manufacturer == "samsung" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        if (manufacturer == "samsung" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             return true
+        }
 
         return manufacturer in badPhones
     }

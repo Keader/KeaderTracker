@@ -9,6 +9,7 @@ enum class DeliveryCompany {
 class DeliveryCompanyConverter {
     @TypeConverter
     fun toDeliveryCompany(value: String) = DeliveryCompany.valueOf(value)
+
     @TypeConverter
     fun fromDeliveryCompany(value: DeliveryCompany) = value.name
 }

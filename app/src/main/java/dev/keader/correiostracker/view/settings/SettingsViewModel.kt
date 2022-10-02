@@ -12,13 +12,14 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val repository: TrackingRepository,
     private val preferences: PreferencesManager
-): ViewModel() {
+) : ViewModel() {
 
     fun saveAutoMove(autoMove: Boolean) {
         viewModelScope.launch {
             preferences.saveAutoMove(autoMove)
-            if (autoMove)
+            if (autoMove) {
                 repository.archiveAllDeliveredItems()
+            }
         }
     }
 

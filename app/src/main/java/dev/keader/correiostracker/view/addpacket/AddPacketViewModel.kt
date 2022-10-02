@@ -2,7 +2,11 @@ package dev.keader.correiostracker.view.addpacket
 
 import android.app.Activity
 import android.content.ClipData
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.keader.correiosapi.Correios
 import dev.keader.correiostracker.model.Event
@@ -15,8 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddPacketViewModel @Inject constructor(
     private val repository: TrackingRepository,
-    private val preferences : PreferencesManager
-    ) : ViewModel() {
+    private val preferences: PreferencesManager
+) : ViewModel() {
 
     private val _eventBackButtonNavigation = MutableLiveData<Event<Unit>>()
     val eventBackButtonNavigation: LiveData<Event<Unit>>
@@ -32,8 +36,9 @@ class AddPacketViewModel @Inject constructor(
 
     val code = MutableLiveData("")
     val codeIsValid = code.map {
-        if (it.isBlank())
+        if (it.isBlank()) {
             return@map true
+        }
         return@map Correios.validateCode(it)
     }
 
@@ -69,8 +74,9 @@ class AddPacketViewModel @Inject constructor(
             val apiResponse = repository.getTrackInfoFromAPI(code, observation)
             apiResponse.item?.let {
                 _eventAddTrackSuccess.value = Event(Unit)
-                if (it.item.isDelivered && preferences.getAutoMove())
+                if (it.item.isDelivered && preferences.getAutoMove()) {
                     repository.archiveTrack(code)
+                }
             } ?: run {
                 _eventAddTrackFail.value = Event(apiResponse.response)
             }
@@ -100,8 +106,9 @@ class AddPacketViewModel @Inject constructor(
     }
 
     fun addCodeByQR(qr: String) {
-        if (Correios.validateCode(qr))
+        if (Correios.validateCode(qr)) {
             code.value = qr
+        }
     }
 
     fun startRefreshWorker(activity: Activity) {
@@ -112,12 +119,14 @@ class AddPacketViewModel @Inject constructor(
         clipData?.let {
             val currentCode = code.value!!
             // Ignore clipboard if current code are not empty or already a valid code
-            if (currentCode.isNotEmpty() && Correios.validateCode(currentCode))
+            if (currentCode.isNotEmpty() && Correios.validateCode(currentCode)) {
                 return
+            }
 
             val correiosCode = it.getItemAt(0)?.text?.toString()?.trim() ?: return
-            if (Correios.validateCode(correiosCode))
+            if (Correios.validateCode(correiosCode)) {
                 code.value = correiosCode
+            }
         }
     }
 }

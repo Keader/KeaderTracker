@@ -15,7 +15,7 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import dev.keader.correiosapi.Correios
 import timber.log.Timber
 
-class TrackingCodeDetectionProcessor (
+class TrackingCodeDetectionProcessor(
     private val actions: CodeDetectionActions
 ) : ImageAnalysis.Analyzer {
     private lateinit var barcodeScanner: BarcodeScanner
@@ -92,8 +92,11 @@ class TrackingCodeDetectionProcessor (
             } else {
                 val text = line.text.replace(" ", "")
                 val match = Correios.validateCode(text)
-                if (match) text
-                else null
+                if (match) {
+                    text
+                } else {
+                    null
+                }
             }
         }
 

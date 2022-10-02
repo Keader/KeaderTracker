@@ -19,15 +19,17 @@ class AuthorsRepository @Inject constructor(private val githubService: GithubSer
         return emptyList()
     }
 
-    private fun getLocalAuthors() : List<GithubAuthor> {
+    private fun getLocalAuthors(): List<GithubAuthor> {
         val list = mutableListOf<GithubAuthor>()
 
-        list.add(GithubAuthor(
-            "MimaCobaltini",
-            "https://i.imgur.com/DGWRgy0.jpeg",
-            "https://linkedin.com/in/mimacobaltini",
-            21
-        ))
+        list.add(
+            GithubAuthor(
+                "MimaCobaltini",
+                "https://i.imgur.com/DGWRgy0.jpeg",
+                "https://linkedin.com/in/mimacobaltini",
+                21
+            )
+        )
 
         return list
     }

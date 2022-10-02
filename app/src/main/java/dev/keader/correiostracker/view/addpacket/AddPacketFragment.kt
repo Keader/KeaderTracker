@@ -56,47 +56,71 @@ class AddPacketFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        addPacketViewModel.eventBackButtonNavigation.observe(viewLifecycleOwner, EventObserver {
-            navController.popBackStack()
-        })
+        addPacketViewModel.eventBackButtonNavigation.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                navController.popBackStack()
+            }
+        )
 
-        addPacketViewModel.eventInputCodeError.observe(viewLifecycleOwner, EventObserver {
-            binding.inputCode.error = getString(R.string.add_code_error_message)
-            showInvalidInputsWarning()
-        })
+        addPacketViewModel.eventInputCodeError.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                binding.inputCode.error = getString(R.string.add_code_error_message)
+                showInvalidInputsWarning()
+            }
+        )
 
-        addPacketViewModel.eventInputNameError.observe(viewLifecycleOwner, EventObserver {
-            binding.inputName.error = getString(R.string.add_description_error_code)
-            showInvalidInputsWarning()
-        })
+        addPacketViewModel.eventInputNameError.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                binding.inputName.error = getString(R.string.add_description_error_code)
+                showInvalidInputsWarning()
+            }
+        )
 
-        addPacketViewModel.eventInputSuccess.observe(viewLifecycleOwner, EventObserver {
-            binding.progressBar.isVisible = true
-            getSnack(msg = getString(R.string.tracking_product), colorSrc = R.color.secondaryColor)
-                ?.show()
-        })
+        addPacketViewModel.eventInputSuccess.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                binding.progressBar.isVisible = true
+                getSnack(msg = getString(R.string.tracking_product), colorSrc = R.color.secondaryColor)
+                    ?.show()
+            }
+        )
 
-        addPacketViewModel.eventAddTrackFail.observe(viewLifecycleOwner, EventObserver {
-            binding.progressBar.isVisible = false
-            getSnack(msg = it, colorSrc = R.color.errorColor)?.show()
-        })
+        addPacketViewModel.eventAddTrackFail.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                binding.progressBar.isVisible = false
+                getSnack(msg = it, colorSrc = R.color.errorColor)?.show()
+            }
+        )
 
-        addPacketViewModel.eventAddTrackSuccess.observe(viewLifecycleOwner, EventObserver {
-            binding.progressBar.isVisible = false
-            getSnack(msg = getString(R.string.track_add_success), colorSrc = R.color.sucessColor)
-                ?.show()
-            addPacketViewModel.startRefreshWorker(requireActivity())
-            navController.popBackStack()
-        })
+        addPacketViewModel.eventAddTrackSuccess.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                binding.progressBar.isVisible = false
+                getSnack(msg = getString(R.string.track_add_success), colorSrc = R.color.sucessColor)
+                    ?.show()
+                addPacketViewModel.startRefreshWorker(requireActivity())
+                navController.popBackStack()
+            }
+        )
 
-        addPacketViewModel.eventQR.observe(viewLifecycleOwner, EventObserver {
-            val directions = AddPacketFragmentDirections.actionAddPacketFragmentToCaptureFragment()
-            navController.navigate(directions)
-        })
+        addPacketViewModel.eventQR.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val directions = AddPacketFragmentDirections.actionAddPacketFragmentToCaptureFragment()
+                navController.navigate(directions)
+            }
+        )
 
-        uiViewModel.qrCodeResult.observe(viewLifecycleOwner, EventObserver {
-            addPacketViewModel.addCodeByQR(it)
-        })
+        uiViewModel.qrCodeResult.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                addPacketViewModel.addCodeByQR(it)
+            }
+        )
 
         binding.iconBackAdd.setOnClickListener {
             navController.popBackStack()
@@ -113,17 +137,20 @@ class AddPacketFragment : Fragment() {
     }
 
     private fun showTutorial() {
-        TapTargetView.showFor(requireActivity(),
-            TapTarget.forView(binding.inputCode,
+        TapTargetView.showFor(
+            requireActivity(),
+            TapTarget.forView(
+                binding.inputCode,
                 getString(R.string.scan_title),
-                getString(R.string.scan_description))
+                getString(R.string.scan_description)
+            )
                 .outerCircleColor(R.color.secondaryColor)
                 .outerCircleAlpha(1.0f)
                 .targetCircleColor(android.R.color.white)
                 .titleTextSize(22)
                 .descriptionTextSize(16)
                 .descriptionTextAlpha(0.8f)
-                .textColor(android.R.color.white)  // text and description
+                .textColor(android.R.color.white) // text and description
                 .textTypeface(Typeface.SANS_SERIF)
                 .dimColor(android.R.color.black)
                 .drawShadow(true)
@@ -135,7 +162,8 @@ class AddPacketFragment : Fragment() {
                     super.onOuterCircleClick(view)
                     view?.dismiss(false)
                 }
-            })
+            }
+        )
     }
 
     private fun getSnack(msg: String, duration: Int = Snackbar.LENGTH_SHORT, colorSrc: Int): Snackbar? {

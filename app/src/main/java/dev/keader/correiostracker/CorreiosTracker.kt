@@ -20,20 +20,24 @@ import javax.inject.Inject
 class CorreiosTracker : Application(), Configuration.Provider {
 
     private val applicationScope = CoroutineScope(Dispatchers.Default)
+
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
     @Inject
     lateinit var repository: TrackingRepository
+
     @Inject
     lateinit var preferences: PreferencesManager
 
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             Timber.plant(CorreiosTrackerDebugTree())
-        else
+        } else {
             Timber.plant(CrashlyticsTree())
+        }
 
         delayedInit()
     }

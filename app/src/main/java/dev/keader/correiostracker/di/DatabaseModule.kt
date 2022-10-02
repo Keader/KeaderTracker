@@ -24,7 +24,8 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context.applicationContext,
             TrackingDatabase::class.java,
-            "correios_tracker_database")
+            "correios_tracker_database"
+        )
             .addMigrations(M1TO2, M2TO3, M3TO4, M4TO5, M5TO6)
             .build()
     }

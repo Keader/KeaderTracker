@@ -9,7 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.annotation.LayoutRes
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -21,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
+import java.util.Locale
 
 fun Bitmap.toFile(context: Context): File {
     val parent = File(context.getExternalFilesDir(null), "tracks")
@@ -37,7 +44,8 @@ fun Bitmap.toFile(context: Context): File {
 
 fun <T, K, R> LiveData<T>.combineWith(
     liveData: LiveData<K>,
-    block: (T?, K?) -> R): LiveData<R> {
+    block: (T?, K?) -> R
+): LiveData<R> {
     val result = MediatorLiveData<R>()
     result.addSource(this) {
         result.value = block(this.value, liveData.value)
@@ -54,10 +62,11 @@ fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
 
 fun String.toCapitalize(): String {
     return replaceFirstChar {
-        if (it.isLowerCase())
+        if (it.isLowerCase()) {
             it.titlecase(Locale.getDefault())
-        else
+        } else {
             it.toString()
+        }
     }
 }
 
@@ -134,11 +143,17 @@ fun View.doOnApplyWindowMarginInsets(f: (View, WindowInsetsCompat, InitialPaddin
 }
 
 private fun recordInitialPaddingForView(view: View) = InitialPadding(
-    view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom
+    view.paddingLeft,
+    view.paddingTop,
+    view.paddingRight,
+    view.paddingBottom
 )
 
 private fun recordInitialMarginForView(view: View) = InitialPadding(
-    view.marginLeft, view.marginTop, view.marginRight, view.marginBottom
+    view.marginLeft,
+    view.marginTop,
+    view.marginRight,
+    view.marginBottom
 )
 
 fun View.requestApplyInsetsWhenAttached() {

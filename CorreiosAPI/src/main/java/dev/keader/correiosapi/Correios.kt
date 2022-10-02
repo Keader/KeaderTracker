@@ -6,7 +6,13 @@ import dev.keader.correiosapi.data.CorreiosUnidade
 import dev.keader.correiosapi.data.ObjetosCorreio
 import dev.keader.correiosapi.util.MemoryCookieJar
 import dev.keader.correiosapi.util.executeSuspend
-import dev.keader.sharedapiobjects.*
+import dev.keader.sharedapiobjects.DeliveryCompany
+import dev.keader.sharedapiobjects.DeliveryService
+import dev.keader.sharedapiobjects.Item
+import dev.keader.sharedapiobjects.ItemWithTracks
+import dev.keader.sharedapiobjects.Track
+import dev.keader.sharedapiobjects.fromJson
+import dev.keader.sharedapiobjects.toCapitalize
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
@@ -57,14 +63,15 @@ object Correios : DeliveryService {
         try {
             objetosCorreio = fromJson(response.charStream())
             correiosItem = objetosCorreio.objetos.first()
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Timber.e(e)
             throw IOException("Erro ao obter dados dos correios. Tente novamente mais tarde(1).")
         }
 
         // New api returns: "mensagem": "SRO-020: Objeto não encontrado na base de dados dos Correios."
-        if (correiosItem.mensagem != null)
+        if (correiosItem.mensagem != null) {
             return handleWithNotPosted(productCode)
+        }
 
         val tracks = mutableListOf<Track>()
         correiosItem.eventos.forEach { event ->
@@ -125,19 +132,21 @@ object Correios : DeliveryService {
         return ItemWithTracks(item, tracks)
     }
 
-    private fun isDelivered(description: String) : Boolean {
+    private fun isDelivered(description: String): Boolean {
         return description.contains(DELIVERED) && !description.contains(NOT)
     }
 
     private fun handleLink(event: CorreiosEvento): String {
-        if (event.descricao == WAITING_PAYMENT || event.descricao == ACTION_NEEDED)
+        if (event.descricao == WAITING_PAYMENT || event.descricao == ACTION_NEEDED) {
             return MY_IMPORTS_URL
+        }
         return ""
     }
 
     private fun handleObservation(event: CorreiosEvento): String {
-        if (event.unidadeDestino == null)
+        if (event.unidadeDestino == null) {
             return ""
+        }
 
         val localeOrigin = handleObservationAddress(event.unidade)
         val localeDestiny = handleObservationAddress(event.unidadeDestino)
@@ -145,8 +154,9 @@ object Correios : DeliveryService {
     }
 
     private fun handleObservationAddress(correiosUnit: CorreiosUnidade): String {
-        if (correiosUnit.tipo == COUNTRY)
+        if (correiosUnit.tipo == COUNTRY) {
             return correiosUnit.nome ?: ""
+        }
 
         val address = correiosUnit.endereco
         var locale = ""

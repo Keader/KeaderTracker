@@ -14,12 +14,12 @@ import dev.keader.correiostracker.databinding.FragmentSettingsBinding
 import dev.keader.correiostracker.model.PreferencesManager
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private val settingsViewModel: SettingsViewModel by viewModels()
+
     @Inject
     lateinit var preferences: PreferencesManager
 
@@ -41,7 +41,8 @@ class SettingsFragment : Fragment() {
         val spinnerAdapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.frequency_array,
-            android.R.layout.simple_spinner_item)
+            android.R.layout.simple_spinner_item
+        )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFrequency.adapter = spinnerAdapter
         binding.spinnerFrequency.setSelection(savedPosition)
@@ -57,8 +58,9 @@ class SettingsFragment : Fragment() {
         binding.spinnerFrequency.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // Ignore first call, it's caused by default value
-                if (position != savedPosition)
+                if (position != savedPosition) {
                     settingsViewModel.saveFrequency(position)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
