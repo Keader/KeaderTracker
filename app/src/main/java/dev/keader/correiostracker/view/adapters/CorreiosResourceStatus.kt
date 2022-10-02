@@ -144,6 +144,13 @@ enum class CorreiosResourceStatus(
         titleColorRes = R.color.title_delivery_in_progress,
         codeColorRes = R.color.code_delivery_in_progress
     ),
+    DELIVERY_IN_PROGRESS_4(
+        statusString = "Objeto será entregue em instantes",
+        iconRes = R.drawable.ic_delivery_in_progress,
+        bgColorRes = R.color.bg_delivery_in_progress,
+        titleColorRes = R.color.title_delivery_in_progress,
+        codeColorRes = R.color.code_delivery_in_progress
+    ),
     WAITING_POST(
         statusString = "Aguardando postagem pelo remetente",
         iconRes = R.drawable.ic_waiting_post,
@@ -423,6 +430,13 @@ enum class CorreiosResourceStatus(
         bgColorRes = R.color.bg_posted,
         titleColorRes = R.color.title_posted,
         codeColorRes = R.color.code_posted
+    ),
+    CORREIOS_USING_DRUGS(
+        statusString = "Favor desconsiderar a informação anterior",
+        iconRes = R.drawable.ic_broken,
+        bgColorRes = R.color.bg_waiting_payment,
+        titleColorRes = R.color.title_waiting_payment,
+        codeColorRes = R.color.code_waiting_payment
     );
 
     companion object {
