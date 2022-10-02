@@ -1,5 +1,11 @@
 # KeaderTracker / CorreiosTracker
-[![Android Publisher CI](https://github.com/Keader/KeaderTracker/actions/workflows/publication.yml/badge.svg?branch=main)](https://github.com/Keader/KeaderTracker/actions/workflows/publication.yml)
+
+<p align="center">
+    <img alt="semanaomnistack11" src="https://img.shields.io/badge/PRs-welcome-7159c1"></img>
+    <a href="https://github.com/Keader/KeaderTracker/actions/workflows/publication.yml">
+        <img alt="Android Publisher CI" src="https://github.com/Keader/KeaderTracker/actions/workflows/publication.yml/badge.svg?branch=main"></img>
+</a>
+</p>
 
 ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/united_ss.png)
 
@@ -27,7 +33,7 @@ Exemplos de uso em QR Code e em um comprovante:
 ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/qr.gif) ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/comprovante.gif)
 
 ### Quer entrar em contato?
-Me mande um email para keader.android@gmail.com ou pelo discord: Keader#0001
+Me mande um email para keader.android@gmail.com ou pelo discord: (Keader#0001)
 
 ### Aviso
 Este aplicativo não é licenciado nem tem qualquer ligação com os correios.
