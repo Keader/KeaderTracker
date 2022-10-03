@@ -20,6 +20,10 @@ class DontKillFragment : BottomSheetDialogFragment() {
     @Inject
     lateinit var preferences: PreferencesManager
 
+    companion object {
+        private const val URL_DONTKILLMYAPP = "https://dontkillmyapp.com/"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDontKillBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,8 +43,7 @@ class DontKillFragment : BottomSheetDialogFragment() {
     }
 
     private fun handleConfirmButton() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://dontkillmyapp.com/"))
-        requireContext().startActivity(intent)
+        requireContext().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(URL_DONTKILLMYAPP)))
     }
 
     override fun getTheme(): Int {

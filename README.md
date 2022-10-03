@@ -32,8 +32,8 @@ Exemplos de uso em QR Code e em um comprovante:
 
 ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/qr.gif) ![Preview-Screens](https://github.com/Keader/KeaderTracker/blob/main/screenshots/comprovante.gif)
 
-### Gostaria de entrar em contato?
-Você pode mandar um email para keader.android@gmail.com ou pelo discord: (Keader#0001)
+### Gostaria de em contato?
+Você pode mandar um email para keader.android@gmail.com ou pelo discord: <span>Keader#0001</span>
 
 ### Aviso
 Este aplicativo não é licenciado nem tem qualquer ligação com os correios.
