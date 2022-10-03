@@ -18,13 +18,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+    private const val DATABASE_NAME = "correios_tracker_database"
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): TrackingDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
             TrackingDatabase::class.java,
-            "correios_tracker_database"
+            DATABASE_NAME
         )
             .addMigrations(M1TO2, M2TO3, M3TO4, M4TO5, M5TO6)
             .build()
